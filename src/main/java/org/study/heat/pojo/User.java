@@ -1,15 +1,24 @@
 package org.study.heat.pojo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+
 import javax.persistence.*;
+
+import org.study.heat.base.BaseEntity;
 
 @Data
 @Table(name = "t_user")
-public class User {
+public class User extends BaseEntity {
 
     /**
+	 * @Fields serialVersionUID : TODO
+	 */
+	private static final long serialVersionUID = 5482976903247556528L;
+
+	/**
      * 登录名
      */
     @Column(name = "login_name")
