@@ -21,6 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController {
 
+	@RequestMapping("/login")
+	public String login() {
+		
+		
+		return "admin_index";
+	}
+	
 	@RequestMapping("/show")
 	public String show() {	
 		

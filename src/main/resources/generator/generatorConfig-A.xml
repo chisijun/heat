@@ -37,9 +37,45 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 		-->
+		<!-- 
 		<table tableName="t_role_user" domainObjectName="RoleUser">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-
+         -->
+         <!-- 
+        <table tableName="t_site" domainObjectName="Site">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+ 		-->
+ 		<table tableName="t_apply" domainObjectName="Apply">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_area" domainObjectName="area">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_building" domainObjectName="Building">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_coupon" domainObjectName="Coupon">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_payment" domainObjectName="Payment">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_payment_detail" domainObjectName="PaymentDetail">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_room" domainObjectName="Room">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_room_type" domainObjectName="RoomType">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_ticket" domainObjectName="Ticket">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="t_user_room" domainObjectName="UserRoom">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
         </context>
     </generatorConfiguration>

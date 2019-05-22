@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.study.heat.dao.TicketMapper" >
+  <resultMap id="BaseResultMap" type="org.study.heat.pojo.Ticket" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="payment_no" property="paymentNo" jdbcType="VARCHAR" />
+    <result column="ticket_no" property="ticketNo" jdbcType="BIGINT" />
+    <result column="ticket_code" property="ticketCode" jdbcType="VARCHAR" />
+    <result column="purchaser" property="purchaser" jdbcType="VARCHAR" />
+    <result column="p_taxpayer_code" property="pTaxpayerCode" jdbcType="VARCHAR" />
+    <result column="p_address_phone" property="pAddressPhone" jdbcType="VARCHAR" />
+    <result column="p_bank_account" property="pBankAccount" jdbcType="VARCHAR" />
+    <result column="seller" property="seller" jdbcType="VARCHAR" />
+    <result column="s_taxpayer_code" property="sTaxpayerCode" jdbcType="VARCHAR" />
+    <result column="s_address_phone" property="sAddressPhone" jdbcType="VARCHAR" />
+    <result column="s_bank_account" property="sBankAccount" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="tax_rate" property="taxRate" jdbcType="INTEGER" />
+    <result column="tax_fee" property="taxFee" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="last_operator" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>
