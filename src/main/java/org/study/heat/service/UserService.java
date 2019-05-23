@@ -18,4 +18,15 @@ import org.study.heat.pojo.User;
  */
 public interface UserService extends IService<User> {
 
+	/**
+	 * @Description: TODO
+	 * @param @param currentUserId
+	 * @param @return   
+	 * @return User  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年5月23日
+	 */
+	User selectUserById(Integer userId);
+
 }

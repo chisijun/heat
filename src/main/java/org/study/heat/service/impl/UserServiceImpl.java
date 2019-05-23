@@ -19,4 +19,13 @@ import org.study.heat.service.UserService;
  */
 public class UserServiceImpl extends BaseService<User> implements UserService {
 
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.UserService#selectUserById(java.lang.Integer)
+	 */
+	@Override
+	public User selectUserById(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
