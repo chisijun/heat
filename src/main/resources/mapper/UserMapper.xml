@@ -34,5 +34,6 @@
   <select id="selectByLoginName" resultMap="BaseResultMap">
   	select * from t_user
   	where login_name = #{loginName}
+  	or mobile_no = #{loginName}
   </select>
 </mapper>
