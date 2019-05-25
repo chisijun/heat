@@ -9,7 +9,12 @@ package org.study.heat.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.study.heat.annotation.Authorization;
+import org.study.heat.annotation.CurrentUser;
+import org.study.heat.common.JsonResult;
+import org.study.heat.pojo.User;
 
 /**
  * ClassName: UserController 
@@ -21,23 +26,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController {
 
-	@RequestMapping("/login")
-	public String login() {
-		
-		
-		return "admin_index";
-	}
-	
-	@RequestMapping("/show")
-	public String show() {	
-		
-		return "show";
-	}
-	
+	/**
+	 * 查看个人信息
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Authorization
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	@RequestMapping("/test")
-	public String test() {
+	public JsonResult user(@CurrentUser User login) {
 		
-		return "test";
+		return new JsonResult(true, "个人信息查询成功", login);
 	}
 }

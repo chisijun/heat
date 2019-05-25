@@ -33,9 +33,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 	 * @see org.study.heat.service.UserService#selectUserById(java.lang.Integer)
 	 */
 	@Override
-	public User selectUserById(Integer userId) {
+	public User selectUserById(Long userId) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		return userMapper.selectByPrimaryKey(userId);
 	}
 
 	/* (non-Javadoc)

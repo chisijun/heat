@@ -27,7 +27,7 @@ public interface UserService extends IService<User> {
 	 * @author chisj chisj@foxmail.com
 	 * @date 2019年5月23日
 	 */
-	User selectUserById(Integer userId);
+	User selectUserById(Long userId);
 
 	/**
      * 用户登录

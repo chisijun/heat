@@ -96,5 +96,18 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+	<!-- 配置拦截器, -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 具体匹配原则可以百度
+                /**的意思是所有文件夹及里面的子文件夹
+                /*是所有文件夹，不含子文件夹
+                /是web项目的根目录
+            -->
+            <mvc:mapping path="/**"/>
+            <bean class="org.study.heat.interceptor.AuthorizationInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <mvc:default-servlet-handler/>
 </beans>
