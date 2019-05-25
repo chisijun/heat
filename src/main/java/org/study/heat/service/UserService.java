@@ -29,4 +29,13 @@ public interface UserService extends IService<User> {
 	 */
 	User selectUserById(Integer userId);
 
+	/**
+     * 用户登录
+     * @param phone
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    public User login(String name, String password) throws Exception;
+	
 }

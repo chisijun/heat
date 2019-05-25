@@ -8,7 +8,7 @@ public interface TokenManager {
      * @param userId 指定用户的id
      * @return 生成的token
      */
-    public TokenModel createToken(Integer userId);
+    public TokenModel createToken(Long userId);
 
     /**
      * 检查token是否有效
@@ -28,10 +28,10 @@ public interface TokenManager {
      * 清除token
      * @param userId 登录用户的id
      */
-    public void deleteToken(Integer userId);
+    public void deleteToken(Long userId);
 
     /**
      * 非单点登录-通过userId获取token
      */
-    public TokenModel get(Integer userId);
+    public TokenModel get(Long userId);
 }

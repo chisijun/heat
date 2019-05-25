@@ -30,4 +30,9 @@
     <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <select id="selectByLoginName" resultMap="BaseResultMap">
+  	select * from t_user
+  	where login_name = #{loginName}
+  </select>
 </mapper>

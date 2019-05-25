@@ -5,12 +5,12 @@
 /*提取接口公共部分*/
 var ApiConf = {
 	//webSocketServer:"ws://www.sangtech.cn/Dryer/websocket",
-	webSocketServer:"ws://192.168.1.111:8080/Dryer/websocket",
+	//webSocketServer:"ws://192.168.1.111:8080/Dryer/websocket",
     //server:"http://192.168.1.100:8080/Dryer-0.0.1-SNAPSHOT/",
     //server:"http://192.168.1.107:8080/Dryer/",
     // server: "http://www.51cs8.com/Dryer/", //公司外网
     //server: "http://www.sangtech.cn/Dryer/", //小禾
-	server: "http://192.168.1.111:8080/Dryer/", //小禾
+	server: "http://192.168.1.111:8080/heat/", //小禾
     token: window.sessionStorage.getItem('token'),
 };
 

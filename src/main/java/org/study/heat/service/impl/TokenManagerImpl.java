@@ -31,7 +31,7 @@ public class TokenManagerImpl implements TokenManager {
 
     public TokenManagerImpl(RedisTemplate<String, String> redis) {
         //this.redis = redis;
-        redis.setKeySerializer(new JdkSerializationRedisSerializer());
+        //redis.setKeySerializer(new JdkSerializationRedisSerializer());
     }
 
     @Override
@@ -41,6 +41,7 @@ public class TokenManagerImpl implements TokenManager {
         TokenModel model = new TokenModel(userId, token);
         //存储到redis并设置过期时间
         //redis.boundValueOps(String.valueOf(userId)).set(token, Constants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        tokenMap.put(userId, token);
         return model;
     }
 
@@ -50,6 +51,7 @@ public class TokenManagerImpl implements TokenManager {
             return false;
         }
         //String token = redis.boundValueOps(String.valueOf(model.getUserId())).get();
+        String token = tokenMap.get(model.getUserId());
         if (token == null || !token.equals(model.getToken())) {
             return false;
         }
@@ -62,10 +64,11 @@ public class TokenManagerImpl implements TokenManager {
      * 非单点登录-通过userId获取token
      */
     @Override
-    public TokenModel get(Integer userId) {
+    public TokenModel get(Long userId) {
     	System.out.println("userId = " + userId);
-        ValueOperations<String, String> value = redis.opsForValue();
-        String token = value.get(String.valueOf(userId));
+        //ValueOperations<String, String> value = redis.opsForValue();
+        //String token = value.get(String.valueOf(userId));
+    	String token = tokenMap.get(userId);
         if (token == null) {
             return null;
         }
@@ -82,13 +85,14 @@ public class TokenManagerImpl implements TokenManager {
             return null;
         }
         //使用userId和源token简单拼接成的token，可以增加加密措施
-        Integer userId = Integer.parseInt(param[0]);
+        Long userId = Long.parseLong(param[0]);
         String token = param[1];
         return new TokenModel(userId, token);
     }
 
     @Override
-    public void deleteToken(Integer userId) {
-        redis.delete(String.valueOf(userId));
+    public void deleteToken(Long userId) {
+        //redis.delete(String.valueOf(userId));
+    	tokenMap.remove(userId);
     }
 }
