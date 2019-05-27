@@ -106,7 +106,7 @@ function yanzhen(userName, password, token) {
             layer.msg(arr.message);
         } else {
             //获取当前用户ID
-            if (arr.data.list != '' && arr.data.roleId == '1 ') {
+            if (arr.data.list != '' && arr.data.userCode == 'admin') {
                 if ($("#remid").is(':checked') == true) {
                     var username = $('#uname').val().trim();
                     var password = $('#upwd').val().trim();
@@ -118,9 +118,9 @@ function yanzhen(userName, password, token) {
                     $.cookie("username", "", { expires: -1 });
                     $.cookie("password", "", { expires: -1 });
                 }
-                window.sessionStorage.setItem("userId", arr.data.userId);
-                window.sessionStorage.setItem('tk_uname', userName);
-                window.sessionStorage.setItem('tk_uid', arr.data.userId);
+                window.sessionStorage.setItem("userId", arr.data.id);
+                window.sessionStorage.setItem('tk_uname', arr.data.userName);
+                window.sessionStorage.setItem('tk_uid', arr.data.id);
                 var jumpto = "index.html";
                 layer.msg('登录成功', { icon: 1 });
                 setTimeout(function() {
