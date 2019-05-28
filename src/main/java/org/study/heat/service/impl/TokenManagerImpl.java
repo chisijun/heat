@@ -27,11 +27,17 @@ public class TokenManagerImpl implements TokenManager {
     //private RedisTemplate<String, String> redis;
 	ConcurrentHashMap<Long, String> tokenMap = new ConcurrentHashMap<Long, String>();
 	
-    public TokenManagerImpl(){}
+    public TokenManagerImpl(){
+    	
+    	tokenMap.put(1l, "516194bf34054e1a92579c2e458056b6");
+    	System.out.println("-----chisj:token init 1");
+    }
 
     public TokenManagerImpl(RedisTemplate<String, String> redis) {
         //this.redis = redis;
         //redis.setKeySerializer(new JdkSerializationRedisSerializer());
+    	tokenMap.put(1l, "1_516194bf34054e1a92579c2e458056b6");
+    	System.out.println("-----chisj:token init 2");
     }
 
     @Override

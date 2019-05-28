@@ -4,19 +4,25 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import lombok.Data;
-
 import org.study.heat.base.BaseEntity;
 
+import lombok.Data;
+
 @Data
-@Table(name = "t_site")
-public class Site extends BaseEntity {
-	
+@Table(name = "t_area")
+public class Area extends BaseEntity {
+
     /**
-     * 热站名称
+     * 小区名称
      */
-    @Column(name = "site_name")
-    private String siteName;
+    @Column(name = "area_name")
+    private String areaName;
+
+    /**
+     * 站点Id
+     */
+    @Column(name = "site_id")
+    private Long siteId;
 
     /**
      * 状态

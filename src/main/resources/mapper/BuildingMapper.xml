@@ -21,4 +21,55 @@
     <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <sql id="Base_Column_List">
+    ${alias}.id,
+    ${alias}.version,
+    ${alias}.building_no as buildingNo,
+    ${alias}.building_name as buildingName,
+    ${alias}.unit_size as unitSize,
+    ${alias}.floor_size as floorSize,
+    ${alias}.area_id as areaId,
+    ${alias}.status,
+    ${alias}.remark,
+    ${alias}.creator,
+    ${alias}.creator_id as creatorId,
+    ${alias}.created_time as createdTime,
+    ${alias}.last_operator as lastOperator,
+    ${alias}.last_operator_id as lastOperatorId,
+    ${alias}.update_time as updateTime
+  </sql>
+  
+  <select id="queryBuildingListWithPage" resultType="org.study.heat.vo.BuildingVo">
+  
+  	SELECT
+      <include refid="Base_Column_List">
+        <property name="alias" value="building"/>
+      </include>
+      , area.area_name as areaName,
+      area.site_id as siteId,
+      site.site_name as siteName
+    FROM
+      t_building building
+      LEFT JOIN t_area area ON building.area_id = area.id
+      LEFT JOIN t_site site ON area.site_id = site.id
+    WHERE
+      1 = 1
+      <if test="siteName != null and siteName != ''">
+        and site.site_name LIKE concat('%', #{siteName}, '%')
+      </if>
+      <if test="areaName != null and areaName != ''">
+        and area.area_name LIKE concat('%', #{areaName}, '%')
+      </if>
+      <if test="buildingNo != null and buildingNo != ''">
+        and building.building_no LIKE concat('%', #{buildingNo}, '%')
+      </if>
+      <if test="buildingName != null and buildingName != ''">
+        and building.building_name LIKE concat('%', #{buildingName}, '%')
+      </if>
+      ORDER BY
+        building.update_time DESC
+  
+  </select>
+  
 </mapper>

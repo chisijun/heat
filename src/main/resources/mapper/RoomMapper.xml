@@ -16,6 +16,7 @@
     <result column="house_type" property="houseType" jdbcType="VARCHAR" />
     <result column="acreage" property="acreage" jdbcType="REAL" />
     <result column="heat_type" property="heatType" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
@@ -25,4 +26,50 @@
     <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <sql id="Base_Column_List">
+    ${alias}.id,
+    ${alias}.version,
+    ${alias}.room_no as roomNo,
+    ${alias}.room_name as roomName,
+    ${alias}.unit_no as unitNo,
+    ${alias}.floor_no as floorNo,
+    ${alias}.building_id as buildingId,
+    ${alias}.room_type as roomType,
+    ${alias}.house_type as houseType,
+    ${alias}.acreage,
+    ${alias}.heat_type as heatType,
+    ${alias}.user_id as userId,
+    ${alias}.status,
+    ${alias}.remark,
+    ${alias}.creator,
+    ${alias}.creator_id as creatorId,
+    ${alias}.created_time as createdTime,
+    ${alias}.last_operator as lastOperator,
+    ${alias}.last_operator_id as lastOperatorId,
+    ${alias}.update_time as updateTime
+  </sql>
+  
+  <select id="queryRoomListWithPage" resultType="org.study.heat.vo.RoomVo">
+  
+  	SELECT
+      <include refid="Base_Column_List">
+        <property name="alias" value="room"/>
+      </include>
+      , site.site_name as siteName
+    FROM
+      t_area area
+      LEFT JOIN t_site site ON area.site_id = site.id
+    WHERE
+      1 = 1
+      <if test="siteName != null and siteName != ''">
+        and site.site_name LIKE concat('%', #{siteName}, '%')
+      </if>
+      <if test="areaName != null and areaName != ''">
+        and area.area_name LIKE concat('%', #{areaName}, '%')
+      </if>
+      ORDER BY
+        area.update_time DESC
+  </select>
+  
 </mapper>

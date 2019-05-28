@@ -42,15 +42,15 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
          -->
-         <!-- 
+        
         <table tableName="t_site" domainObjectName="Site">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
- 		-->
+ 		
  		<table tableName="t_apply" domainObjectName="Apply">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="t_area" domainObjectName="area">
+        <table tableName="t_area" domainObjectName="Area">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
         <table tableName="t_building" domainObjectName="Building">
@@ -77,5 +77,6 @@
         <table tableName="t_user_room" domainObjectName="UserRoom">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
+        
         </context>
     </generatorConfiguration>

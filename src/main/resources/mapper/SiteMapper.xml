@@ -17,4 +17,34 @@
     <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <sql id="Base_Column_List">
+    ${alias}.id,
+    ${alias}.version,
+    ${alias}.site_name as siteName,
+    ${alias}.status,
+    ${alias}.remark,
+    ${alias}.creator,
+    ${alias}.creator_id as creatorId,
+    ${alias}.created_time as createdTime,
+    ${alias}.last_operator as lastOperator,
+    ${alias}.last_operator_id as lastOperatorId,
+    ${alias}.update_time as updateTime
+  </sql>
+  
+  <select id="querySiteListWithPage" resultType="org.study.heat.vo.SiteVo">
+  	SELECT
+      <include refid="Base_Column_List">
+        <property name="alias" value="site"/>
+      </include>
+    FROM
+      t_site site
+    WHERE
+      1 = 1
+      <if test="siteName != null and siteName != ''">
+        and site.site_name LIKE concat('%', #{siteName}, '%')
+      </if>
+      ORDER BY
+        update_time DESC
+  </select>
 </mapper>

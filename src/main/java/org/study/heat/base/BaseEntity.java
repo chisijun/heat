@@ -7,6 +7,7 @@ import lombok.Data;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.study.heat.dto.LoginAuthDto;
+import org.study.heat.pojo.User;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -95,14 +96,14 @@ public class BaseEntity implements Serializable {
      */
     @Transient
     @JsonIgnore
-    public void setUpdateInfo(LoginAuthDto user) {
+    public void setUpdateInfo(User user) {
 
         if (isNew()) {
-            this.creatorId = (this.lastOperatorId = user.getUserId());
+            this.creatorId = (this.lastOperatorId = user.getId());
             this.creator = user.getUserName();
             this.createdTime = (this.updateTime = new Date());
         }
-        this.lastOperatorId = user.getUserId();
+        this.lastOperatorId = user.getId();
         this.lastOperator = user.getUserName() == null ? user.getLoginName() : user.getUserName();
         this.updateTime = new Date();
     }

@@ -1,6 +1,7 @@
 package org.study.heat.aop;
 
 import com.google.gson.Gson;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.study.heat.config.Constants;
+
 import javax.servlet.http.HttpServletRequest;
+
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +75,7 @@ public class LogAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes)ra;
         HttpServletRequest request = sra.getRequest();
         //从header中得到token
-//        authorization = request.getHeader(Constants.AUTHORIZATION);
+        authorization = request.getHeader(Constants.AUTHORIZATION);
 
 
         // 获取输入参数  
