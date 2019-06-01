@@ -93,6 +93,12 @@
     margin-left: 10px;
 }
 
+.table-box .table-body .div-box .a-delete {
+    color: #65a6ea;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
 .table-box .table-body .div-box .a-add {
     color: #ef4343;
     text-decoration: underline;
@@ -135,6 +141,138 @@
     box-shadow: 0px 4px 13px 0px rgba(0, 0, 0, 0.35);
 }
 
+
+/********************room_management.html*************************/
+
+.roomManagement .table-box .div-box span:nth-child(1),
+.roomManagement .table-box .table-head span:nth-child(1) {
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(2),
+.roomManagement .table-box .table-head span:nth-child(2) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(3),
+.roomManagement .table-box .table-head span:nth-child(3) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(4),
+.roomManagement .table-box .table-head span:nth-child(4) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(5),
+.roomManagement .table-box .table-head span:nth-child(5) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(6),
+.roomManagement .table-box .table-head span:nth-child(6) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(7),
+.roomManagement .table-box .table-head span:nth-child(7) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.roomManagement .table-box .div-box span:nth-child(7) input,
+.roomManagement .table-box .table-head span:nth-child(7) input {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    height: 30px;
+    text-align: center;
+}
+
+.roomManagement .table-box .div-box span:nth-child(8),
+.roomManagement .table-box .table-head span:nth-child(8) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.roomManagement .table-box .a-save {
+    color: #ef4343;
+}
+
+.roomManagement .table-body div:nth-child(2n) input {
+    background-color: #eaeaea;
+}
+
+/********************site_management.html*************************/
+
+.siteManagement .table-box .div-box span:nth-child(1),
+.siteManagement .table-box .table-head span:nth-child(1) {
+    width: 220px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(2),
+.siteManagement .table-box .table-head span:nth-child(2) {
+    border-left: 1px solid #c1c3c0;
+    width: 220px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(3),
+.siteManagement .table-box .table-head span:nth-child(3) {
+    border-left: 1px solid #c1c3c0;
+    width: 220px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(4),
+.siteManagement .table-box .table-head span:nth-child(4) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(5),
+.siteManagement .table-box .table-head span:nth-child(5) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(6),
+.siteManagement .table-box .table-head span:nth-child(6) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(7),
+.siteManagement .table-box .table-head span:nth-child(7) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.siteManagement .table-box .div-box span:nth-child(7) input,
+.siteManagement .table-box .table-head span:nth-child(7) input {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    height: 30px;
+    text-align: center;
+}
+
+.siteManagement .table-box .div-box span:nth-child(8),
+.siteManagement .table-box .table-head span:nth-child(8) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.siteManagement .table-box .a-save {
+    color: #ef4343;
+}
+
+.siteManagement .table-body div:nth-child(2n) input {
+    background-color: #eaeaea;
+}
 
 /********************deviceManagement.html*************************/
 

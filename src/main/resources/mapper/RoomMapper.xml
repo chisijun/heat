@@ -56,9 +56,14 @@
       <include refid="Base_Column_List">
         <property name="alias" value="room"/>
       </include>
-      , site.site_name as siteName
+      , site.site_name as siteName,
+      area.area_name as areaName,
+      building.building_name as buildingName,
+      building.building_no as buildingName
     FROM
-      t_area area
+      t_room room
+      LEFT JOIN t_building building on room.building_id = building.id
+      left join t_area area on building.area_id = area.id
       LEFT JOIN t_site site ON area.site_id = site.id
     WHERE
       1 = 1
@@ -67,6 +72,12 @@
       </if>
       <if test="areaName != null and areaName != ''">
         and area.area_name LIKE concat('%', #{areaName}, '%')
+      </if>
+      <if test="buildingName != null and buildingName != ''">
+      	and building.building_name LIKE concat('%', #{buildingName}, '%')
+      </if>
+      <if test="roomName != null and roomName != ''">
+      	and room.room_name LIKE concat('%', #{roomName}, '%')
       </if>
       ORDER BY
         area.update_time DESC

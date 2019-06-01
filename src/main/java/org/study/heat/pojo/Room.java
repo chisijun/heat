@@ -13,13 +13,13 @@ import lombok.Data;
 public class Room extends BaseEntity {
 
     /**
-     * 热站名称
+     * 房间编号
      */
     @Column(name = "room_no")
     private String roomNo;
 
     /**
-     * 热站名称
+     * 房间名称
      */
     @Column(name = "room_name")
     private String roomName;

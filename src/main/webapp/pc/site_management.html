@@ -24,11 +24,11 @@
 </head>
 
 <body style="background:#65A6EA;width:1254px;" class="ifram">
-    <div class="wrapper-container roomManagement">
+    <div class="wrapper-container siteManagement">
         <!--搜索框-->
         <div class="search-box">
             
-            <input class="isPhone" type="text" placeholder="请输入用户姓名" />
+            <input class="isPhone" type="text" placeholder="请输入热站名称" />
             <button class="searchBtn">搜索</button>
             <button class="addBtn">新建</button>
         </div>
@@ -43,50 +43,25 @@
         <div id="page" style="text-align:center;margin-top:30px;width:100%;"></div>
     </div>
 
-	<!--新增房子-->
+    <!--新增房子-->
     <div class="add_mask" id="add_mask">
         <div class="mask_contain">
-            <div class="mask_top">新增房间<span class="close1">&times;</span></div>
+            <div class="mask_top">新增热站<span class="close1">&times;</span></div>
             <div class="form" style="padding-bottom:0;">
-                <div>
-                	<span>所在小区：</span>
-                	<select id="add_buildingSlt" style="width:172px;">
-                		<option value="1">清江山水-35栋</option>
-	                	<option value="2">清江山水-36栋</option>
-                	</select>
-                </div><br>
-                <div>
-                	<span>单元号：</span>
-                	<select id="add_unitSlt" style="width:172px;">
-                		<option value="1">一单元</option>
-	                	<option value="2">二单元</option>
-                	</select>
-                </div><br>
-                <div>
-                	<span>楼层号：</span>
-                	<select id="add_floorSlt" style="width:172px;">
-                		<option value="1">1层</option>
-	                	<option value="2">2层</option>
-	                	<option value="3">3层</option>
-	                	<option value="4">4层</option>
-                	</select>
-                </div><br>
-                <div>
-                	<span>房子类型：</span>
-                	<select id="add_roomTypeSlt" style="width:172px;">
-                		<option value="1">居民</option>
-	                	<option value="2">商业</option>
-	                	<option value="3">办公</option>
-	                	<option value="4">餐饮</option>
-                	</select>
-                </div><br> 
-                <div><span>房间编号：</span><input id="roomNo" type="text" placeholder="请输入房间编号"></div><br>
-                <div><span>房间名称：</span><input id="roomName" type="text" placeholder="请输入房间名称"></div><br>
-                <div><span>房间户型：</span><input id="houseType" type="text" placeholder="请输入房间户型"></div><br>
-                <div><span>房间面积：</span><input id="houseType" type="number" placeholder="请输入房间面积"></div><br>
-                
+                <div><span>热站名称：</span><input id="siteName" type="text" placeholder="请输入房间名称"></div><br>
+                <div><span>热站说明：</span><input id="remark" type="text" placeholder="请输入热站说明"></div><br>
             </div>
-            <div class="mask_btn"><button class="comfire" id="add_room">确认</button><button class="cansle">取消</button></div>
+            <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
+        </div>
+    </div>
+
+    <!--确认删除-->
+    <div class="delete_mask">
+        <input type="hidden" id="d_siteId" value="">
+        <div class="mask_contain">
+            <div class="mask_top">删除热站<span class="close3">&times;</span></div>
+            <div class="delete_title">是否删除选中热站？</div>
+            <div class="delete_btn"><button class="delete_comfire" id="del_user">确认</button><button class="delete_cansle">取消</button></div>
         </div>
     </div>
 
@@ -120,9 +95,10 @@
 
                 var data = {
                     "pageNum": pageNo,
-                    "pageSize": pageSize
+                    "pageSize": pageSize,
+                    "siteName": name
                 };
-                WFang("room/queryListWithPage", function(arr) {
+                WFang("site/queryListWithPage", function(arr) {
                     // console.log(arr);
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -157,45 +133,21 @@
                         if (arr.data.list == '' || arr.data.list == null) {
                             layer.msg('暂无数据!');
                         } else {
-                            html1 = '<span>热站名称</span>' +
-                                '<span>小区名称</span>' +
-                                '<span>楼栋名称</span>' +
-                                '<span>房间号</span>' +
-                                '<span>户型</span>' +
-                                '<span>面积（㎡）</span>' +
-                                '<span>房间类型</span>' +
+                            html1 = 
+                                '<span>热站名称</span>' +
+                                '<span>热站说明</span>' +
                                 '<span>操作</span>';
                             $('.table-head').html(html1);
                             
                             for (var i = 0; i < arr.data.list.length; i++) {
 
-                                switch(arr.data.list[i].roomType) {
-                                    case 1 :
-                                        roomType = '居民';
-                                        break;
-                                    case 2 :
-                                        roomType = '商业';
-                                        break;
-                                    case 3 :
-                                        roomType = '办公';
-                                        break;
-                                    case 4 :
-                                        roomType = '餐饮';
-                                        break;
-                                }
-
-                                html += '<div class="div-box">' +
+                                html += 
+                                    '<div class="div-box">' +
                                     '<span>' + arr.data.list[i].siteName + '</span>' +
-                                    '<span>' + arr.data.list[i].areaName + '</span>' +
-                                    '<span>' + arr.data.list[i].buildingName + '</span>' +
-                                    '<span>' + arr.data.list[i].roomName + '</span>' +
-                                    '<span>' + arr.data.list[i].houseType + '</span>' +
-                                    '<span>' + arr.data.list[i].acreage + '</span>' +
-                                    '<span>' + roomType + '</span>' +
+                                    '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
                                     '<a class="a-edit" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
-                                    '<a class="a-deviceInfo" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">设备明细</a>' +
-                                    '<a class="a-mark" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">服务印记</a>' +
+                                    '<a class="a-delete" data-siteId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
                                     '</div>';
                             }
@@ -209,101 +161,23 @@
             
             /***********************关闭添加弹框*****************************/
             $('body').on("click",".cansle",function(){
-			    $(".add_mask").hide();
-			});
+                $(".add_mask").hide();
+            });
             
             /***********************关闭添加弹框*****************************/
             $('body').on("click",".close1",function(){
-			    $(".add_mask").hide();
-			});
+                $(".add_mask").hide();
+            });
             
             /***********************添加房间弹框*****************************/
             $('body').on('click', '.addBtn', function() {
-	    		$("#add_mask").show();
-	    		//$("#realname").val("");
-	    		//$("#phone").val("");
-	    		//$("#add_password").val("");
-	    		//$("#add_repassword").val("");
-			});
-			
-            /***********************添加房间*****************************/
-            $("body").on("click","#add_room",function(){
-	    		var realname = $("#realname").val();
-	    		var phone = $("#phone").val();
-	    		var roleId = $("#add_roleSlt").val();
-	    		var add_password = $("#add_password").val();
-	    		var add_repassword = $("#add_repassword").val();
-	    		var param = {'roleId':roleId};
-	    		var serverApi = "";
-		        if (typeof(realname)==='undefined' || realname=='' || realname=='null'){
-		        	layer.msg("请输入房间名称~");
-		            // $(".add_mask").show();
-		            return;
-		        } else{
-		            param['realname'] = realname;
-		        }
-		        if (typeof(phone)==='undefined' || phone=='' || phone=='null'){
-		                //Toast('请填写抄表员姓名~');
-		                //$(".add_mask").show();
-		                //return;
-		        } else{
-		            param['phone'] = phone;
-		        }
-		        
-		        if (typeof(add_password)==='undefined' || add_password=='' || add_password=='null'){
-		                Toast('请填写密码~');
-		                $(".add_mask").show();
-		                return;
-		        } else{
-		            param['password'] = add_password;
-		        }
-	    		
-	    		if (add_password != add_repassword){
-		            Toast('填写的密码与确认密码不一致哦');
-		            $(".add_mask").show();
-		            return;
-		        } else {
-		        	param['repassword'] = add_repassword;
-		        }
-		        
-		        if (roleId == '2') {
-		        	//　 添加抄表员
-		        	serverApi = ApiConf.add_user_chao;
-		        } else if (roleId == '3') {
-		        	serverApi = ApiConf.add_user_shen;
-		        	/* 获取审核组Id */
-		        	var groupId = "";
-		        	$('input[name="add_group"]:checked').each(function(index) {
-		        		if (index == 0) {
-		        			groupId = $(this).val();
-		        		} else {
-		        			groupId = groupId + '@' + $(this).val()
-		        		}
-		        	})
-		        	param['groupId'] = groupId;
-		        } else {
-		        	Toast('请选择要添加的用户角色~');
-		        }
-		             
-		        
-		        CfConn(serverApi, function(data) {
-	    			
-	    			Toast('添加用户成功成功了~');
-	    			$(".add_mask").hide();
-	    			if (pageSpan == pageSize) {
-	    				loaddata(true);
-	    			} else {
-	    				pageNo = pageNo - 1;
-	    				loaddata(true);
-	    			}
-	    		}, param , 
-	    		  {uid:window.sessionStorage.getItem(UrlConf.tk_uid)} ,
-	    		  function(error, msg) {
-	    		  	Toast(msg);
-	    		  	$(".add_mask").show();
-	    		  });
-	    	});
-            
+                $("#add_mask").show();
+                //$("#realname").val("");
+                //$("#phone").val("");
+                //$("#add_password").val("");
+                //$("#add_repassword").val("");
+            });
+
             /***********************根据名称查询*****************************/
             $('body').on('click', '.searchBtn', function() {
                 var name = $('.isPhone').val();
@@ -356,6 +230,50 @@
                     }
                 }, data, 'postForm')
             }
+
+
+            /***********************添加实现*****************************/
+            $("body").on("click","#add_site",function() {
+                var siteName = $("#siteName").val();
+                var remark = $("#remark").val();
+                var data = {
+                    "siteName": siteName,
+                    "remark": remark
+                };
+                WFang("site/save", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $(".add_mask").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
+            });
+
+            /***********************删除弹框*****************************/
+            $('body').on('click', '.a-delete', function() {
+                var siteId = $(this).attr('data-siteId');
+                $(".delete_mask").show();
+            });
+
+            /***********************删除实现*****************************/
+            $('#del_user').click(function() {
+                var siteId = $("#d_siteId").val();
+                WFang("site/deleteById" + siteId, function(arr) {
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, '', 'postForm')
+            });
         });
     </script>
 </body>
