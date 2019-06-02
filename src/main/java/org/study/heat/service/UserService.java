@@ -10,6 +10,8 @@ package org.study.heat.service;
 import org.study.heat.base.IService;
 import org.study.heat.pojo.User;
 
+import com.github.pagehelper.PageInfo;
+
 /**
  * ClassName: UserService 
  * @Description: TODO
@@ -38,4 +40,14 @@ public interface UserService extends IService<User> {
      */
     public User login(String name, String password) throws Exception;
 	
+    /**
+     * @Description: 用户列表分页查询
+     * @param @param userQueryDto
+     * @param @return   
+     * @return PageInfo  
+     * @throws
+     * @author chisj chisj@foxmail.com
+     * @date 2019年6月2日
+     */
+    //PageInfo queryUserListWithPage(UserQueryDto userQueryDto);
 }

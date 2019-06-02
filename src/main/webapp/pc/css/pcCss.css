@@ -212,19 +212,19 @@
 
 .siteManagement .table-box .div-box span:nth-child(1),
 .siteManagement .table-box .table-head span:nth-child(1) {
-    width: 220px;
+    width: 300px;
 }
 
 .siteManagement .table-box .div-box span:nth-child(2),
 .siteManagement .table-box .table-head span:nth-child(2) {
     border-left: 1px solid #c1c3c0;
-    width: 220px;
+    width: 300px;
 }
 
 .siteManagement .table-box .div-box span:nth-child(3),
 .siteManagement .table-box .table-head span:nth-child(3) {
     border-left: 1px solid #c1c3c0;
-    width: 220px;
+    width: 350px;
 }
 
 .siteManagement .table-box .div-box span:nth-child(4),

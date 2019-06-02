@@ -88,7 +88,7 @@ public class SiteServiceImpl extends BaseService<Site> implements SiteService {
 		
 		PageHelper.startPage(siteQueryDto.getPageNum(), siteQueryDto.getPageSize());
 		List<Site> siteList = siteDao.querySiteListWithPage(siteQueryDto);
-		
+
 		return new PageInfo<>(siteList);
 	}
 

@@ -525,3 +525,87 @@ a:hover{
 .cansle{
     margin-right:40px;
 }
+
+.modify_btn>.modify_comfire,.modifypwd_comfire{
+    width:60px;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: -webkit-linear-gradient(top,#125B8E,#044D78);
+    color:#fff;
+    border:0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left:38%;
+    margin-top:0;
+}
+
+.modifypwd_comfire{
+    margin-top:1em;
+}
+
+.modify_mask .form{
+    padding-top:45px;
+}
+
+.delete_mask .mask_contain{
+    width:350px;
+    height:200px;
+    margin-top:100px;
+}
+.delete_title{
+    text-align:center;
+    width:80%;
+    margin:3.5em auto;
+    color:#000;
+    font-size:14px;
+
+}
+.delete_btn{
+    overflow:hidden;
+}
+.delete_comfire,.search_comfire{
+    float:left;
+    margin-left:50px;
+}
+.delete_cansle,.search_cansle{
+    float:right;
+    margin-right:50px;
+}
+.delete_btn button,.search_btn button{
+    width:60px;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: -webkit-linear-gradient(top,#125B8E,#044D78);
+    color:#fff;
+    border:0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modify_mask span{
+    display:inline-block;
+    width:80px;
+    text-align:right;
+}
+.modify_mask input{
+    text-indent:10px;
+}
+.modify_box{
+    margin:40px 0;
+    text-align: center;
+}
+
+.modify_mask .mask_contain{
+    height:350px;
+}
+
+.modify_mask .form{
+    padding-top:45px;
+    text-align: center;
+}
+
+.modify_box .modify_comfire{
+    margin:40px 80px 20px 50px;
+}

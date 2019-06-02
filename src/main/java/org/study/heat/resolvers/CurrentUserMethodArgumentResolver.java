@@ -46,12 +46,10 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
                                   NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         //取出鉴权时存入的登录用户Id
         Long currentUserId = (Long) nativeWebRequest.getAttribute(Constants.CURRENT_USER_ID, RequestAttributes.SCOPE_REQUEST);
-        //System.out.println("------------------------------chisj:currentUserId=" + currentUserId);
         if (currentUserId != null) {
             //从数据库中查询并返回
             //查询单个用户信息（根据id）
         	User user = userService.selectUserById(currentUserId);
-        	//System.out.println("------------------------------chisj:currentUserId=" + currentUserId);
             return user;
         }
         throw new MissingServletRequestPartException(Constants.CURRENT_USER_ID);

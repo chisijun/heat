@@ -34,12 +34,6 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
-        
-//    	httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");  
-//    	httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");  
-//    	httpServletResponse.setHeader("Access-Control-Max-Age", "3600");  
-//    	httpServletResponse.setHeader("Access-Control-Allow-Headers",  
-//                "Origin, X-Requested-With, Content-Type, Accept"); 
     	
     	//如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {

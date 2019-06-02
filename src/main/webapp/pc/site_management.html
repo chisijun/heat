@@ -43,9 +43,9 @@
         <div id="page" style="text-align:center;margin-top:30px;width:100%;"></div>
     </div>
 
-    <!--新增房子-->
+    <!--新增-->
     <div class="add_mask" id="add_mask">
-        <div class="mask_contain">
+        <div class="mask_contain" style="height: 250px;">
             <div class="mask_top">新增热站<span class="close1">&times;</span></div>
             <div class="form" style="padding-bottom:0;">
                 <div><span>热站名称：</span><input id="siteName" type="text" placeholder="请输入房间名称"></div><br>
@@ -53,6 +53,19 @@
             </div>
             <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
         </div>
+    </div>
+
+    <!-- 编辑 -->
+    <div class="modify_mask">
+        <input type="hidden" id="m_siteId" value="">
+        <div class="mask_contain" style="height:250px;">
+            <div class="mask_top">修改热站<span class="close5">&times;</span></div>
+            <div class="modify_box">
+                <div><span>热站名称：</span><input id="m_siteName" type="text" value=""></div><br>
+                <div><span>热站说明：</span><input id="m_remark" type="text" value=""></div>
+                <div class="delete_btn"><button class="modify_comfire" id="update_site" style="margin-top:18px;">确认</button><button class="modify_cansle">取消</button></div>
+            </div>
+         </div>
     </div>
 
     <!--确认删除-->
@@ -146,7 +159,10 @@
                                     '<span>' + arr.data.list[i].siteName + '</span>' +
                                     '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
-                                    '<a class="a-edit" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
+                                    '<a class="a-edit" date-siteName = "' 
+                                        + arr.data.list[i].siteName + '" date-remark = "' 
+                                        + arr.data.list[i].remark + '" data-siteId="' 
+                                        + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
                                     '<a class="a-delete" data-siteId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
                                     '</div>';
@@ -169,68 +185,68 @@
                 $(".add_mask").hide();
             });
             
-            /***********************添加房间弹框*****************************/
-            $('body').on('click', '.addBtn', function() {
-                $("#add_mask").show();
-                //$("#realname").val("");
-                //$("#phone").val("");
-                //$("#add_password").val("");
-                //$("#add_repassword").val("");
-            });
-
+            
             /***********************根据名称查询*****************************/
             $('body').on('click', '.searchBtn', function() {
                 var name = $('.isPhone').val();
                 getData(1, name);
             });
-            /***********************编辑地理位置*****************************/
-            //自定义变量状态  0-不存在添加框 1-已存在
-            var addStas = '0';
-            $('body').on('click', '.a-edit', function() {
-                if (addStas == '1') {
-                    layer.msg('一次只能编辑一项！');
-                    return;
-                } else {
-                    //改变自定义变量状态
-                    addStas = '1';
-                    var userId = $(this).attr('data-userId');
-                    $(this).html('保存');
-                    $(this).removeClass('a-edit').addClass('a-save');
-                    $($($(this).parent().parent().children()[6]).children()[0]).children().addClass('edit-address');
-                    var alladd = $($($(this).parent().parent().children()[6]).children()[0]).attr('title');
-                    $('.edit-address').attr('readonly', false);
-                    $('.edit-address').val(alladd);
-                    $('.edit-address').attr('style', 'color:#a0a0a0;');
-                }
-            });
-            $('body').on('click', '.a-save', function() {
-                var userId = $(this).attr('data-userId');
-                var address = $('.edit-address').val().trim();
-                edit(userId, address);
+
+
+            /***********************关闭-编辑弹框*****************************/
+            $('body').on("click",".close5",function(){
+                $(".modify_mask").hide();
             });
 
-            function edit(userId, address) {
-                var pageNo = $('.layui-input').val();
+            /***********************编辑弹框*****************************/
+            $('body').on('click', '.a-edit', function() {
+                var siteId = $(this).attr('data-siteId');
+                var siteName = $(this).attr('data-siteName');
+                var remark = $(this).attr('data-remark');
+                $("#m_siteId").val(siteId);
+                $("#m_siteName").val(siteName);
+                $("#m_remark").val(remark);
+
+                $(".modify_mask").show();
+            });
+
+            /***********************编辑-确定****************************/
+            $('body').on("click",".modify_comfire", function(){
+                var siteId = $("#m_siteId").val();
+                var siteName = $("#m_siteName").val();
+                var remark = $("#m_remark").val();
                 var data = {
-                    "userId": userId,
-                    "address": address
+                    "id": siteId,
+                    "siteName": siteName,
+                    "remark": remark
                 };
-                WFang("Device/updateLocation", function(arr) {
+                WFang("site/save", function(arr) {
+                    var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);
-                        console.log($('.a-save').html());
                     } else {
                         layer.msg(arr.message);
-
                         setTimeout(function() {
-                            //改变自定义变量状态
-                            addStas = '0';
+                            $(".modify_mask").hide();
                             getData(pageNo, name);
                         }, 1800);
                     }
                 }, data, 'postForm')
-            }
+            });
+            
 
+            /***********************关闭弹框弹框*****************************/
+            $('body').on("click",".modify_cansle",function(){
+                $(".modify_mask").hide();
+            });
+
+
+            /***********************添加房间弹框*****************************/
+            $('body').on('click', '.addBtn', function() {
+                $("#add_mask").show();
+                $("#siteName").val("");
+                $("#remark").val("");
+            });
 
             /***********************添加实现*****************************/
             $("body").on("click","#add_site",function() {
@@ -257,18 +273,31 @@
             /***********************删除弹框*****************************/
             $('body').on('click', '.a-delete', function() {
                 var siteId = $(this).attr('data-siteId');
+                $("#d_siteId").val(siteId);
                 $(".delete_mask").show();
+            });
+
+            /***********************关闭删除弹框*****************************/
+            $('body').on('click', '.delete_cansle', function() {
+                $(".delete_mask").hide();
+            });
+
+            /***********************关闭删除弹框*****************************/
+            $('body').on("click",".close3",function(){
+                $(".delete_mask").hide();
             });
 
             /***********************删除实现*****************************/
             $('#del_user').click(function() {
                 var siteId = $("#d_siteId").val();
-                WFang("site/deleteById" + siteId, function(arr) {
+                var pageNo = $('.layui-input').val();
+                WFang("site/deleteById/" + siteId, function(arr) {
                     if (arr.status == false) {
                         layer.msg(arr.message);
                     } else {
                         layer.msg(arr.message);
                         setTimeout(function() {
+                            $(".delete_mask").hide();
                             getData(pageNo, name);
                         }, 1800);
                     }

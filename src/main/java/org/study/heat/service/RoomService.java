@@ -56,4 +56,15 @@ public interface RoomService extends IService<Room> {
 	 */
 	PageInfo queryRoomListWithPage(RoomQueryDto roomQueryDto);
 
+	/**
+	 * @Description: 绑定用户和房子
+	 * @param @param room	房子信息
+	 * @param @return   
+	 * @return Integer  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月2日
+	 */
+	Integer buildingRoomUser(Room room);
+	
 }
