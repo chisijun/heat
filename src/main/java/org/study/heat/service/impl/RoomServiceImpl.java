@@ -111,6 +111,15 @@ public class RoomServiceImpl extends BaseService<Room> implements RoomService {
 		return new PageInfo<>(roomVoList);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.RoomService#buildingRoomUser(org.study.heat.pojo.Room)
+	 */
+	@Override
+	public Integer buildingRoomUser(Room room) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }
