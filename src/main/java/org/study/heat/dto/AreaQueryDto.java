@@ -20,8 +20,19 @@ import lombok.Data;
 @Data
 public class AreaQueryDto extends BaseQuery {
 
+	/**
+	 * 热站Id
+	 */
+	private Long siteId;
+	
+	/**
+	 * 小区名称
+	 */
 	private String areaName;
 	
+	/**
+	 * 热站名称
+	 */
 	private String siteName;
 	
 }

@@ -19,7 +19,10 @@ import org.study.heat.base.BaseQuery;
  */
 @Data
 public class SiteQueryDto extends BaseQuery {
-
+	
+	/**
+	 * 热站名称
+	 */
 	private String siteName;
 	
 }

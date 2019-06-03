@@ -20,18 +20,39 @@ import org.study.heat.base.BaseQuery;
 @Data
 public class RoomQueryDto extends BaseQuery {
 
+	/**
+	 * 热站Id
+	 */
 	private Long siteId;
 	
+	/**
+	 * 热站名称
+	 */
 	private String siteName;
 	
+	/**
+	 * 小区Id
+	 */
 	private Long areaId;
 	
+	/**
+	 * 小区名称
+	 */
 	private String areaName;
 	
+	/**
+	 * 楼栋Id
+	 */
 	private Long buildingId;
 	
+	/**
+	 * 楼栋名称
+	 */
 	private String buildingName;
 	
+	/**
+	 * 房间名称
+	 */
 	private String roomName;
 	
 }

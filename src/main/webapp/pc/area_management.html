@@ -45,18 +45,17 @@
 
     <!--新增-->
     <div class="add_mask" id="add_mask">
-        <div class="mask_contain" style="height: 250px;">
+        <div class="mask_contain" style="height: 260px;">
             <div class="mask_top">新增小区<span class="close1">&times;</span></div>
             <div class="form" style="padding-bottom:0;">
                 <div>
                     <span>所在热站：</span>
-                    <select id="add_buildingSlt" style="width:172px;">
-                        <option value="1">清江山水-35栋</option>
-                        <option value="2">清江山水-36栋</option>
+                    <select id="add_siteSlt" style="width:172px;">
+                        <option value="-1">请选择热站</option>
                     </select>
                 </div><br>
-                <div><span>小区名称：</span><input id="areaName" type="text" placeholder="请输入小区名称"></div><br>
-                <div><span>小区说明：</span><input id="remark" type="text" placeholder="请输入小区说明"></div><br>
+                <div><span>小区名称：</span><input id="m_areaName" type="text" placeholder="请输入小区名称"></div><br>
+                <div><span>小区说明：</span><input id="m_remark" type="text" placeholder="请输入小区说明"></div><br>
             </div>
             <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
         </div>
@@ -64,12 +63,18 @@
 
     <!-- 编辑 -->
     <div class="modify_mask">
-        <input type="hidden" id="m_siteId" value="">
-        <div class="mask_contain" style="height:380px;">
-            <div class="mask_top">修改热站<span class="close5">&times;</span></div>
+        <input type="hidden" id="m_areaId" value="">
+        <div class="mask_contain" style="height:260px;">
+            <div class="mask_top">修改小区<span class="close5">&times;</span></div>
             <div class="modify_box">
-                <div><span>热站名称：</span><input id="m_siteName" type="text" value=""></div><br>
-                <div><span>热站说明：</span><input id="m_remark" type="text" value=""></div>
+                <div>
+                    <span>所在热站：</span>
+                    <select id="m_siteSlt" style="width:172px;">
+                        <option value="-1">请选择热站</option>
+                    </select>
+                </div><br>
+                <div><span>小区名称：</span><input id="m_siteName" type="text" value=""></div><br>
+                <div><span>小区说明：</span><input id="m_remark" type="text" value=""></div>
                 <div class="delete_btn"><button class="modify_comfire" id="update_site" style="margin-top:18px;">确认</button><button class="modify_cansle">取消</button></div>
             </div>
          </div>
@@ -110,14 +115,24 @@
             load_site();
 
             function load_site() {
-
-                WFang("site/quertList", function(arr) {
+                var data = {
+                    "pageNum": 1,
+                    "pageSize": 100
+                };
+                WFang("site/queryListWithPage", function(arr) {
+                    var datarow = "";
                     if (arr.status == false) {
                         
                     } else {
-                        
+                        datarow += '<option value="-1">请选择热站</option>';
+                        for (var i = 0; i < arr.data.list.length; i++) {
+                            datarow += '<option value=' + arr.data.list[i].id+'>'
+                                    + arr.data.list[i].siteName + '</option>';
+                        }
                     }
-                }, '', 'postForm');
+                    $('#add_siteSlt').html(datarow);
+                    $('#m_siteSlt').html(datarow);  
+                }, data, 'postForm');
             }
 
             //页面渲染 
@@ -133,7 +148,7 @@
                     "pageSize": pageSize,
                     "siteName": name
                 };
-                WFang("site/queryListWithPage", function(arr) {
+                WFang("area/queryListWithPage", function(arr) {
                     // console.log(arr);
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -183,9 +198,7 @@
                                     '<span>' + arr.data.list[i].areaName + '</span>' +
                                     '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
-                                    '<a class="a-edit" date-siteName = "' 
-                                        + arr.data.list[i].siteName + '" date-remark = "' 
-                                        + arr.data.list[i].remark + '" data-siteId="' 
+                                    '<a class="a-edit" data-siteId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
                                     '<a class="a-delete" data-siteId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
@@ -253,28 +266,37 @@
             });
             
 
-            /***********************关闭弹框弹框*****************************/
+            /***********************关闭-编辑弹框*****************************/
             $('body').on("click",".modify_cansle",function(){
+                $(".modify_mask").hide();
+            });
+
+             /***********************关闭-编辑弹框*****************************/
+            $('body').on("click",".close5",function(){
                 $(".modify_mask").hide();
             });
 
 
             /***********************添加房间弹框*****************************/
             $('body').on('click', '.addBtn', function() {
-                $("#add_mask").show();
-                $("#siteName").val("");
+                $("#add_siteSlt").val("-1");
+                $("#areaName").val("");
                 $("#remark").val("");
+
+                $("#add_mask").show();
             });
 
             /***********************添加实现*****************************/
             $("body").on("click","#add_site",function() {
-                var siteName = $("#siteName").val();
+                var siteId = $('#add_siteSlt').find("option:selected").val();
+                var areaName = $("#areaName").val();
                 var remark = $("#remark").val();
                 var data = {
-                    "siteName": siteName,
+                    "siteId": siteId,
+                    "areaName": areaName,
                     "remark": remark
                 };
-                WFang("site/save", function(arr) {
+                WFang("area/save", function(arr) {
                     var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);
