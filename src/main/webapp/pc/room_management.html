@@ -51,24 +51,19 @@
                 <div>
                 	<span>所在小区：</span>
                 	<select id="add_buildingSlt" style="width:172px;">
-                		<option value="1">清江山水-35栋</option>
-	                	<option value="2">清江山水-36栋</option>
+                		<option value="-1">请选择小区</option>
                 	</select>
                 </div><br>
                 <div>
                 	<span>单元号：</span>
                 	<select id="add_unitSlt" style="width:172px;">
-                		<option value="1">一单元</option>
-	                	<option value="2">二单元</option>
+                		<option value="-1">请选择单元</option>
                 	</select>
                 </div><br>
                 <div>
                 	<span>楼层号：</span>
                 	<select id="add_floorSlt" style="width:172px;">
-                		<option value="1">1层</option>
-	                	<option value="2">2层</option>
-	                	<option value="3">3层</option>
-	                	<option value="4">4层</option>
+                		<option value="-1">请选择楼层</option>
                 	</select>
                 </div><br>
                 <div>
@@ -100,16 +95,59 @@
         layui.use(['layer', 'laypage'], function() {
             var layer = layui.layer;
             var laypage = layui.laypage;
-            //设备明细跳转
-            $('body').on('click', '.a-deviceInfo', function() {
-                var userId = $(this).attr('data-userId');
-                window.location.href = 'deviceDetails.html?userId=' + userId;
-            });
-            //服务印记跳转
-            $('body').on('click', '.a-mark', function() {
-                var userId = $(this).attr('data-userId');
-                window.location.href = 'serviceMark.html?userId=' + userId;
-            });
+  
+            load_building();
+
+            function load_building() {
+
+                var data = {
+                    "pageNum": 1,
+                    "pageSize": 100,
+                };
+
+                WFang("building/queryListWithPage", function(arr) {
+                    var datarow = "";
+                    if (arr.status == false) {
+                        
+                    } else {
+                        datarow += '<option value="-1">请选择小区</option>';
+                        for (var i = 0; i < arr.data.list.length; i++) {
+                            datarow += '<option value=' + arr.data.list[i].id+'>'
+                                    + arr.data.list[i].buildingName + '</option>';
+                        }
+                    }
+                    $('#add_buildingSlt').html(datarow);
+                    $('#m_buildingSlt').html(datarow);  
+                }, data, 'postForm');
+
+            }
+
+            $("#add_buildingSlt").change(function() {  
+                var buildingId = $('#add_buildingSlt').find("option:selected").val();
+                // 获取楼栋信息
+                WFang("building/queryById/" + buildingId, function(arr) {
+                    var datarow_unit = "";
+                    var datarow_floor = "";
+                    if (arr.status == false) {
+                        
+                    } else {
+                        datarow_unit += '<option value="-1">请选择单元</option>';
+                        for (var i = 1; i <= arr.data.unitSize; i++) {
+                            datarow_unit += '<option value=' + i +'>'
+                                    + i + '单元</option>';
+                        }
+
+                        datarow_floor += '<option value="-1">请选择楼层</option>';
+                        for (var i = 1; i <= arr.data.floorSize; i++) {
+                            datarow_floor += '<option value=' + i +'>'
+                                    + i + '层</option>';
+                        }
+                    }
+                    $('#add_unitSlt').html(datarow_unit);
+                    $('#add_floorSlt').html(datarow_floor);  
+                }, '', 'postForm');
+            }) 
+
             //页面渲染 
             var name = '';
             getData(1, name);

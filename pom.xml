@@ -5,7 +5,7 @@
     <artifactId>heat</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Dryer Maven Webapp</name>
+    <name>Heat Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
         <!-- 设置项目编码编码 -->

@@ -274,7 +274,74 @@
     background-color: #eaeaea;
 }
 
-/********************deviceManagement.html*************************/
+/********************buildingManagement.html*************************/
+
+.buildingManagement .table-box .div-box span:nth-child(1),
+.buildingManagement .table-box .table-head span:nth-child(1) {
+    width: 200px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(2),
+.buildingManagement .table-box .table-head span:nth-child(2) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(3),
+.buildingManagement .table-box .table-head span:nth-child(3) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(4),
+.buildingManagement .table-box .table-head span:nth-child(4) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(5),
+.buildingManagement .table-box .table-head span:nth-child(5) {
+    border-left: 1px solid #c1c3c0;
+    width: 180px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(6),
+.buildingManagement .table-box .table-head span:nth-child(6) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(7),
+.buildingManagement .table-box .table-head span:nth-child(7) {
+    border-left: 1px solid #c1c3c0;
+    width: 120px;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(7) input,
+.buildingManagement .table-box .table-head span:nth-child(7) input {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    height: 30px;
+    text-align: center;
+}
+
+.buildingManagement .table-box .div-box span:nth-child(8),
+.buildingManagement .table-box .table-head span:nth-child(8) {
+    border-left: 1px solid #c1c3c0;
+    width: 200px;
+}
+
+.buildingManagement .table-box .a-save {
+    color: #ef4343;
+}
+
+.buildingManagement .table-body div:nth-child(2n) input {
+    background-color: #eaeaea;
+}
+
+
+/********************deviceManegement.html*************************/
 
 .deviceManegement .table-box .div-box span:nth-child(1),
 .deviceManegement .table-box .table-head span:nth-child(1) {

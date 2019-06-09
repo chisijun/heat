@@ -96,4 +96,13 @@ public class BuildingController {
 		
 		return new JsonResult(true, "操作成功", pageInfo); 
 	}
+
+	@Authorization
+	@PostMapping("/queryById/{id}")
+	public JsonResult queryBuildingById(@PathVariable Long id) {
+
+		Building building = buildingService.selectByKey(id);
+
+		return new JsonResult(true, "操作成功", building);
+	}
 }

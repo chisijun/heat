@@ -54,8 +54,8 @@
                         <option value="-1">请选择热站</option>
                     </select>
                 </div><br>
-                <div><span>小区名称：</span><input id="m_areaName" type="text" placeholder="请输入小区名称"></div><br>
-                <div><span>小区说明：</span><input id="m_remark" type="text" placeholder="请输入小区说明"></div><br>
+                <div><span>小区名称：</span><input id="areaName" type="text" placeholder="请输入小区名称"></div><br>
+                <div><span>小区说明：</span><input id="remark" type="text" placeholder="请输入小区说明"></div><br>
             </div>
             <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
         </div>
@@ -64,6 +64,7 @@
     <!-- 编辑 -->
     <div class="modify_mask">
         <input type="hidden" id="m_areaId" value="">
+        <input type="hidden" id="m_siteId" value="">
         <div class="mask_contain" style="height:260px;">
             <div class="mask_top">修改小区<span class="close5">&times;</span></div>
             <div class="modify_box">
@@ -73,7 +74,7 @@
                         <option value="-1">请选择热站</option>
                     </select>
                 </div><br>
-                <div><span>小区名称：</span><input id="m_siteName" type="text" value=""></div><br>
+                <div><span>小区名称：</span><input id="m_areaName" type="text" value=""></div><br>
                 <div><span>小区说明：</span><input id="m_remark" type="text" value=""></div>
                 <div class="delete_btn"><button class="modify_comfire" id="update_site" style="margin-top:18px;">确认</button><button class="modify_cansle">取消</button></div>
             </div>
@@ -82,10 +83,10 @@
 
     <!--确认删除-->
     <div class="delete_mask">
-        <input type="hidden" id="d_siteId" value="">
+        <input type="hidden" id="d_areaId" value="">
         <div class="mask_contain">
-            <div class="mask_top">删除热站<span class="close3">&times;</span></div>
-            <div class="delete_title">是否删除选中热站？</div>
+            <div class="mask_top">删除小区<span class="close3">&times;</span></div>
+            <div class="delete_title">是否删除选中小区？</div>
             <div class="delete_btn"><button class="delete_comfire" id="del_user">确认</button><button class="delete_cansle">取消</button></div>
         </div>
     </div>
@@ -198,9 +199,12 @@
                                     '<span>' + arr.data.list[i].areaName + '</span>' +
                                     '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
-                                    '<a class="a-edit" data-siteId="' 
+                                    '<a class="a-edit" data-remark = "' 
+                                        + arr.data.list[i].remark + '" data-areaName = "' 
+                                        + arr.data.list[i].areaName + '" data-siteId = "' 
+                                        + arr.data.list[i].siteId + '" data-areaId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
-                                    '<a class="a-delete" data-siteId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
+                                    '<a class="a-delete" data-areaId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
                                     '</div>';
                             }
@@ -232,26 +236,30 @@
             /***********************编辑弹框*****************************/
             $('body').on('click', '.a-edit', function() {
                 var siteId = $(this).attr('data-siteId');
-                var siteName = $(this).attr('data-siteName');
+                var areaId = $(this).attr('data-areaId');
+                var areaName = $(this).attr('data-areaName');
                 var remark = $(this).attr('data-remark');
-                $("#m_siteId").val(siteId);
-                $("#m_siteName").val(siteName);
+                $("#m_areaId").val(areaId);
+                $("#m_areaName").val(areaName);
                 $("#m_remark").val(remark);
+                $("#m_siteSlt").val(siteId);
 
                 $(".modify_mask").show();
             });
 
             /***********************编辑-确定****************************/
             $('body').on("click",".modify_comfire", function(){
-                var siteId = $("#m_siteId").val();
-                var siteName = $("#m_siteName").val();
+                var siteId = $('#m_siteSlt').find("option:selected").val();
+                var areaId = $("#m_areaId").val();
+                var areaName = $("#m_areaName").val();
                 var remark = $("#m_remark").val();
                 var data = {
-                    "id": siteId,
-                    "siteName": siteName,
+                    "id": areaId,
+                    "siteId": siteId,
+                    "areaName": areaName,
                     "remark": remark
                 };
-                WFang("site/save", function(arr) {
+                WFang("area/save", function(arr) {
                     var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -312,8 +320,8 @@
 
             /***********************删除弹框*****************************/
             $('body').on('click', '.a-delete', function() {
-                var siteId = $(this).attr('data-siteId');
-                $("#d_siteId").val(siteId);
+                var areaId = $(this).attr('data-areaId');
+                $("#d_areaId").val(areaId);
                 $(".delete_mask").show();
             });
 
@@ -329,9 +337,9 @@
 
             /***********************删除实现*****************************/
             $('#del_user').click(function() {
-                var siteId = $("#d_siteId").val();
+                var areaId = $("#d_areaId").val();
                 var pageNo = $('.layui-input').val();
-                WFang("site/deleteById/" + siteId, function(arr) {
+                WFang("area/deleteById/" + areaId, function(arr) {
                     if (arr.status == false) {
                         layer.msg(arr.message);
                     } else {
