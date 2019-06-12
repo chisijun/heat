@@ -146,7 +146,7 @@
                             layer.msg(arr.message);
                         } else {
                             //获取当前用户ID
-                            if (arr.data.list != '' && arr.data.roleId == '2') {
+                            if (arr.data.list != '' && arr.data.type == 'user') {
                                 $.cookie("username", userName, {
                                     expires: 30
                                 });
