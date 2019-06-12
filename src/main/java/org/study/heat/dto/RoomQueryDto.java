@@ -55,4 +55,8 @@ public class RoomQueryDto extends BaseQuery {
 	 */
 	private String roomName;
 	
+	/**
+	 * 用户Id
+	 */
+	private Long userId;
 }

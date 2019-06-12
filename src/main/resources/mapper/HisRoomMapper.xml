@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.study.heat.dao.HisRoomMapper" >
+  <resultMap id="BaseResultMap" type="org.study.heat.pojo.HisRoom" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="room_id" property="roomId" jdbcType="BIGINT" />
+    <result column="check_in" property="checkIn" jdbcType="TIMESTAMP" />
+    <result column="check_out" property="checkOut" jdbcType="TIMESTAMP" />
+    <result column="stat" property="stat" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="last_operator" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ${alias}.id,
+    ${alias}.version,
+    ${alias}.user_id as userId,
+    ${alias}.room_id as roomId,
+    ${alias}.check_in as checkIn,
+    ${alias}.check_out as checkOut,
+    ${alias}.stat,
+    ${alias}.status,
+    ${alias}.remark,
+    ${alias}.creator,
+    ${alias}.creator_id as creatorId,
+    ${alias}.created_time as createdTime,
+    ${alias}.last_operator as lastOperator,
+    ${alias}.last_operator_id as lastOperatorId,
+    ${alias}.update_time as updateTime
+  </sql>
+  
+  <select id="queryHisCheckInListWithPage" resultType="org.study.heat.vo.HisRoomVo">
+  	
+  	SELECT
+      <include refid="Base_Column_List">
+        <property name="alias" value="his_room"/>
+      </include>
+      , site.site_name as siteName,
+      area.area_name as areaName,
+      building.building_name as buildingName,
+      building.building_no as buildingName,
+      room.room_name as roomName,
+      room.room_no as roomNo,
+      room.unit_no as unitNo,
+      room.floor_no as flooNo,
+      room.room_type as roomType,
+      room.house_type as roomHouse,
+      room.acreage
+    FROM
+      t_his_room his_room
+      LEFT JOIN t_user user ON his_room.user_id = user.id
+      LEFT JOIN t_room room ON his_room.room_id = room.id
+      LEFT JOIN t_building building on room.building_id = building.id
+      left join t_area area on building.area_id = area.id
+      LEFT JOIN t_site site ON area.site_id = site.id
+    WHERE
+      1 = 1
+      <if test="userName != null and userName != ''">
+        and user.user_name LIKE concat('%', #{userName}, '%')
+      </if>
+      ORDER BY
+        area.update_time DESC
+  
+  </select>
+  
+</mapper>

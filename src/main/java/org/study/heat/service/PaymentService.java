@@ -8,7 +8,10 @@
 package org.study.heat.service;
 
 import org.study.heat.base.IService;
+import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.pojo.Payment;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * ClassName: PaymentService 
@@ -28,5 +31,16 @@ public interface PaymentService extends IService<Payment> {
 	 * @date 2019年6月2日
 	 */
 	Integer savePayment(Payment payment);
+
+	/**
+	 * @Description: TODO
+	 * @param @param paymentQueryDto
+	 * @param @return   
+	 * @return PageInfo  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	PageInfo queryPaymentListWithPage(PaymentQueryDto paymentQueryDto);
 	
 }

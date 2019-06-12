@@ -99,4 +99,11 @@ public class RoomController {
 		return new JsonResult(true, "操作成功", pageInfo);
 	}
 	
+	/**
+	 * 查询没有入住的房子
+	 */
+	public JsonResult queryNotCheckInRoomList() {
+		
+		return new JsonResult(true, "操作成功", 1);
+	}
 }

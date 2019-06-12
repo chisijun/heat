@@ -7,8 +7,20 @@
  */
 package org.study.heat.controller;
 
+import javax.annotation.Resource;
+
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.study.heat.annotation.Authorization;
+import org.study.heat.annotation.CurrentUser;
+import org.study.heat.common.JsonResult;
+import org.study.heat.dto.ApplyQueryDto;
+import org.study.heat.pojo.Apply;
+import org.study.heat.pojo.User;
+import org.study.heat.service.ApplyService;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * ClassName: ApplyController 
@@ -20,6 +32,79 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/apply")
 public class ApplyController {
 
+	@Resource
+	private ApplyService applyService;
 	
+	/**
+	 * 报停申请
+	 */
+	@Authorization
+	@PostMapping("/stop")
+	public JsonResult applyStop(@CurrentUser User login, Apply apply) {
+		
+		Integer result = applyService.saveApply(apply, login);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
+	
+	/**
+	 * 复热申请
+	 */
+	@Authorization
+	@PostMapping("/start")
+	public JsonResult applyStart(@CurrentUser User login, Apply apply) {
+		
+		Integer result = applyService.saveApply(apply, login);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
+	
+	/**
+	 * 强停
+	 */
+	@Authorization
+	@PostMapping("/strong")
+	public JsonResult StrongStop(@CurrentUser User login, Apply apply) {
+		
+		Integer result = applyService.saveApply(apply, login);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
+	
+	/**
+	 * 审批
+	 */
+	@Authorization
+	@PostMapping("/approval")
+	public JsonResult approval(@CurrentUser User login, Apply apply) {
+		
+		Integer result = applyService.updateApply(apply, login);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
+	
+	/**
+	 * 查询列表
+	 */
+	@Authorization
+	@PostMapping("/queryListWithPage")
+	public JsonResult queryApplyListWithPage(ApplyQueryDto applyQueryDto) {
+		
+		PageInfo pageInfo = applyService.queryApplyListWithPage(applyQueryDto);
+		
+		return new JsonResult(true, "操作成功", pageInfo);
+	}
 	
 }

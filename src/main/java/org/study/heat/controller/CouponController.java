@@ -9,6 +9,7 @@ package org.study.heat.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.study.heat.annotation.Authorization;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.CouponQueryDto;
 import org.study.heat.dto.SiteQueryDto;
+import org.study.heat.pojo.Coupon;
 import org.study.heat.service.CouponService;
 
 import com.github.pagehelper.PageInfo;
@@ -32,6 +34,30 @@ public class CouponController {
 
 	@Resource
 	private CouponService couponService;
+	
+	@Authorization
+	@PostMapping("/save")
+	public JsonResult saveCoupon(Coupon coupon) {
+		
+		Integer result = couponService.saveCoupon(coupon);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
+	
+	@Authorization
+	@PostMapping("/deleteById/{id}")
+	public JsonResult deleteCouponById(@PathVariable Long id) {
+		
+		Integer result = couponService.deleteCouponById(id);
+		if (result < 1) {
+			return new JsonResult(false, "操作失败", result);
+		}
+		
+		return new JsonResult(true, "操作成功", result);
+	}
 	
 	@Authorization
 	@PostMapping("/queryListWithPage")

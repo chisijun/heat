@@ -32,4 +32,26 @@ public interface CouponService extends IService<Coupon> {
 	 */
 	PageInfo queryCouponListWithPage(CouponQueryDto couponQueryDto);
 
+	/**
+	 * @Description: TODO
+	 * @param @param coupon
+	 * @param @return   
+	 * @return Integer  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	Integer saveCoupon(Coupon coupon);
+
+	/**
+	 * @Description: TODO
+	 * @param @param id
+	 * @param @return   
+	 * @return Integer  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	Integer deleteCouponById(Long id);
+
 }

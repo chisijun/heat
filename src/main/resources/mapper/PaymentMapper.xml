@@ -9,6 +9,7 @@
     <result column="payment_year" property="paymentYear" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="acreage" property="acreage" jdbcType="REAL" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
     <result column="discount" property="discount" jdbcType="REAL" />
     <result column="actFee" property="actfee" jdbcType="DECIMAL" />
     <result column="redFee" property="redfee" jdbcType="DECIMAL" />

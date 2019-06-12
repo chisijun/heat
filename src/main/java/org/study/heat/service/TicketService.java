@@ -8,7 +8,10 @@
 package org.study.heat.service;
 
 import org.study.heat.base.IService;
+import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.pojo.Ticket;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * ClassName: TicketService 
@@ -28,4 +31,15 @@ public interface TicketService extends IService<Ticket> {
 	 * @date 2019年6月2日
 	 */
 	Integer saveTicket(Ticket ticket);
+
+	/**
+	 * @Description: TODO
+	 * @param @param ticketQueryDto
+	 * @param @return   
+	 * @return PageInfo  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	PageInfo queryTicketListWithPage(TicketQueryDto ticketQueryDto);
 }

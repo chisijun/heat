@@ -79,8 +79,11 @@
       <if test="roomName != null and roomName != ''">
       	and room.room_name LIKE concat('%', #{roomName}, '%')
       </if>
+      <if test="userId != null">
+      	and room.user_id = #{userId}
+      </if>
       ORDER BY
-        area.update_time DESC
+        room.created_time DESC
   </select>
   
 </mapper>

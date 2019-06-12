@@ -36,4 +36,76 @@
   	where login_name = #{loginName}
   	or mobile_no = #{loginName}
   </select>
+  
+  <resultMap id="UserRoomResultMap" type="org.study.heat.vo.UserVo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="user_source" property="userSource" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="last_login_location" property="lastLoginLocation" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="is_changed_pwd" property="isChangedPwd" jdbcType="SMALLINT" />
+    <result column="pwd_error_count" property="pwdErrorCount" jdbcType="SMALLINT" />
+    <result column="pwd_error_time" property="pwdErrorTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="last_operator" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="roomList" ofType="org.study.heat.pojo.Room">
+        <!-- id:唯一标识
+             property：要将订单明细的唯一标识映射到com.mybatis.entity.OrderDetail的那个属性
+         -->
+        <id column="room_id" property="id"/>
+        <result column="room_no" property="roomNo" jdbcType="VARCHAR" />
+	    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
+	    <result column="unit_no" property="unitNo" jdbcType="INTEGER" />
+	    <result column="floor_no" property="floorNo" jdbcType="INTEGER" />
+	    <result column="building_id" property="buildingId" jdbcType="BIGINT" />
+	    <result column="room_type" property="roomType" jdbcType="BIGINT" />
+	    <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+	    <result column="acreage" property="acreage" jdbcType="REAL" />
+	    <result column="heat_type" property="heatType" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+  
+  <select id="queryUserListWithPage" resultMap="UserRoomResultMap">
+  	select 
+  		user.*, 
+  		room.id as room_id,
+  		room.room_no,
+  		room.room_name,
+  		room.unit_no,
+  		room.floor_no,
+  		room.room_type,
+  		room.building_id,
+  		room.room_type,
+  		room.house_type,
+  		room.acreage,
+  		room.heat_type
+  	from t_user user
+  	left join t_room room on user.id = room.user_id 
+  	where 
+  		1 = 1
+  		<if test="userName != null and userName != ''">
+  			and user.user_name LIKE concat('%', #{userName}, '%')
+  		</if>
+  		<if test="type !=null and type != ''">
+  			and user.type = #{type}
+  		</if>
+  	order by
+  		user.created_time desc
+  </select>
 </mapper>

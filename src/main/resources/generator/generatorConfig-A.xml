@@ -42,7 +42,7 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
          -->
-        
+        <!--
         <table tableName="t_site" domainObjectName="Site">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
@@ -77,6 +77,9 @@
         <table tableName="t_user_room" domainObjectName="UserRoom">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        
+         -->
+         <table tableName="t_his_room" domainObjectName="HisRoom">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
         </context>
     </generatorConfiguration>

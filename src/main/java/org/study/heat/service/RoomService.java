@@ -7,10 +7,13 @@
  */
 package org.study.heat.service;
 
+import java.util.List;
+
 import org.study.heat.base.IService;
 import org.study.heat.dto.RoomQueryDto;
 import org.study.heat.pojo.Room;
 import org.study.heat.pojo.User;
+import org.study.heat.vo.RoomVo;
 
 import com.github.pagehelper.PageInfo;
 
@@ -66,5 +69,26 @@ public interface RoomService extends IService<Room> {
 	 * @date 2019年6月2日
 	 */
 	Integer buildingRoomUser(Room room);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<RoomVo>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	List<RoomVo> queryUserRoomListByUserId(Long userId);
+
+	/**
+	 * @Description: TODO
+	 * @param @param room
+	 * @param @return   
+	 * @return Integer  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月10日
+	 */
+	Integer checkOut(Room room);
 	
 }
