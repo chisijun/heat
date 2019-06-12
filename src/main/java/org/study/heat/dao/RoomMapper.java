@@ -20,4 +20,14 @@ public interface RoomMapper extends Mapper<Room> {
 	 * @date 2019年5月28日
 	 */
 	List<RoomVo> queryRoomListWithPage(RoomQueryDto roomQueryDto);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<Room>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月12日
+	 */
+	List<RoomVo> queryNotCheckInRoomList();
 }

@@ -56,7 +56,7 @@
                 </div><br>
                 <div><span>房子类型：</span><input type="text" id="roomType" readonly="readonly" value="暂无"></div><br>
                 <div><span>房子户型：</span><input type="text" id="houseType" readonly="readonly" value="暂无"></div><br>
-                <div><span>房子面积：</span><input type="text" id="acreage" readonly="readonly" value="暂无"> ㎡</div><br>
+                <div><span>房子面积：</span><input type="text" id="acreage" readonly="readonly" value="暂无"></div><br>
                 <div>
                     <span>是否供热：</span>
                     <select id="add_heatSlt" style="width:172px;">
@@ -108,6 +108,26 @@
         </div>
     </div>
 
+    <!--确认迁出-->
+    <div class="delete_mask" id="qianchu_mask">
+        <input type="hidden" id="qc_roomId" value="">
+        <div class="mask_contain">
+            <div class="mask_top">用户迁出<span class="close7">&times;</span></div>
+            <div class="delete_title">是否迁出选中的房子？</div>
+            <div class="delete_btn"><button class="delete_comfire" id="qianchu_comfire">确认</button><button class="delete_cansle"  id="qianchu_cansle">取消</button></div>
+        </div>
+    </div>
+
+    <!--确认强停-->
+    <div class="delete_mask" id="qiangting_mask">
+        <input type="hidden" id="qt_roomId" value="">
+        <div class="mask_contain">
+            <div class="mask_top">房子强停<span class="close8">&times;</span></div>
+            <div class="delete_title">是否强停选中的房子？</div>
+            <div class="delete_btn"><button class="delete_comfire" id="qiangting_comfire">确认</button><button class="delete_cansle" id="qiangting_cansle">取消</button></div>
+        </div>
+    </div>
+
     <script src="lib/jquery/1.9.1/jquery.min.js"></script>
     <!----<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>-------->
     <script type="text/javascript" src="lib/layui/layui.js"></script>
@@ -140,6 +160,67 @@
                 var userId = $(this).attr('data-userId');
                 window.location.href = 'serviceMark.html?userId=' + userId;
             });
+
+            // 加载房间列表
+            function load_room() {
+                var data = {
+                    "pageNum": 1,
+                    "pageSize": 100,
+                };
+
+                WFang("room/queryNotCheckInRoomList", function(arr) {
+                    var datarow = "";
+                    var roomLocation = "";
+                    if (arr.status == false) {
+                        
+                    } else {
+                        datarow += '<option value="-1">请选择房子</option>'; 
+                        for (var i = 0; i < arr.data.length; i++) {
+                            roomLocation = arr.data[i].areaName + arr.data[i].buildingName + arr.data[i].unitNo + '单元' + arr.data[i].roomName
+
+                            datarow += '<option value=' + arr.data[i].id+'>'
+                                    + roomLocation + '</option>';
+                        }
+                    }
+                    $('#add_roomSlt').html(datarow);
+                    //$('#m_buildingSlt').html(datarow);  
+                }, data, 'postForm');
+
+            }
+
+            $("#add_roomSlt").change(function() {  
+                var roomId = $('#add_roomSlt').find("option:selected").val();
+                // 获取楼栋信息
+                WFang("room/queryById/" + roomId, function(arr) {
+                    var roomType = "";
+                    var houseType = "";
+                    var acreage = "";
+                    if (arr.status == false) {
+                        
+                    } else {
+
+                        switch(arr.data.roomType) {
+                            case 1 :
+                                roomType = '居民';
+                                break;
+                            case 2 :
+                                roomType = '商业';
+                                break;
+                            case 3 :
+                                roomType = '办公';
+                                break;
+                            case 4 :
+                                roomType = '餐饮';
+                                break;
+                        }
+                        houseType = arr.data.houseType;
+                        acreage = arr.data.acreage + " ㎡";
+                    }
+                    $('#roomType').val(roomType);
+                    $('#houseType').val(houseType);
+                    $('#acreage').val(acreage);  
+                }, '', 'postForm');
+            }) 
 
             //页面渲染 
             var name = '';
@@ -206,7 +287,9 @@
                             nStatus = '',
                             lock = '',
                             color = ''
-                            roomType = '';
+                            roomType = ''
+                            roomLocation = ''
+                            heatType = '';
                         if (arr.data.list == '' || arr.data.list == null) {
                             layer.msg('暂无数据!');
                         } else {
@@ -224,7 +307,40 @@
 
                                 var roomLocation = '';
                                 var roomType = '';
-                                var heatType = '';        
+                                var heatType = ''; 
+
+                                roomLocation = arr.data.list[i].areaName + arr.data.list[i].buildingName + arr.data.list[i].unitNo + '单元' + arr.data.list[i].roomName
+                                switch (arr.data.list[i].roomType) {
+                                    case 1 :
+                                        roomType = '居民';
+                                        break;
+                                    case 2 :
+                                        roomType = '商业';
+                                        break;
+                                    case 3 :
+                                        roomType = '办公';
+                                        break;
+                                    case 4 :
+                                        roomType = '餐饮';
+                                        break;
+                                }
+                                switch (arr.data.list[i].heatType) {
+                                    case 0 :
+                                        heatType = '不供热';
+                                        break;
+                                    case 1 :
+                                        heatType = '供热';
+                                        break;
+                                    case 2 :
+                                        heatType = '报停';
+                                        break;
+                                    case 3 :
+                                        heatType = '强停';
+                                        break;
+                                    case 4 :
+                                        heatType = '复热';
+                                        break;
+                                }
 
                                 html += 
                                     '<div class="div-box">' +
@@ -235,13 +351,9 @@
                                     '<span>' + arr.data.list[i].acreage + '</span>' +
                                     '<span>' + heatType + '</span>' +
                                     '<span>' +
-                                    '<a class="a-edit" data-email = "' 
-                                        + arr.data.list[i].email + '" data-mobileNo = "' 
-                                        + arr.data.list[i].mobileNo + '" data-loginName = "' 
-                                        + arr.data.list[i].loginName + '" data-userName="' 
-                                        + arr.data.list[i].userName + '" data-userId="' 
+                                    '<a class="a-edit" data-roomId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">迁出</a>' +
-                                    '<a class="a-modifyPwd" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">强停</a>' +
+                                    '<a class="a-modifyPwd" data-roomId="' + arr.data.list[i].id + '" href="javascript:void (0);">强停</a>' +
                                     '</span>' +
                                     '</div>';
                             }
@@ -254,6 +366,40 @@
             }
             
             /***********************关闭添加弹框*****************************/
+            $('body').on("click","#qianchu_cansle",function(){
+                $("#qiangchu_mask").hide();
+            });
+
+            /***********************修改密码实现*****************************/
+            $("body").on("click","#qianchu_comfire",function() {
+                var roomId =  $('#qc_roomId').val();
+                alert(roomId);
+                return ;
+                var data = {
+                    "userId": userId,
+                    "roomId": roomId
+                };
+                WFang("user/checkOut", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $("#qiangchu_mask").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
+            });
+
+            /***********************关闭添加弹框*****************************/
+            $('body').on("click","#qiangting_cansle",function(){
+                $("#qiangting_mask").hide();
+            });
+            
+
+            /***********************关闭添加弹框*****************************/
             $('body').on("click",".cansle",function(){
                 $(".add_mask").hide();
             });
@@ -261,6 +407,39 @@
             /***********************关闭添加弹框*****************************/
             $('body').on("click",".close1",function(){
                 $(".add_mask").hide();
+            });
+
+            /***********************关闭添加弹框*****************************/
+            $('body').on("click",".close7",function(){
+                $("#qianchu_mask").hide();
+            });
+
+            /***********************修改密码实现*****************************/
+            $("body").on("click","#qiangting_comfire",function() {
+                var roomId =  $('#qt_roomId').val();
+                alert(roomId);
+                return ;
+                var data = {
+                    "userId": userId,
+                    "roomId": roomId
+                };
+                WFang("user/checkOut", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $("#qiangchu_mask").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
+            });
+
+            /***********************关闭添加弹框*****************************/
+            $('body').on("click",".close8",function(){
+                $("#qiangting_mask").hide();
             });
             
             
@@ -272,18 +451,20 @@
 
             /***********************编辑弹框*****************************/
             $('body').on('click', '.a-edit', function() {
-                var userId = $(this).attr('data-userId');
-                var loginName = $(this).attr('data-loginName');
-                var userName = $(this).attr('data-userName');
-                var mobileNo = $(this).attr('data-mobileNo');
-                var email = $(this).attr('data-email');
-                $("#m_userId").val(userId);
-                $("#m_loginName").val(loginName);
-                $("#m_userName").val(userName);
-                $("#m_mobileNo").val(mobileNo);
-                $("#m_email").val(email);
+                // var userId = $(this).attr('data-userId');
+                // var loginName = $(this).attr('data-loginName');
+                // var userName = $(this).attr('data-userName');
+                // var mobileNo = $(this).attr('data-mobileNo');
+                // var email = $(this).attr('data-email');
+                // $("#m_userId").val(userId);
+                // $("#m_loginName").val(loginName);
+                // $("#m_userName").val(userName);
+                // $("#m_mobileNo").val(mobileNo);
+                // $("#m_email").val(email);
+                var roomId = $(this).attr('data-roomId');
+                $("#qc_roomId").val(userId);
 
-                $("#modify_mask").show();
+                $("#qianchu_mask").show();
             });
 
             /***********************编辑-确定****************************/
@@ -317,10 +498,10 @@
 
             /***********************修改密码弹框*****************************/
             $('body').on("click",".a-modifyPwd",function(){
-                var userId = $(this).attr('data-userId');
-                $("#m_p_userId").val(userId);
+                var roomId = $(this).attr('data-roomId');
+                $("#qt_roomId").val(userId);
 
-                $("#modify_pwd_mask").show();
+                $("#qiangting_mask").show();
             });
 
 
@@ -371,7 +552,8 @@
 
             /***********************添加房间弹框*****************************/
             $('body').on('click', '.addBtn', function() {
-                $("#add_siteSlt").val("-1");
+                load_room();
+                
                 $("#areaName").val("");
                 $("#remark").val("");
 
@@ -380,17 +562,23 @@
 
             /***********************添加实现*****************************/
             $("body").on("click","#add_site",function() {
-                var loginName = $("#loginName").val();
-                var userName = $("#userName").val();
-                var mobileNo = $("#mobileNo").val();
-                var email = $("#email").val();
+                var roomId = $('#add_roomSlt').find("option:selected").val();
+                var heatType = $('#add_heatSlt').find("option:selected").val();
+
+                if (roomId == -1) {
+                    layer.msg("请选择房子");
+                    return ;
+                }
+                if (heatType == -1) {
+                    layer.msg("请选择是否供热");
+                    return ;
+                }
                 var data = {
-                    "loginName": loginName,
-                    "userName": userName,
-                    "mobileNo": mobileNo,
-                    "email": email
+                    "roomId": roomId,
+                    "userId": userId,
+                    "heatType": heatType
                 };
-                WFang("user/save", function(arr) {
+                WFang("user/checkIn", function(arr) {
                     var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);

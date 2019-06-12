@@ -144,6 +144,31 @@ public class RoomServiceImpl extends BaseService<Room> implements RoomService {
 		return roomDao.updateByPrimaryKey(room);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.RoomService#queryNotCheckInRoomList()
+	 */
+	@Override
+	public List<RoomVo> queryNotCheckInRoomList() {
+		// TODO Auto-generated method stub
+		
+		return roomDao.queryNotCheckInRoomList();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.RoomService#queryRoomById(java.lang.Long)
+	 */
+	@Override
+	public RoomVo queryRoomById(Long id) {
+		// TODO Auto-generated method stub
+		
+		RoomQueryDto roomQueryDto = new RoomQueryDto();
+		roomQueryDto.setId(id);
+		
+		List<RoomVo> roomVoList = roomDao.queryRoomListWithPage(roomQueryDto);
+		
+		return roomVoList.get(0);
+	}
+
 	
 	
 }

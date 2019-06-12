@@ -7,6 +7,8 @@
  */
 package org.study.heat.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,9 @@ import org.study.heat.pojo.Room;
 import org.study.heat.pojo.Site;
 import org.study.heat.pojo.User;
 import org.study.heat.service.RoomService;
+import org.study.heat.vo.RoomVo;
+
+import tk.mybatis.mapper.entity.Example;
 
 import com.github.pagehelper.PageInfo;
 
@@ -102,8 +107,21 @@ public class RoomController {
 	/**
 	 * 查询没有入住的房子
 	 */
+	@Authorization
+	@PostMapping("/queryNotCheckInRoomList")
 	public JsonResult queryNotCheckInRoomList() {
+        
+		List<RoomVo> roomList = roomService.queryNotCheckInRoomList();
 		
-		return new JsonResult(true, "操作成功", 1);
+		return new JsonResult(true, "操作成功", roomList);
+	}
+	
+	@Authorization
+	@PostMapping("/queryById/{id}")
+	public JsonResult queryRoomById(@PathVariable Long id) {
+		
+		RoomVo room = roomService.queryRoomById(id);
+		
+		return new JsonResult(true, "操作成功", room);
 	}
 }

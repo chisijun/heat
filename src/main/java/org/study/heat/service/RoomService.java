@@ -90,5 +90,26 @@ public interface RoomService extends IService<Room> {
 	 * @date 2019年6月10日
 	 */
 	Integer checkOut(Room room);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<Room>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月12日
+	 */
+	List<RoomVo> queryNotCheckInRoomList();
+
+	/**
+	 * @Description: TODO
+	 * @param @param id
+	 * @param @return   
+	 * @return RoomVo  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月12日
+	 */
+	RoomVo queryRoomById(Long id);
 	
 }

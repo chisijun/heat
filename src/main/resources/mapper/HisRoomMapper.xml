@@ -55,8 +55,9 @@
       room.unit_no as unitNo,
       room.floor_no as flooNo,
       room.room_type as roomType,
-      room.house_type as roomHouse,
-      room.acreage
+      room.house_type as houseType,
+      room.acreage,
+      user.user_name as userName
     FROM
       t_his_room his_room
       LEFT JOIN t_user user ON his_room.user_id = user.id

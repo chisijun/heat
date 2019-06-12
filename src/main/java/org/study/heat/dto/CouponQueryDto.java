@@ -20,10 +20,10 @@ import org.study.heat.utils.TimeUtils;
  */
 @Data
 public class CouponQueryDto extends BaseEntity {
-
+	
 	/**
 	 * 当前日期 yyyy-MM-dd
 	 */
-	private String currentTime = TimeUtils.getNowTime();
+	private String currentTime;
 	
 }

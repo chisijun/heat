@@ -24,7 +24,7 @@
 </head>
 
 <body style="background:#65A6EA;width:1254px;" class="ifram">
-    <div class="wrapper-container siteManagement">
+    <div class="wrapper-container coupon_list">
         <!--搜索框-->
         <div class="search-box">
             <!--
@@ -46,12 +46,12 @@
 
     <!--新增-->
     <div class="add_mask" id="add_mask">
-        <div class="mask_contain" style="height: 260px;">
+        <div class="mask_contain" style="height: 340px;">
             <div class="mask_top">新增优惠劵<span class="close1">&times;</span></div>
             <div class="form" style="padding-bottom:0;">
                 <div><span>开始时间：</span><input id="periodStart" type="datetime-local" value="2019-05-24T13:59:59"/></div><br>
                 <div><span>开始时间：</span><input id="periodEnd" type="datetime-local" value="2019-09-24T13:59:59"/></div><br>
-                <div><span>优惠折扣：</span><input id="discount" type="number" placeholder="请输入优惠折扣"><span>折</span></div><br>
+                <div><span>优惠折扣：</span><input id="discount" type="number" placeholder="请输入优惠折扣"></div><br>
                 <div><span>优惠说明：</span><input id="remark" type="text" placeholder="请输入优惠说明"></div><br>
             </div>
             <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
@@ -61,7 +61,7 @@
     <!-- 编辑 -->
     <div class="modify_mask">
         <input type="hidden" id="m_couponId" value="">
-        <div class="mask_contain" style="height:260px;">
+        <div class="mask_contain" style="height:340px;">
             <div class="mask_top">修改小区<span class="close5">&times;</span></div>
             <div class="modify_box">
                 <div><span>开始时间：</span><input id="m_periodStart" type="datetime-local" value="2019-05-24T13:59:59"/></div><br>
@@ -154,7 +154,7 @@
                                     '<div class="div-box">' +
                                     '<span>' + arr.data.list[i].periodStart + '</span>' +
                                     '<span>' + arr.data.list[i].periodEnd + '</span>' +
-                                    '<span>' + arr.data.list[i].discount + '</span>' +
+                                    '<span>' + arr.data.list[i].discount + '%</span>' +
                                     '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
                                     '<a class="a-edit" data-remark = "' 
@@ -261,7 +261,14 @@
 
             /***********************添加实现*****************************/
             $("body").on("click","#add_site",function() {
+
+                var dateControl = document.querySelector('input[type="datetime-local"');
+                alert(dateControl.value);
+                // dateControl.value = '2017-06-01T08:30';
+
                 var periodStart = $("#periodStart").val();
+                alert(periodStart);
+                return ;
                 var periodEnd = $("#periodEnd").val();
                 var discount = $("#discount").val();
                 var remark = $("#remark").val();

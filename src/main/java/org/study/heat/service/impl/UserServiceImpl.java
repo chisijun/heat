@@ -7,6 +7,7 @@
  */
 package org.study.heat.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -205,6 +206,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 		// 历史入住记录
 		HisRoom hisRoom = new HisRoom();
 		hisRoom.setUpdateInfo(login);
+		if (PublicUtil.isEmpty(userRoomDto.getCheckIn())) {
+			userRoomDto.setCheckIn(new Date());
+		}
 		hisRoom.setCheckIn(userRoomDto.getCheckIn());
 		hisRoom.setStat(CheckStatEnum.CHECK_IN.getKey());
 		hisRoom.setUserId(userRoomDto.getUserId());
@@ -216,7 +220,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 		
 		room = new Room();
 		room.setId(userRoomDto.getRoomId());
-		room.setUserId(room.getUserId());
+		room.setUserId(userRoomDto.getUserId());
 		room.setUpdateInfo(login);
 		
 		return roomService.update(room);
@@ -257,6 +261,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 			throw new RuntimeException("房间尚无入住记录");
 		}
 		hisRoom.setStat(CheckStatEnum.CHECK_OUT.getKey());
+		if (PublicUtil.isEmpty(userRoomDto.getCheckOut())) {
+			userRoomDto.setCheckOut(new Date());
+		}
 		hisRoom.setCheckOut(userRoomDto.getCheckOut());
 		hisRoom.setUpdateInfo(login);
 		int ret = hisRoomService.update(hisRoom);

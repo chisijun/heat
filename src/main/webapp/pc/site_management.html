@@ -61,8 +61,8 @@
         <div class="mask_contain" style="height:250px;">
             <div class="mask_top">修改热站<span class="close5">&times;</span></div>
             <div class="modify_box">
-                <div><span>热站名称：</span><input id="m_siteName" type="text" value=""></div><br>
-                <div><span>热站说明：</span><input id="m_remark" type="text" value=""></div>
+                <div><span>热站名称：</span><input id="m_siteName" type="text" placeholder="请输入房间名称"></div><br>
+                <div><span>热站说明：</span><input id="m_remark" type="text" placeholder="请输入热站说明"></div>
                 <div class="delete_btn"><button class="modify_comfire" id="update_site" style="margin-top:18px;">确认</button><button class="modify_cansle">取消</button></div>
             </div>
          </div>
@@ -159,8 +159,8 @@
                                     '<span>' + arr.data.list[i].siteName + '</span>' +
                                     '<span>' + arr.data.list[i].remark + '</span>' +
                                     '<span>' +
-                                    '<a class="a-edit" date-siteName = "' 
-                                        + arr.data.list[i].siteName + '" date-remark = "' 
+                                    '<a class="a-edit" data-siteName = "' 
+                                        + arr.data.list[i].siteName + '" data-remark = "' 
                                         + arr.data.list[i].remark + '" data-siteId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
                                     '<a class="a-delete" data-siteId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +

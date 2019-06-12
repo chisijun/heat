@@ -20,6 +20,8 @@ import org.study.heat.base.BaseQuery;
 @Data
 public class RoomQueryDto extends BaseQuery {
 
+	private Long id;
+	
 	/**
 	 * 热站Id
 	 */

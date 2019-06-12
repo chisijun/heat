@@ -78,7 +78,7 @@
                 <div><span>房间编号：</span><input id="roomNo" type="text" placeholder="请输入房间编号"></div><br>
                 <div><span>房间名称：</span><input id="roomName" type="text" placeholder="请输入房间名称"></div><br>
                 <div><span>房间户型：</span><input id="houseType" type="text" placeholder="请输入房间户型"></div><br>
-                <div><span>房间面积：</span><input id="houseType" type="number" placeholder="请输入房间面积"></div><br>
+                <div><span>房间面积：</span><input id="acreage" type="number" placeholder="请输入房间面积"></div><br>
                 
             </div>
             <div class="mask_btn"><button class="comfire" id="add_room">确认</button><button class="cansle">取消</button></div>
@@ -113,7 +113,7 @@
                         datarow += '<option value="-1">请选择小区</option>';
                         for (var i = 0; i < arr.data.list.length; i++) {
                             datarow += '<option value=' + arr.data.list[i].id+'>'
-                                    + arr.data.list[i].buildingName + '</option>';
+                                    + arr.data.list[i].areaName + arr.data.list[i].buildingName + '</option>';
                         }
                     }
                     $('#add_buildingSlt').html(datarow);
@@ -232,8 +232,7 @@
                                     '<span>' + roomType + '</span>' +
                                     '<span>' +
                                     '<a class="a-edit" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
-                                    '<a class="a-deviceInfo" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">设备明细</a>' +
-                                    '<a class="a-mark" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">服务印记</a>' +
+                                    '<a class="a-delete" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
                                     '</div>';
                             }
@@ -266,80 +265,51 @@
 			
             /***********************添加房间*****************************/
             $("body").on("click","#add_room",function(){
-	    		var realname = $("#realname").val();
-	    		var phone = $("#phone").val();
-	    		var roleId = $("#add_roleSlt").val();
-	    		var add_password = $("#add_password").val();
-	    		var add_repassword = $("#add_repassword").val();
-	    		var param = {'roleId':roleId};
-	    		var serverApi = "";
-		        if (typeof(realname)==='undefined' || realname=='' || realname=='null'){
-		        	layer.msg("请输入房间名称~");
-		            // $(".add_mask").show();
+	    		var buildingId = $('#add_buildingSlt').find("option:selected").val();
+                var unitNo = $('#add_unitSlt').find("option:selected").val();
+                var floorNo = $('#add_floorSlt').find("option:selected").val();
+                var roomNo = $("#roomNo").val();
+                var roomName = $("#roomName").val();
+                var roomType = $('#add_roomTypeSlt').find("option:selected").val();
+                var houseType = $("#houseType").val();
+                var acreage = $("#acreage").val();
+
+		        if (buildingId == '-1') {
+		        	layer.msg("请选择楼栋");
 		            return;
-		        } else{
-		            param['realname'] = realname;
-		        }
-		        if (typeof(phone)==='undefined' || phone=='' || phone=='null'){
-		                //Toast('请填写抄表员姓名~');
-		                //$(".add_mask").show();
-		                //return;
-		        } else{
-		            param['phone'] = phone;
-		        }
+		        } 
+		        if (unitNo == '-1') {
+		            layer.msg("请选择单元");
+                    return;
+		        } 
 		        
-		        if (typeof(add_password)==='undefined' || add_password=='' || add_password=='null'){
-		                Toast('请填写密码~');
-		                $(".add_mask").show();
-		                return;
-		        } else{
-		            param['password'] = add_password;
-		        }
+		        if (floorNo == '-1') {
+		            layer.msg("请选择楼层");
+                    return;
+		        } 
 	    		
-	    		if (add_password != add_repassword){
-		            Toast('填写的密码与确认密码不一致哦');
-		            $(".add_mask").show();
-		            return;
-		        } else {
-		        	param['repassword'] = add_repassword;
-		        }
-		        
-		        if (roleId == '2') {
-		        	//　 添加抄表员
-		        	serverApi = ApiConf.add_user_chao;
-		        } else if (roleId == '3') {
-		        	serverApi = ApiConf.add_user_shen;
-		        	/* 获取审核组Id */
-		        	var groupId = "";
-		        	$('input[name="add_group"]:checked').each(function(index) {
-		        		if (index == 0) {
-		        			groupId = $(this).val();
-		        		} else {
-		        			groupId = groupId + '@' + $(this).val()
-		        		}
-		        	})
-		        	param['groupId'] = groupId;
-		        } else {
-		        	Toast('请选择要添加的用户角色~');
-		        }
+	    		var data = {
+                    "buildingId": buildingId,
+                    "unitNo": unitNo,
+                    "floorNo": floorNo,
+                    "roomName": roomName,
+                    "roomType": roomType,
+                    "houseType": houseType,
+                    "acreage": acreage
+                };
 		             
-		        
-		        CfConn(serverApi, function(data) {
-	    			
-	    			Toast('添加用户成功成功了~');
-	    			$(".add_mask").hide();
-	    			if (pageSpan == pageSize) {
-	    				loaddata(true);
-	    			} else {
-	    				pageNo = pageNo - 1;
-	    				loaddata(true);
-	    			}
-	    		}, param , 
-	    		  {uid:window.sessionStorage.getItem(UrlConf.tk_uid)} ,
-	    		  function(error, msg) {
-	    		  	Toast(msg);
-	    		  	$(".add_mask").show();
-	    		  });
+		        WFang("room/save", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $(".add_mask").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
 	    	});
             
             /***********************根据名称查询*****************************/

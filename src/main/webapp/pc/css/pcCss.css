@@ -356,19 +356,19 @@
 
 .coupon_list .table-box .div-box span:nth-child(1),
 .coupon_list .table-box .table-head span:nth-child(1) {
-    width: 200px;
+    width: 220px;
 }
 
 .coupon_list .table-box .div-box span:nth-child(2),
 .coupon_list .table-box .table-head span:nth-child(2) {
     border-left: 1px solid #c1c3c0;
-    width: 200px;
+    width: 220px;
 }
 
 .coupon_list .table-box .div-box span:nth-child(3),
 .coupon_list .table-box .table-head span:nth-child(3) {
     border-left: 1px solid #c1c3c0;
-    width: 200px;
+    width: 180px;
 }
 
 .coupon_list .table-box .div-box span:nth-child(4),
@@ -380,36 +380,17 @@
 .coupon_list .table-box .div-box span:nth-child(5),
 .coupon_list .table-box .table-head span:nth-child(5) {
     border-left: 1px solid #c1c3c0;
-    width: 180px;
+    width: 200px;
 }
 
-.coupon_list .table-box .div-box span:nth-child(6),
-.coupon_list .table-box .table-head span:nth-child(6) {
-    border-left: 1px solid #c1c3c0;
-    width: 120px;
-}
-
-.coupon_list .table-box .div-box span:nth-child(7),
-.coupon_list .table-box .table-head span:nth-child(7) {
-    border-left: 1px solid #c1c3c0;
-    width: 120px;
-}
-
-.coupon_list .table-box .div-box span:nth-child(7) input,
-.coupon_list .table-box .table-head span:nth-child(7) input {
+.coupon_list .table-box .div-box span:nth-child(5) input,
+.coupon_list .table-box .table-head span:nth-child(5) input {
     display: inline-block;
     width: 100%;
     border: none;
     height: 30px;
     text-align: center;
 }
-
-.coupon_list .table-box .div-box span:nth-child(8),
-.coupon_list .table-box .table-head span:nth-child(8) {
-    border-left: 1px solid #c1c3c0;
-    width: 200px;
-}
-
 .coupon_list .table-box .a-save {
     color: #ef4343;
 }
@@ -539,6 +520,66 @@
     background-color: #eaeaea;
 }
 
+
+/********************user_history.html*************************/
+
+.user_history .table-box .div-box span:nth-child(1),
+.user_history .table-box .table-head span:nth-child(1) {
+    width: 130px;
+}
+
+.user_history .table-box .div-box span:nth-child(2),
+.user_history .table-box .table-head span:nth-child(2) {
+    border-left: 1px solid #c1c3c0;
+    width: 220px;
+}
+
+.user_history .table-box .div-box span:nth-child(3),
+.user_history .table-box .table-head span:nth-child(3) {
+    border-left: 1px solid #c1c3c0;
+    width: 140px;
+}
+
+.user_history .table-box .div-box span:nth-child(4),
+.user_history .table-box .table-head span:nth-child(4) {
+    border-left: 1px solid #c1c3c0;
+    width: 140px;
+}
+
+.user_history .table-box .div-box span:nth-child(5),
+.user_history .table-box .table-head span:nth-child(5) {
+    border-left: 1px solid #c1c3c0;
+    width: 140px;
+}
+
+.user_history .table-box .div-box span:nth-child(6),
+.user_history .table-box .table-head span:nth-child(6) {
+    border-left: 1px solid #c1c3c0;
+    width: 160px;
+}
+
+.user_history .table-box .div-box span:nth-child(7),
+.user_history .table-box .table-head span:nth-child(7) {
+    border-left: 1px solid #c1c3c0;
+    width: 160px;
+}
+
+.user_history .table-box .div-box span:nth-child(7) input,
+.user_history .table-box .table-head span:nth-child(7) input {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    height: 30px;
+    text-align: center;
+}
+
+.user_history .table-box .a-save {
+    color: #ef4343;
+}
+
+.user_history .table-body div:nth-child(2n) input {
+    background-color: #eaeaea;
+}
 
 /********************deviceManegement.html*************************/
 

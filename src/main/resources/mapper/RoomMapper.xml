@@ -67,6 +67,9 @@
       LEFT JOIN t_site site ON area.site_id = site.id
     WHERE
       1 = 1
+      <if test="id != null">
+      	and room.id = #{id}
+      </if>
       <if test="siteName != null and siteName != ''">
         and site.site_name LIKE concat('%', #{siteName}, '%')
       </if>
@@ -84,6 +87,24 @@
       </if>
       ORDER BY
         room.created_time DESC
+  </select>
+  
+  <select id="queryNotCheckInRoomList" resultType="org.study.heat.vo.RoomVo">
+  	SELECT
+  	  <include refid="Base_Column_List">
+        <property name="alias" value="room"/>
+      </include>
+      , site.site_name as siteName,
+      area.area_name as areaName,
+      building.building_name as buildingName,
+      building.building_no as buildingName
+    FROM
+      t_room room
+      LEFT JOIN t_building building on room.building_id = building.id
+      left join t_area area on building.area_id = area.id
+      LEFT JOIN t_site site ON area.site_id = site.id
+    WHERE
+      room.user_id is null
   </select>
   
 </mapper>
