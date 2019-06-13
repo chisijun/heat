@@ -7,6 +7,8 @@
  */
 package org.study.heat.vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 import org.study.heat.base.BaseVo;
@@ -20,6 +22,6 @@ import org.study.heat.base.BaseVo;
 @Data
 public class PaymentVo extends BaseVo {
 
-	
+	private List<PaymentDetailVo> paymentDetailList;
 	
 }

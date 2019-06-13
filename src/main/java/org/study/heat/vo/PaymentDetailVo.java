@@ -9,6 +9,8 @@ package org.study.heat.vo;
 
 import java.util.List;
 
+import lombok.Data;
+
 import org.study.heat.pojo.PaymentDetail;
 
 /**
@@ -17,7 +19,7 @@ import org.study.heat.pojo.PaymentDetail;
  * @author chisj chisj@foxmail.com
  * @date 2019年6月10日
  */
+@Data
 public class PaymentDetailVo {
 
-	private List<PaymentDetail> paymentDetails;
 }

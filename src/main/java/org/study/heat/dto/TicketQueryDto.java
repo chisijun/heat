@@ -20,6 +20,19 @@ import lombok.Data;
 @Data
 public class TicketQueryDto extends BaseQuery {
 
+	/**
+	 * 单号
+	 */
+	private String paymentNo;
 	
+	/**
+	 * 姓名
+	 */
+	private String userName;
+	
+	/**
+	 * 房子名称
+	 */
+	private String roomName;
 	
 }

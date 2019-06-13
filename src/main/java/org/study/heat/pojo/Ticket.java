@@ -31,6 +31,12 @@ public class Ticket {
     private Long ticketNo;
 
     /**
+     * 开票日期
+     */
+    @Column(name = "ticket_date")
+    private Long ticketDate;
+    
+    /**
      * 发票代码
      */
     @Column(name = "ticket_code")

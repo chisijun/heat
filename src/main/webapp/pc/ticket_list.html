@@ -24,13 +24,15 @@
 </head>
 
 <body style="background:#65A6EA;width:1254px;" class="ifram">
-    <div class="wrapper-container user_list">
+    <div class="wrapper-container ticket_list">
         <!--搜索框-->
         <div class="search-box">
             
             <input class="isPhone" type="text" placeholder="请输入用户名称" />
             <button class="searchBtn">搜索</button>
+            <!--
             <button class="addBtn">新建</button>
+            -->
         </div>
         <!--table数据-->
         <div class="table-box">
@@ -149,7 +151,7 @@
                     "pageSize": pageSize,
                     "userName": name
                 };
-                WFang("payment/queryListWithPage", function(arr) {
+                WFang("payment/test", function(arr) {
                     // console.log(arr);
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -185,13 +187,14 @@
                             layer.msg('暂无数据!');
                         } else {
                             html1 = 
-                                '<span>姓名</span>' +
+                                '<span>购买方</span>' +
                                 '<span>账单号</span>' +
-                                '<span>年度</span>' +
-                                '<span>总额</span>' +
-                                '<span>房子数量</span>' +
-                                '<span>房子面积(㎡)</span>' +
-                                '<span>操作</span>';
+                                '<span>开票日期</span>' +
+                                '<span>发票代码</span>' +
+                                '<span>发票号码</span>' +
+                                '<span>金额(￥)</span>' +
+                                '<span>税率(%)</span>' +
+                                '<span>税额(￥)</span>' +
                             $('.table-head').html(html1);
                             
                             for (var i = 0; i < arr.data.list.length; i++) {
@@ -204,23 +207,14 @@
 
                                 html += 
                                     '<div class="div-box">' +
-                                    '<span>' + arr.data.list[i].loginName + '</span>' +
-                                    '<span>' + arr.data.list[i].userName + '</span>' +
-                                    '<span>' + arr.data.list[i].mobileNo + '</span>' +
-                                    '<span>' + arr.data.list[i].email + '</span>' +
-                                    '<span>' + roomNumber + '</span>' +
-                                    '<span>' + acreage + '</span>' +
-                                    '<span>' +
-                                    '<a class="a-edit" data-email = "' 
-                                        + arr.data.list[i].email + '" data-mobileNo = "' 
-                                        + arr.data.list[i].mobileNo + '" data-loginName = "' 
-                                        + arr.data.list[i].loginName + '" data-userName="' 
-                                        + arr.data.list[i].userName + '" data-userId="' 
-                                        + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
-                                    '<a class="a-modifyPwd" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">修改密码</a>' +
-                                    '<a class="a-room" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">房屋详情</a>' +
-                                    '<a class="a-delete" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
-                                    '</span>' +
+                                    '<span>' + arr.data.list[i].purchaser + '</span>' +
+                                    '<span>' + arr.data.list[i].paymentNo + '</span>' +
+                                    '<span>' + arr.data.list[i].ticketDate + '</span>' +
+                                    '<span>' + arr.data.list[i].ticketCode + '</span>' +
+                                    '<span>' + arr.data.list[i].ticketNo + '</span>' +
+                                    '<span>' + arr.data.list[i].fee + '</span>' +
+                                    '<span>' + arr.data.list[i].taxRate + '</span>' +
+                                    '<span>' + arr.data.list[i].taxFee + '</span>' +
                                     '</div>';
                             }
                             

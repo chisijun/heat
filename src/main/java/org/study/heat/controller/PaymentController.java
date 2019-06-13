@@ -23,6 +23,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ import org.study.heat.annotation.Authorization;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.OnlinePayDto;
 import org.study.heat.dto.PaymentQueryDto;
+import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.entity.TokenModel;
 import org.study.heat.pojo.Payment;
 import org.study.heat.service.PaymentDetaiService;
@@ -80,7 +82,43 @@ public class PaymentController {
 	@RequestMapping(value = "/queryListWithPage", method = RequestMethod.POST)
 	public JsonResult queryPaymentListWithPage(PaymentQueryDto paymentQueryDto) {
 		
-		PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
+		//PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
+		if (paymentService == null) {
+			System.out.println("=====chisj:paymentService is null");
+		}
+		System.out.println("=====chisj:paymentService is not null");
+		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
+		
+		return new JsonResult(true, "操作成功", null);
+	}
+	
+	@Authorization
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public JsonResult test(PaymentQueryDto paymentQueryDto) {
+		
+		//PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
+		if (paymentService == null) {
+			System.out.println("=====chisj:paymentService is null");
+		}
+		System.out.println("=====chisj:paymentService is not null");
+		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
+		
+		return new JsonResult(true, "操作成功", null);
+	}
+	
+	/**
+	 * 票据列表
+	 */
+	@Authorization
+	@PostMapping("/queryTicketListWithPage")
+	private JsonResult queryTicketListWithPage() {
+		
+		//PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
+		if (paymentService == null) {
+			System.out.println("=====chisj:paymentService is null");
+		}
+		System.out.println("=====chisj:paymentService is not null");
+		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
 		
 		return new JsonResult(true, "操作成功", pageInfo);
 	}

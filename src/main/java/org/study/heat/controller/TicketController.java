@@ -9,11 +9,15 @@ package org.study.heat.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.study.heat.annotation.Authorization;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.pojo.Ticket;
+import org.study.heat.service.PaymentService;
 import org.study.heat.service.TicketService;
 
 import com.github.pagehelper.PageInfo;
@@ -25,12 +29,17 @@ import com.github.pagehelper.PageInfo;
  * @date 2019年5月22日
  */
 @RestController
-@RequestMapping("/apply")
+@RequestMapping("/ticket")
 public class TicketController {
 
-	@Resource
+	@Autowired
 	private TicketService ticketService;
 	
+	@Resource
+	private PaymentService paymentService;
+	
+	@Authorization
+	@PostMapping("/save")
 	private JsonResult saveTicket(Ticket ticket) {
 		
 		Integer result = ticketService.saveTicket(ticket);
@@ -44,9 +53,18 @@ public class TicketController {
 	/**
 	 * 票据列表
 	 */
+	@Authorization
+	@PostMapping("/queryListWithPage")
 	private JsonResult queryTicketListWithPage(TicketQueryDto ticketQueryDto) {
 		
-		PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
+		if (ticketService == null) {
+			System.out.println("----chisj: ticketService is null");
+		}
+		if (ticketQueryDto == null) {
+			System.out.println("----chisj: ticketQueryDto is null");
+		}
+		//PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
+		PageInfo pageInfo = paymentService.queryTicketListWithPage(ticketQueryDto);
 		
 		return new JsonResult(true, "操作成功", pageInfo);
 	}

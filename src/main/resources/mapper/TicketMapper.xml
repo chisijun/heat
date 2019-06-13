@@ -10,6 +10,7 @@
     <result column="payment_no" property="paymentNo" jdbcType="VARCHAR" />
     <result column="ticket_no" property="ticketNo" jdbcType="BIGINT" />
     <result column="ticket_code" property="ticketCode" jdbcType="VARCHAR" />
+    <result column="ticket_date" property="ticketDate" jdbcType="VARCHAR" />
     <result column="purchaser" property="purchaser" jdbcType="VARCHAR" />
     <result column="p_taxpayer_code" property="pTaxpayerCode" jdbcType="VARCHAR" />
     <result column="p_address_phone" property="pAddressPhone" jdbcType="VARCHAR" />
@@ -30,4 +31,19 @@
     <result column="last_operator_id" property="lastOperatorId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <select id="queryTicketListWithPage" resultMap="BaseResultMap">
+  	select * 
+  	from t_ticket
+  	where
+  		1 = 1
+  		<if test="paymentNo != null and paymentNo != ''">
+  			payment_no LIKE concat('%', #{paymentNo}, '%')
+  		</if>
+  		<if test="userName != null and userName != ''">
+  			purchaser LIKE concat('%', #{userName}, '%')
+  		</if>
+  	order by
+  		created_time
+  </select>
 </mapper>
