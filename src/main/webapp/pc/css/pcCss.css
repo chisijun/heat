@@ -624,15 +624,6 @@
     width: 160px;
 }
 
-.ticket_list .table-box .div-box span:nth-child(7) input,
-.ticket_list .table-box .table-head span:nth-child(7) input {
-    display: inline-block;
-    width: 100%;
-    border: none;
-    height: 30px;
-    text-align: center;
-}
-
 .ticket_list .table-box .div-box span:nth-child(8),
 .ticket_list .table-box .table-head span:nth-child(8) {
     border-left: 1px solid #c1c3c0;

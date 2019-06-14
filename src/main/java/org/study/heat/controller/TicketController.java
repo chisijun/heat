@@ -12,9 +12,11 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.heat.annotation.Authorization;
 import org.study.heat.common.JsonResult;
+import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.pojo.Ticket;
 import org.study.heat.service.PaymentService;
@@ -54,17 +56,10 @@ public class TicketController {
 	 * 票据列表
 	 */
 	@Authorization
-	@PostMapping("/queryListWithPage")
-	private JsonResult queryTicketListWithPage(TicketQueryDto ticketQueryDto) {
+	@RequestMapping(value = "/queryListWithPage", method = RequestMethod.POST)
+	public JsonResult queryTicketListWithpage(TicketQueryDto ticketQueryDto) {
 		
-		if (ticketService == null) {
-			System.out.println("----chisj: ticketService is null");
-		}
-		if (ticketQueryDto == null) {
-			System.out.println("----chisj: ticketQueryDto is null");
-		}
-		//PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
-		PageInfo pageInfo = paymentService.queryTicketListWithPage(ticketQueryDto);
+		PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
 		
 		return new JsonResult(true, "操作成功", pageInfo);
 	}

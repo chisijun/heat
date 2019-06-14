@@ -151,7 +151,7 @@
                     "pageSize": pageSize,
                     "userName": name
                 };
-                WFang("payment/test", function(arr) {
+                WFang("ticket/queryListWithPage", function(arr) {
                     // console.log(arr);
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -198,12 +198,6 @@
                             $('.table-head').html(html1);
                             
                             for (var i = 0; i < arr.data.list.length; i++) {
-
-                                var acreage = 0;
-                                var roomNumber = arr.data.list[i].roomList.length;
-                                for (var j = 0; j < arr.data.list[i].roomList.length; j++) {
-                                    acreage = accAdd(acreage, arr.data.list[i].roomList[j].acreage);
-                                }
 
                                 html += 
                                     '<div class="div-box">' +
