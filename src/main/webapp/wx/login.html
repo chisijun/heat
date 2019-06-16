@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <!--<meta name="format-detection" content="telephone=no">-->
-    <title>谷物干燥机物联智慧系统</title>
+    <title>供热管理系统</title>
 
     <link rel="stylesheet" href="css/Myless.css">
 </head>
@@ -147,6 +147,9 @@
                         } else {
                             //获取当前用户ID
                             if (arr.data.list != '' && arr.data.type == 'user') {
+                                window.sessionStorage.setItem("userName", arr.data.userName);
+                                window.sessionStorage.setItem("mobileNo", arr.data.mobileNo);
+                                window.sessionStorage.setItem("email", arr.data.email);
                                 $.cookie("username", userName, {
                                     expires: 30
                                 });

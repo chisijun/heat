@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=motor-width,initial-scale=1,user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <!--<meta name="format-detection" content="telephone=no">-->
-    <title>谷物干燥机物联智慧系统</title>
+    <title>供热管理系统</title>
 
     <link rel="stylesheet" href="../css/Myless.css">
 </head>
@@ -40,15 +40,26 @@
                 <div class="line-div line-bottom">
                     <img src="../images/gongzuomoshi_icon.png" alt="图片">
                     <span>房子类型</span>
-                    <span class="span-right workMode">--</span>
+                    <span class="span-right workMode" id="roomType">--</span>
                 </div>
-                <div class="line-div">
+                <div class="line-div line-bottom">
+                    <img src="../images/zuoyeshichang_icon.png" alt="图片">
+                    <span>房子户型</span>
+                    <span class="span-right workMode" id="houseType">--</span>
+                </div>
+                <div class="line-div line-bottom">
                     <img src="../images/zuoyeshichang_icon.png" alt="图片">
                     <span>房子面积</span>
-                    <span class="span-right workTime">--</span>
+                    <span class="span-right workTime" id="acreage">--</span>
+                </div>
+                <div class="line-div">
+                    <img src="../images/jidianzhuangtai_icon.png" alt="图片">
+                    <span>供热状态</span>
+                    <span class="span-right workTime" id="heatType">--</span>
                 </div>
             </div>
             <!--监控数据-->
+            <!--
             <div class="control">
                 <div class="top">
                     <p style="font-size: 0.33rem">
@@ -85,7 +96,9 @@
                     </p>
                 </div>
             </div>
+            -->
             <!--电机监控-->
+            <!--
             <div id="motor" class="line-box" style="font-size: 0.38rem">
                 <div class="line-div">
                     <img src="../images/jidianzhuangtai_icon.png" alt="图片">
@@ -93,6 +106,7 @@
                     <span class="span-right"><img src="../images/goin_icon.png" alt="图片"></span>
                 </div>
             </div>
+            -->
         </div>
         <!--底部-->
         <div class="footer">
@@ -128,6 +142,7 @@
                 //握手
                 var socket = null;
                 // 判断浏览器是否支持Websocketpp
+                /*
                 if ('WebSocket' in window) {
                 	var sn = window.localStorage.getItem('sn');
                 	if (typeof(sn) != 'undefined' && sn != 'null' && sn != '') {
@@ -139,6 +154,7 @@
                 } else {
                     alert('当前浏览器不支持使用websocket，建议使用chrome或者火狐浏览器！')
                 }
+                */
                 
                 // 发送数据
                 /*
@@ -151,6 +167,7 @@
 				}
                 */
                 // 接收服务器的消息
+                /*
                 socket.onmessage = function(ev) {
                     console.log(ev.data);
                     if (ev.data == 'refresh') {
@@ -158,8 +175,10 @@
                         console.log('数据刷新成功！')
                     }
                 };
+                */
 
                 // 判断连接状态，如果断开，再连一次
+                /*
                 setInterval(function() {
                     console.log(socket.readyState);
                     if (socket.readyState == 3) {
@@ -170,7 +189,8 @@
                 		}
                     }
                 }, 30000);
-
+                */
+                /*
                 window.onunload = function() {
                     alert('aaaa');
                 }
@@ -193,6 +213,7 @@
                 $('body').on('click', '#serve', function() {
                     closeWebSocket();
                 })
+                */
 
                 //跳转电机监控状态
                 $('body').on('click', '#motor', function() {
@@ -207,7 +228,89 @@
                 var pageNum = '1',
                     pageSize = '1000',
                     userId = ApiConf.userId;
-                getData(pageNum, pageSize, userId, ind);
+
+                load_room();
+
+                function load_room() {
+                    WFang("room/queryListWithPage", function(arr) {
+                        if (arr.status == false) {
+                            layer.msg(arr.message);
+                        } else {
+                            if (arr.data.list.length > 0) {
+                                obj = arr.data.list[0];
+
+                                var roomType = '',
+                                    acreage = '',
+                                    heatType = '',
+                                    houseType = '',
+                                    roomLocation = '',
+                                    html1 = '';
+
+                                switch(obj.roomType) {
+                                    case 1 :
+                                        roomType = '居民';
+                                        break;
+                                    case 2 :
+                                        roomType = '商业';
+                                        break;
+                                    case 3 :
+                                        roomType = '办公';
+                                        break;
+                                    case 4 :
+                                        roomType = '餐饮';
+                                        break;
+                                }
+                                houseType = obj.houseType;
+                                acreage = obj.acreage + " ㎡";
+
+                                switch (obj.heatType) {
+                                    case 0 :
+                                        heatType = '不供热';
+                                        break;
+                                    case 1 :
+                                        heatType = '供热';
+                                        break;
+                                    case 2 :
+                                        heatType = '报停';
+                                        break;
+                                    case 3 :
+                                        heatType = '强停';
+                                        break;
+                                    case 4 :
+                                        heatType = '复热';
+                                        break;
+                                }
+
+                                roomLocation = obj.areaName + obj.buildingName + obj.unitNo + '单元' + obj.roomName
+                                $('.sn').html(roomLocation);
+                                $('#heatType').html(heatType);
+                                $('#acreage').html(acreage);
+                                $('#roomType').html(roomType);
+                                $('#houseType').html(houseType);
+
+                                for (var i = 0; i < arr.data.list.length; i++) {
+                                    //arrSn.push(arr.data.list[i].sn);
+                                    roomLocation = arr.data.list[i].areaName + arr.data.list[i].buildingName + arr.data.list[i].unitNo + '单元' + arr.data.list[i].roomName
+
+                                    html1 += '<li class="liSn" data-roomId="' + arr.data.list[i].id + '">' + roomLocation + '</li>';
+                                }
+
+                                $('.listSn').html(html1);
+                            }  else {
+                                $('.sn').html('暂无房子');
+                            }
+                            
+                        }
+                    }, {
+                        pageNum: pageNum,
+                        pageSize: pageSize,
+                        userId: userId
+                    }, 'postForm', '', '', 'html/management.html')
+
+                }
+
+
+                //getData(pageNum, pageSize, userId, ind);
                 //数据初始化
                 function getData(pageNum, pageSize, userId, ind) {
                     WFang("Device/deviceRealTime", function(arr) {
@@ -331,18 +434,71 @@
                 });
                 //点击刷新数据
                 $('body').on('click', '.liSn', function() {
-                    var ind = $(this).attr('data-ind');
+                    var roomId = $(this).attr('data-roomId');
                     $('.sn').html($(this).html());
-                    $('#motor').attr('data-sn', $(this).html());
-                    $('#motor').attr('data-ind', ind);
-                    $('#search-name').attr('name', '0');
-                    $('.listSn').attr('style', 'display:none');
-                    getData(pageNum, pageSize, userId, ind);
-                    var data_sn = $(this).html();
+
+                    WFang("room/queryById/" + roomId, function(arr) {
+                    var roomType = "";
+                    var houseType = "";
+                    var acreage = "";
+                    var heatType = "";
+                    if (arr.status == false) {
+                        
+                        } else {
+
+                            switch(arr.data.roomType) {
+                                case 1 :
+                                    roomType = '居民';
+                                    break;
+                                case 2 :
+                                    roomType = '商业';
+                                    break;
+                                case 3 :
+                                    roomType = '办公';
+                                    break;
+                                case 4 :
+                                    roomType = '餐饮';
+                                    break;
+                            }
+
+                            switch (obj.heatType) {
+                                case 0 :
+                                    heatType = '不供热';
+                                    break;
+                                case 1 :
+                                    heatType = '供热';
+                                    break;
+                                case 2 :
+                                    heatType = '报停';
+                                    break;
+                                case 3 :
+                                    heatType = '强停';
+                                    break;
+                                case 4 :
+                                    heatType = '复热';
+                                    break;
+                            }
+                            
+                            houseType = arr.data.houseType;
+                            acreage = arr.data.acreage + " ㎡";
+                        }
+
+                        $('#heatType').html(heatType);
+                        $('#acreage').html(acreage);
+                        $('#roomType').html(roomType);
+                        $('#houseType').html(houseType); 
+                    }, '', 'postForm');
+
+                    //$('#motor').attr('data-sn', $(this).html());
+                    //$('#motor').attr('data-ind', ind);
+                    //$('#search-name').attr('name', '0');
+                    //$('.listSn').attr('style', 'display:none');
+                    //getData(pageNum, pageSize, userId, ind);
+                    //var data_sn = $(this).html();
                     //alert(data_sn);
-                    window.localStorage.setItem('ind', ind);
+                    //window.localStorage.setItem('ind', ind);
                     //window.localStorage.setItem('test', 'test');
-                    window.localStorage.setItem('sn', data_sn);
+                    //window.localStorage.setItem('sn', data_sn);
                 });
             });
         });

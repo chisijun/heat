@@ -32,7 +32,7 @@ public class Payment {
      * 用户Id
      */
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 面积

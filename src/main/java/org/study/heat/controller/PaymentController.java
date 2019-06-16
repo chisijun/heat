@@ -28,12 +28,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.heat.annotation.Authorization;
+import org.study.heat.annotation.CurrentUser;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.OnlinePayDto;
 import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.entity.TokenModel;
 import org.study.heat.pojo.Payment;
+import org.study.heat.pojo.User;
 import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
 import org.study.heat.service.TokenManager;
@@ -65,9 +67,9 @@ public class PaymentController {
 	
 	@Authorization
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public JsonResult savePayment(Payment payment) {
+	public JsonResult savePayment(@CurrentUser User login, Payment payment) {
 		
-		Integer result = paymentService.savePayment(payment);
+		Integer result = paymentService.savePayment(payment, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);
 		}
@@ -82,14 +84,9 @@ public class PaymentController {
 	@RequestMapping(value = "/queryListWithPage", method = RequestMethod.POST)
 	public JsonResult queryPaymentListWithPage(PaymentQueryDto paymentQueryDto) {
 		
-		//PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
-		if (paymentService == null) {
-			System.out.println("=====chisj:paymentService is null");
-		}
-		System.out.println("=====chisj:paymentService is not null");
-		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
-		
-		return new JsonResult(true, "操作成功", null);
+		PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
+
+		return new JsonResult(true, "操作成功", pageInfo);
 	}
 	
 	@Authorization

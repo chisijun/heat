@@ -26,17 +26,17 @@
                 <div class="line-div line-bottom">
                     <img src="../images/shengfen_icon.png" alt="图片">
                     <span>姓名</span>
-                    <span class="span-right"><b class="time workLoad"></b>&nbsp;池思军</span>
+                    <span class="span-right"><b class="time workLoad" id="userName"></b></span>
                 </div>
                 <div class="line-div line-bottom">
                     <img src="../images/zuoyeliang_icon.png" alt="图片">
                     <span>手机号</span>
-                    <span class="span-right"><b class="time workLoad"></b>&nbsp;15071392085</span>
+                    <span class="span-right"><b class="time workLoad" id="mobileNo"></b></span>
                 </div>
                 <div class="line-div line-bottom">
                     <img src="../images/hetong_icon.png" alt="图片">
                     <span>邮箱</span>
-                    <span class="span-right"><b class="time workLoad"></b>&nbsp;905568425@qq.com</span>
+                    <span class="span-right"><b class="time workLoad" id="email"></b></span>
                 </div>
 
 
@@ -118,6 +118,15 @@
     <script>
         $(document).ready(function() {
             layui.use('layer', function() {
+
+                var userName = window.sessionStorage.getItem("userName");
+                var mobileNo = window.sessionStorage.getItem("mobileNo");
+                var email = window.sessionStorage.getItem("email");
+
+                $('#userName').html(userName);
+                $('#mobileNo').html(mobileNo);
+                $('#email').html(email);
+
                 //点击查card
                 $('body').on('click', '#look', function() {
                 	var url = $('#hetongImg').attr('src');
@@ -140,7 +149,7 @@
                     $('.hetong-img').attr('style', 'display:none;')
                 });
                 
-                getData();
+                //getData();
                 //数据初始化
                 function getData() {
                     WFang("user/deviceShowById", function(arr) {
@@ -185,7 +194,7 @@
                 //查询作业管理显示选中的设备当前状况
                 var sn = window.localStorage.getItem('sn');
                 //alert(sn);
-                getDataBysn(sn)
+                //getDataBysn(sn)
 
                 function getDataBysn(sn) {
                     WFang("Device/deviceRealTimeBySn", function(arr) {

@@ -59,12 +59,15 @@
       , site.site_name as siteName,
       area.area_name as areaName,
       building.building_name as buildingName,
-      building.building_no as buildingName
+      building.building_no as buildingName,
+      room_typ.price as price,
+      room_typ.room_type_name as roomTypeName
     FROM
       t_room room
       LEFT JOIN t_building building on room.building_id = building.id
       left join t_area area on building.area_id = area.id
       LEFT JOIN t_site site ON area.site_id = site.id
+      LEFT JOIN t_room_type room_typ ON room.room_type = room_typ.id
     WHERE
       1 = 1
       <if test="id != null">

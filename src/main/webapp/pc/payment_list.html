@@ -48,10 +48,24 @@
         <div class="mask_contain" style="height: 360px;">
             <div class="mask_top">新增缴费单<span class="close1">&times;</span></div>
             <div class="form" style="padding-bottom:0;">
-                <div><span>登录名：</span><input id="loginName" type="text" placeholder="请输入登录名"></div><br>
-                <div><span>姓名：</span><input id="userName" type="text" placeholder="请输入姓名"></div><br>
-                <div><span>手机号：</span><input id="mobileNo" type="text" placeholder="请输入手机号"></div><br>
-                <div><span>邮箱：</span><input id="email" type="text" placeholder="请输入邮箱"></div><br>
+                <div>
+                    <span>缴费用户：</span>
+                    <select id="add_userSlt" style="width:172px;">
+                        <option value="-1">请选择待缴费用户</option>
+                    </select>
+                </div><br>
+                <div>
+                    <span>缴费年度：</span>
+                    <select id="add_yearSlt" style="width:172px;">
+                        <option value="-1">请选择待缴费年度</option>
+                        <option value="2019">2019年</option>
+                        <option value="2020">2020年</option>
+                        <option value="2021">2021年</option>
+                        <option value="2022">2022年</option>
+                    </select>
+                </div><br>
+                <div><span>房间数量：</span><input id="roomNumber" type="text" readonly="readonly" value="暂无"></div><br>
+                <div><span>供热面积：</span><input id="acreage" type="text" readonly="readonly" value="暂无"></div><br>
             </div>
             <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
         </div>
@@ -115,6 +129,70 @@
                 var userId = $(this).attr('data-userId');
                 window.location.href = 'serviceMark.html?userId=' + userId;
             });
+
+
+            load_user();
+
+            function load_user() {
+
+                var data = {
+                    "pageNum": 1,
+                    "pageSize": 100,
+                };
+
+                WFang("user/queryListWithPage", function(arr) {
+                    var datarow = "";
+
+                    if (arr.status == false) {
+                        
+                    } else {
+                        datarow += '<option value="-1">请选择待缴费用户</option>'; 
+                        for (var i = 0; i < arr.data.list.length; i++) {
+                            //roomLocation = arr.data[i].areaName + arr.data[i].buildingName + arr.data[i].unitNo + '单元' + arr.data[i].roomName
+                            datarow += '<option value=' + arr.data.list[i].id +'>'
+                                    + arr.data.list[i].userName + '</option>';
+                        }
+                    }
+                    $('#add_userSlt').html(datarow);
+                    //$('#m_buildingSlt').html(datarow);  
+                }, data, 'postForm');
+            }
+
+            function accAdd(arg1,arg2){  
+                var r1,r2,m;  
+                try { 
+                    r1=arg1.toString().split(".")[1].length
+                } catch (e) {
+                    r1=0
+                }  
+                try {
+                    r2=arg2.toString().split(".")[1].length
+                } catch (e) {
+                    r2=0
+                }  
+                m=Math.pow(10,Math.max(r1,r2))  
+                return (arg1*m+arg2*m)/m  
+            }  
+            //给Number类型增加一个add方法，调用起来更加方便。  
+            Number.prototype.add = function (arg) {  
+                return accAdd(arg,this);  
+            } 
+
+            $("#add_userSlt").change(function() {  
+                var userId = $('#add_userSlt').find("option:selected").val();
+                // 获取楼栋信息
+                WFang("user/queryRoomListByUserId/" + userId, function(arr) {
+                    var acreage = 0;
+                    var roomNumber = arr.data.length;
+                    for (var j = 0; j < arr.data.length; j++) {
+                        if (arr.data[j].heatType == '1') {
+
+                        }acreage = accAdd(acreage, arr.data[j].acreage);
+                    }
+                    $('#acreage').val(acreage);  
+                    $('#roomNumber').val(roomNumber);  
+                }, '', 'postForm');
+            })
 
             //页面渲染 
             var name = '';
@@ -358,15 +436,29 @@
 
             /***********************添加实现*****************************/
             $("body").on("click","#add_site",function() {
-                var loginName = $("#loginName").val();
-                var userName = $("#userName").val();
-                var mobileNo = $("#mobileNo").val();
-                var email = $("#email").val();
+                var userId = $('#add_userSlt').find("option:selected").val();
+                var paymentYear = $('#add_yearSlt').find("option:selected").val();
+                var acreage = $('#acreage').val();
+
+                if (userId == '-1') {
+                    layer.msg('请选择待缴费用户');
+                    return ;
+                }
+
+                if (paymentYear == '-1') {
+                    layer.msg('请选择待缴费年度');
+                    return ;
+                }
+
+                if (acreage == '0') {
+                    layer.msg('该用户无需缴费');
+                    return ;
+                }
+
                 var data = {
-                    "loginName": loginName,
-                    "userName": userName,
-                    "mobileNo": mobileNo,
-                    "email": email
+                    "paymentYear": paymentYear,
+                    "userId": userId,
+                    "acreage": acreage
                 };
                 WFang("user/save", function(arr) {
                     var pageNo = $('.layui-input').val();

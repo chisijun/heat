@@ -13,6 +13,7 @@ import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.pojo.Payment;
 
 import com.github.pagehelper.PageInfo;
+import org.study.heat.pojo.User;
 
 /**
  * ClassName: PaymentService 
@@ -31,7 +32,7 @@ public interface PaymentService extends IService<Payment> {
 	 * @author chisj chisj@foxmail.com
 	 * @date 2019年6月2日
 	 */
-	Integer savePayment(Payment payment);
+	Integer savePayment(Payment payment, User user);
 
 	/**
 	 * @Description: TODO

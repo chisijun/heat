@@ -13,6 +13,8 @@ import lombok.Data;
 
 import org.study.heat.base.BaseVo;
 
+import java.math.BigDecimal;
+
 /**
  * ClassName: RoomVo 
  * @Description: TODO
@@ -51,6 +53,11 @@ public class RoomVo extends BaseVo {
      * 房间类型
      */
     private Long roomType;
+
+    /**
+     * 房间单价
+     */
+    private BigDecimal price;
 
     /**
      * 户型
