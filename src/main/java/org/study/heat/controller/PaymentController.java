@@ -164,7 +164,7 @@ public class PaymentController {
         		// 支付宝支付
         		AlipayTrade alipayTrade = new AlipayTrade();
         		Map<String,String> paraMap = new HashMap<String,String>();
-        		paraMap.put("out_trade_no", "20190610");	// 订单号
+        		paraMap.put("out_trade_no", onlinePayDto.getPaymentNo());	// 订单号
         		paraMap.put("total_amount", onlinePayDto.getTotalAmount().toString());	// 充值金额
                 paraMap.put("subject","供暖费款项");		// 名称
                 /**
@@ -232,6 +232,14 @@ public class PaymentController {
 //			record.setUserId(payOrder.getUserId());
 //			recordService.addRecord(record);
 //		}
+
+		String paymentNo = params.get("out_trade_no");
+		// 更新支付状态
+		Payment payment = new Payment();
+		payment.setPaymentNo(paymentNo);
+		payment.setIsPay(1);
+
+		paymentService.update(payment);
 		
 		System.out.println("aliPayNotify params = " + params.toString());
 	}

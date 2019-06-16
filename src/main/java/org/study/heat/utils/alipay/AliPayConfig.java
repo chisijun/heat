@@ -39,7 +39,8 @@ public final class AliPayConfig {
      */
     //public static String PAY_NOTIFY = "http://niuli.tunnel.qydev.com/notify/alipay_pay";
     //public static String PAY_NOTIFY = "http://商户网关地址/alipay.trade.wap.pay-JAVA-UTF-8/notify_url.jsp";
-    public static String PAY_NOTIFY = "http://www.sangtech.cn/Dryer/OnlinePayment/aliPayNotify";
+    // public static String PAY_NOTIFY = "http://www.sangtech.cn/Dryer/OnlinePayment/aliPayNotify";
+    public static String PAY_NOTIFY = "http://localhost:8080/heat/payment/aliPayNotify";
     /**
      * 支付成功回调
      */
@@ -49,7 +50,8 @@ public final class AliPayConfig {
      * 前台根据返回的参数获取订单详情
      */
     //public static String RETURN_URL = "http://niuli.tunnel.qydev.com/notify/alipay_pay";
-    public static String RETURN_URL = "http://www.sangtech.cn/dryerWx/html/record.html";
+    // public static String RETURN_URL = "http://www.sangtech.cn/dryerWx/html/record.html";
+    public static String RETURN_URL = "http://localhost:8080/heat/wx/html/payment_list.html";
     /**
      * 参数类型
      */
