@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -35,6 +36,7 @@ import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.entity.TokenModel;
 import org.study.heat.pojo.Payment;
+import org.study.heat.pojo.PaymentDetail;
 import org.study.heat.pojo.User;
 import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
@@ -89,37 +91,6 @@ public class PaymentController {
 		return new JsonResult(true, "操作成功", pageInfo);
 	}
 	
-	@Authorization
-	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public JsonResult test(PaymentQueryDto paymentQueryDto) {
-		
-		//PageInfo pageInfo = paymentService.queryPaymentListWithPage(paymentQueryDto);
-		if (paymentService == null) {
-			System.out.println("=====chisj:paymentService is null");
-		}
-		System.out.println("=====chisj:paymentService is not null");
-		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
-		
-		return new JsonResult(true, "操作成功", null);
-	}
-	
-	/**
-	 * 票据列表
-	 */
-	@Authorization
-	@PostMapping("/queryTicketListWithPage")
-	private JsonResult queryTicketListWithPage() {
-		
-		//PageInfo pageInfo = ticketService.queryTicketListWithPage(ticketQueryDto);
-		if (paymentService == null) {
-			System.out.println("=====chisj:paymentService is null");
-		}
-		System.out.println("=====chisj:paymentService is not null");
-		PageInfo pageInfo = paymentService.queryTicketListWithPage(new TicketQueryDto());
-		
-		return new JsonResult(true, "操作成功", pageInfo);
-	}
-	
 	/**
 	 * 查询缴费单详情
 	 */
@@ -127,9 +98,12 @@ public class PaymentController {
 	@RequestMapping(value = "/queryPaymentDetailByPaymentNo/{paymentNo}", method = RequestMethod.POST)
 	public JsonResult queryPaymentDetailByPaymentNo(@PathVariable String paymentNo) {
 		
-		PaymentDetailVo paymentDetailVo = paymentDetaiService.queryPaymentDetailByPaymentNo(paymentNo);
+		// PaymentDetailVo paymentDetailVo = paymentDetaiService.queryPaymentDetailByPaymentNo(paymentNo);
+		PaymentDetail paymentDetail = new PaymentDetail();
+		paymentDetail.setPaymentNo(paymentNo);
+		List<PaymentDetail> paymentDetailList = paymentDetaiService.select(paymentDetail);
 		
-		return new JsonResult(true, "操作成功", paymentDetailVo);
+		return new JsonResult(true, "操作成功", paymentDetailList);
 	}
 	
 	/**

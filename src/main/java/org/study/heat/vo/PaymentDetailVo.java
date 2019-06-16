@@ -20,6 +20,6 @@ import org.study.heat.pojo.PaymentDetail;
  * @date 2019年6月10日
  */
 @Data
-public class PaymentDetailVo {
+public class PaymentDetailVo extends PaymentDetail {
 
 }

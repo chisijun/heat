@@ -10,15 +10,16 @@ package org.study.heat.service.impl;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
 
-import com.beust.jcommander.internal.Lists;
 import org.springframework.stereotype.Service;
 import org.study.heat.base.BaseService;
+import org.study.heat.dao.PaymentDetailMapper;
 import org.study.heat.dao.PaymentMapper;
 import org.study.heat.dao.TicketMapper;
 import org.study.heat.dao.UserMapper;
@@ -28,6 +29,7 @@ import org.study.heat.pojo.Payment;
 import org.study.heat.pojo.PaymentDetail;
 import org.study.heat.pojo.Ticket;
 import org.study.heat.pojo.User;
+import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
 import org.study.heat.service.RoomService;
 import org.study.heat.utils.PublicUtil;
@@ -35,6 +37,7 @@ import org.study.heat.vo.PaymentVo;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import org.study.heat.vo.RoomVo;
 
 /**
@@ -54,6 +57,12 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 
 	@Resource
 	private PaymentMapper paymentDao;
+	
+	@Resource
+	private PaymentDetaiService paymentDetaiService;
+	
+	@Resource
+	private PaymentDetailMapper paymentDetailDao;
 	
 	@Resource
 	private TicketMapper ticketDao;
@@ -76,7 +85,10 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 
 		// 根据用户Id查询所有房子信息
 		List<RoomVo> roomVoList = roomService.queryUserRoomListByUserId(payment.getUserId());
-		List<PaymentDetail> paymentDetailList = Lists.newArrayList();
+		//List<PaymentDetail> paymentDetailList = Lists.newArrayList();
+		List<PaymentDetail> paymentDetailList = new ArrayList<PaymentDetail>();
+		BigDecimal fee = new BigDecimal(0);
+		BigDecimal feeTotal = new BigDecimal(0);
 		for (RoomVo r : roomVoList) {
 			if (r.getHeatType().equals(1)
 					|| r.getHeatType().equals(4)) {
@@ -89,12 +101,22 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 				paymentDetail.setRoomName(r.getAreaName() + r.getBuildingName()
 						+ r.getUnitNo() + "单元" + r.getRoomName());
 				//paymentDetail.setUpdateInfo(get);
-				paymentDetail.setFee(r.getPrice().multiply(new BigDecimal(r.getAcreage())).setScale(2));
+				fee = r.getPrice().multiply(new BigDecimal(r.getAcreage())).setScale(2);
+				paymentDetail.setFee(fee);
+				feeTotal = feeTotal.add(fee);
+				paymentDetail.setUpdateInfo(user);
+				
+				paymentDetailList.add(paymentDetail);
 			}
 		}
 
-
-		return null;
+		paymentDetaiService.batchSave(paymentDetailList);
+		
+		payment.setPaymentNo(paymentNo);
+		payment.setFee(feeTotal);
+		//payment.setU
+		
+		return paymentDao.insertSelective(payment);
 	}
 
 	/* (non-Javadoc)

@@ -1519,15 +1519,15 @@ body {
 }
 
 .record .control p span:nth-child(1) {
-    width: 29%;
+    width: 45%;
 }
 
 .record .control p span:nth-child(2) {
-    width: 30%;
+    width: 25%;
 }
 
 .record .control p span:nth-child(3) {
-    width: 36%;
+    width: 25%;
 }
 
 .record .control .content {
@@ -1551,15 +1551,15 @@ body {
 }
 
 .record .control .content p span:nth-child(1) {
-    width: 29%;
+    width: 45%;
 }
 
 .record .control .content p span:nth-child(2) {
-    width: 30%;
+    width: 25%;
 }
 
 .record .control .content p span:nth-child(3) {
-    width: 40%;
+    width: 25%;
 }
 
 .record .control .content p:nth-child(2n-1) {

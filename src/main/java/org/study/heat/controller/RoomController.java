@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +20,19 @@ import org.study.heat.annotation.Authorization;
 import org.study.heat.annotation.CurrentUser;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.RoomQueryDto;
+import org.study.heat.dto.RoomTypeQueryDto;
 import org.study.heat.dto.SiteQueryDto;
 import org.study.heat.pojo.Room;
+import org.study.heat.pojo.RoomType;
 import org.study.heat.pojo.Site;
 import org.study.heat.pojo.User;
 import org.study.heat.service.RoomService;
+import org.study.heat.service.RoomTypeService;
 import org.study.heat.vo.RoomVo;
 
 import tk.mybatis.mapper.entity.Example;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -42,6 +47,9 @@ public class RoomController {
 
 	@Resource
 	private RoomService roomService;
+	
+	@Resource
+	private RoomTypeService roomTypeService;
 	
 	/**
 	 * @Description: 添加房间
@@ -123,5 +131,27 @@ public class RoomController {
 		RoomVo room = roomService.queryRoomById(id);
 		
 		return new JsonResult(true, "操作成功", room);
+	}
+	
+	@Authorization
+	@PostMapping("/queryRoomTypeListWithPage")
+	public JsonResult queryRoomTypeListWithPage(RoomTypeQueryDto roomTypeQueryDto) {
+		
+		RoomType roomType = new RoomType();
+		BeanUtils.copyProperties(roomTypeQueryDto, roomType);
+		
+		PageHelper.startPage(roomTypeQueryDto.getPageNum(), roomTypeQueryDto.getPageSize());
+		List<RoomType> roomTypeList = roomTypeService.select(roomType);
+		
+		return new JsonResult(true, "操作成功", new PageInfo<>(roomTypeList));
+	}
+	
+	@Authorization
+	@PostMapping("/modifyRoomType")
+	public JsonResult modifyRoomType(RoomType roomType) {
+		
+		Integer result = roomTypeService.update(roomType);
+		
+		return new JsonResult(true, "操作成功", result);
 	}
 }

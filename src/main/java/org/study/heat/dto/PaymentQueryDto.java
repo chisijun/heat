@@ -20,6 +20,29 @@ import org.study.heat.base.BaseQuery;
 @Data
 public class PaymentQueryDto extends BaseQuery {
 
+	/**
+	 * 缴费单号
+	 */
+	private String paymentNo;
 	
+	/**
+	 * 用户姓名
+	 */
+	private String userName;
+	
+	/**
+	 * 用户Id
+	 */
+	private Long userId;
+	
+	/**
+	 * 缴费年份
+	 */
+	private Long paymentYear;
+	
+	/**
+	 * 是否支付
+	 */
+	private Integer isPay;
 	
 }
