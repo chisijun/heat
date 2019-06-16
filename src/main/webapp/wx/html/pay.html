@@ -20,7 +20,9 @@
         <div class="header">
             <a id="head-back" href="javascript:void (0);" class="back"><img src="../images/back_icon.png" alt="图片">&nbsp;返回</a>
             我要支付
+            <!--
             <a id="pay-record" href="javascript:void (0);" class="home">支付记录</a>
+            -->
         </div>
         <div class="pay-box">
             <!--<div class="money div-box">-->
@@ -30,7 +32,7 @@
                 <p>转账金额</p>
                 <p class="yuan">
                     <span class="left">¥</span>
-                    <input class="money right" type="number" placeholder="金额只能输入整数">
+                    <input class="money right" type="number" readonly="readonly" placeholder="金额只能输入整数">
                     <span class="span-right">元</span>
                 </p>
             </div>
@@ -42,11 +44,13 @@
                 <span>支付宝支付</span>
                 <img src="../images/gouxuan_icon01.jpg" class="icon">
             </div>
+            <!--
             <div class="pay yl div-box" data-ind="1">
                 <img src="../images/yinlian_icon.png" alt="图片">
                 <span>银联支付</span>
                 <img src="../images/gouxuan_icon1.png" class="icon">
             </div>
+            -->
             <div class="div-box text-center">
                 <a class="sure" href="javascript:void (0);">确认转账</a>
             </div>
@@ -55,19 +59,19 @@
         <div class="footer">
             <a href="javascript:window.location.href='management.html';" id="management">
                 <img src="../images/zuoye_icon02.png" alt="图片">
-                <span>作业管理</span>
+                <span>房子管理</span>
             </a>
-            <a href="javascript:window.location.href='self.html';" id="self">
-                <img src="../images/zhiwo_icon02.png" alt="图片">
-                <span>智我</span>
-            </a>
-            <a href="javascript:window.location.href='account.html';" id="account">
+            <a href="javascript:window.location.href='payment_list.html';" id="self">
                 <img src="../images/jizhangben_icon03.png" alt="图片">
-                <span class="span-color">记账本</span>
+                <span class="span-color">缴费单</span>
             </a>
-            <a href="javascript:window.location.href='serve.html';" id="serve">
+            <a href="javascript:window.location.href='apply_list.html';" id="account">
                 <img src="../images/fuwu_icon02.png" alt="图片">
-                <span>服务印记</span>
+                <span>停栓复热</span>
+            </a>
+            <a href="javascript:window.location.href='my.html';" id="serve">
+                <img src="../images/zhiwo_icon02.png" alt="图片">
+                <span>我的</span>
             </a>
         </div>
     </div>
@@ -81,12 +85,26 @@
         $(document).ready(function() {
             layui.use('layer', function() {
 
+                var search=location.search;
+                var params={};
+                if (params!='') {
+                    var ps = search.slice(1).split('&');
+                    for (var i=0;i<ps.length;i++) {
+                        var arr=ps[i].split('=');
+                        params[arr[0]]=arr[1];
+                    }
+                }
+                var paymentNo = params.paymentNo;
+
+                var actfee = window.sessionStorage.getItem("actfee");
+                $('.money').val(actfee);
+
                 var payType = '', //付款方式，1 银联；2 支付宝
                     totalAmount = '',
                     content = '';
                 //头部返回上一页按键
                 $('body').on('click', '#head-back', function() {
-                    window.location.href = 'account.html';
+                    window.location.href = 'payment_detail.html?paymentNo=' + paymentNo;
                 });
                 //还款记录
                 $('body').on('click', '#pay-record', function() {
@@ -122,12 +140,12 @@
                         if ($('.zfb').attr('data-ind') == "0") {
                             payType = '2';
                             var url = ApiConf.server +
-                                "OnlinePayment/onlinePay?token=" + ApiConf.token +
+                                "payment/onlinePay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
                                 "&body=" + body;
                             _AP.pay(ApiConf.server +
-                                "OnlinePayment/onlinePay?token=" + ApiConf.token +
+                                "payment/onlinePay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
                                 "&body=" + body);

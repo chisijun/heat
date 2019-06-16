@@ -82,7 +82,7 @@
   	where 
   		1 = 1
   		<if test="paymentNo != null and paymentNo != ''">
-  			and payment.payment_no = LIKE concat('%', #{paymentNo}, '%')
+  			and payment.payment_no LIKE concat('%', #{paymentNo}, '%')
   		</if>
   		<if test="userId != null">
   			and payment.user_id = #{userId}

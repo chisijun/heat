@@ -18,31 +18,42 @@
     <div class="account">
         <!--头部-->
         <div class="header">
-            记账本
+            <a id="head-back" href="javascript:void (0);" class="back"><img src="../images/back_icon.png" alt="图片">&nbsp;返回</a>
+            缴费单详情
         </div>
         <div class="search-box">
             <!--身份信息-->
             <div class="information" style="font-size: 0.35rem;">
                 <div class="information-box line-bottom">
-                    <span class="span-left">身份证号:</span>
-                    <span class="span-right idty">--</span>
+                    <span class="span-left">缴费单号:</span>
+                    <span class="span-right paymentNo">--</span>
                 </div>
                 <div class="information-box line-bottom">
-                    <span class="span-left">合同金额:</span>
-                    <span class="span-right accountNum"></span>
+                    <span class="span-left">年度:</span>
+                    <span class="span-right paymentYear">--</span>
+                </div>
+                <div class="information-box line-bottom">
+                    <span class="span-left">面积:</span>
+                    <span class="span-right acreage">--</span>
+                </div>
+                <div class="information-box line-bottom">
+                    <span class="span-left">总额:</span>
+                    <span class="span-right actfee">--</span>
+                </div>
+                <!--
+                <div class="information-box line-bottom">
+                    <span class="span-left">折扣:</span>
+                    <span class="span-right discount"></span>
                 </div>
                 <div class="information-box line-bottom">
                     <span class="span-left">支付方式:</span>
-                    <span class="span-right repayWay"></span>
-                </div>
-                <div class="information-box line-bottom">
-                    <span class="span-left">支付期数:</span>
                     <span class="span-right repayNum"></span>
                 </div>
                 <div class="information-box line-bottom">
-                    <span class="span-left">逾期日利率:</span>
+                    <span class="span-left">支付金额:</span>
                     <span class="span-right rate"></span>
                 </div>
+                -->
             </div>
             <!--账单详情-->
             <div class="detail">
@@ -50,39 +61,44 @@
                 <div class="control">
                     <div class="top">
                         <p>
-                            <span>支付阶段</span>
-                            <span>支付日期</span>
-                            <span>应付额度</span>
-                            <span>已付款</span>
-                            <span>状态</span>
+                            <span>房子地址</span>
+                            <span>房子面积</span>
+                            <span>单价(￥)</span>
+                            <span>总价(￥)</span>
                         </p>
                     </div>
                     <div class="content">
+                        <p>
+                            <span>清江山水35栋1单元901</span>
+                            <span>95</span>
+                            <span>20</span>
+                            <span>1900</span>
+                        </p>
                     </div>
                 </div>
             </div>
             <!--我要还款-->
             <div>
-                <a id="myPay" href="javascript:void (0);">我要支付</a>
+                <a style="display: none" id="myPay" href="javascript:void (0);">我要支付</a>
             </div>
         </div>
         <!--底部-->
         <div class="footer">
             <a href="javascript:window.location.href='management.html';" id="management">
                 <img src="../images/zuoye_icon02.png" alt="图片">
-                <span>作业管理</span>
+                <span>房子管理</span>
             </a>
-            <a href="javascript:window.location.href='self.html';" id="self">
-                <img src="../images/zhiwo_icon02.png" alt="图片">
-                <span>智我</span>
-            </a>
-            <a href="javascript:window.location.href='account.html';" id="account">
+            <a href="javascript:window.location.href='payment_list.html';" id="self">
                 <img src="../images/jizhangben_icon03.png" alt="图片">
-                <span class="span-color">记账本</span>
+                <span class="span-color">缴费单</span>
             </a>
-            <a href="javascript:window.location.href='serve.html';" id="serve">
+            <a href="javascript:window.location.href='apply_list.html';" id="account">
                 <img src="../images/fuwu_icon02.png" alt="图片">
-                <span>服务印记</span>
+                <span>停栓复热</span>
+            </a>
+            <a href="javascript:window.location.href='my.html';" id="serve">
+                <img src="../images/zhiwo_icon02.png" alt="图片">
+                <span>我的</span>
             </a>
         </div>
     </div>
@@ -94,58 +110,72 @@
     <script>
         $(document).ready(function() {
             layui.use('layer', function() {
+
+                var search=location.search;
+                var params={};
+                if (params!='') {
+                    var ps = search.slice(1).split('&');
+                    for (var i=0;i<ps.length;i++) {
+                        var arr=ps[i].split('=');
+                        params[arr[0]]=arr[1];
+                    }
+                }
+                var paymentNo = params.paymentNo;
+
+                //头部返回上一页按键
+                $('body').on('click', '#head-back', function() {
+                    window.location.href = 'payment_list.html';
+                });
+
                 //我要还款
                 $('body').on('click', '#myPay', function() {
                     window.location.href = 'pay.html';
                 });
+
                 getData();
                 //记账本
                 function getData() {
-                    WFang("user/stageShowById", function(arr) {
+                    WFang("payment/queryPaymentDetailByNo/" + paymentNo, function(arr) {
                         if (arr.status == false) {
                             layer.msg(arr.message);
                         } else {
                             console.log(arr);
                             //合同金额 accountNum
-                            $('.accountNum').html(arr.data.accountNum + '&nbsp;元');
-                            //还款方式  1 阶段还款； 2 租赁
-                            if (arr.data.repayWay == '1') {
-                                $('.repayWay').html('阶段支付');
-                            } else if (arr.data.repayWay == '2') {
-                                $('.repayWay').html('租赁');
+                            $('.paymentNo').html(paymentNo);
+                            $('.paymentYear').html(arr.data.paymentYear);
+                            $('.acreage').html(arr.data.acreage + '&nbsp;㎡');
+                            $('.actfee').html('&nbsp;￥' + arr.data.actfee);
+                            
+                            // 设置显示我要支付
+                            if (arr.data.isPay == 0) {
+                                // 显示 我要支付
+                                $("#myPay").show();
+                                window.sessionStorage.setItem("actfee", arr.data.actfee);
                             }
-                            //身份证号
-                            if (arr.data.idty != '') {
-                                $('.idty').html(arr.data.idty);
-                            }
-                            //还款期数 repayNum
-                            $('.repayNum').html(arr.data.stages.length + '&nbsp;期');
-                            //逾期日益率 rate
-                            $('.rate').html(arr.data.rate);
+
                             var html = '',
                                 totalAccount = 0,
-                                totalRepayAccount = 0;
-                            if (arr.data.stages != '') {
-                                for (var i = 0; i < arr.data.stages.length; i++) {
+                                totalRepayAccount = 0,
+                                roomLocation = '';
+                            if (arr.data.paymentDetailList != '') {
+                                for (var i = 0; i < arr.data.paymentDetailList.length; i++) { 
                                     html += '<p>' +
-                                        '<span><b>' + arr.data.stages[i].stage + '</b></span>' +
-                                        '<span><b>' + arr.data.stages[i].repayDate + '</b></span>' +
-                                        '<span><b>' + arr.data.stages[i].account + '</b></span>' +
-                                        '<span><b>' + arr.data.stages[i].repayAccount + '</b></span>' +
-                                        '<span><b>' + arr.data.stages[i].status + '</b></span>' +
+                                        '<span><b>' + arr.data.paymentDetailList[i].roomName + '</b></span>' +
+                                        '<span><b>' + arr.data.paymentDetailList[i].acreage + '</b></span>' +
+                                        '<span><b>' + arr.data.paymentDetailList[i].price + '</b></span>' +
+                                        '<span><b>' + arr.data.paymentDetailList[i].fee + '</b></span>' +
                                         '</p>';
-                                    totalAccount += parseInt(arr.data.stages[i].account);
-                                    totalRepayAccount += parseInt(arr.data.stages[i].repayAccount);
+                                    //totalAccount += parseInt(arr.data.stages[i].account);
+                                    //totalRepayAccount += parseInt(arr.data.stages[i].repayAccount);
                                 }
                                 html += '<p class="total">' +
                                     '<span>合计</span>' +
                                     '<span>' + totalAccount + '</span>' +
                                     '<span>' + totalRepayAccount + '</span>' +
                                     '</p>';
-                                $('.content').html(html);
+                                //$('.content').html(html);
                             } else {
                                 html = '<p>' +
-                                    '<span><b>无</b></span>' +
                                     '<span><b>无</b></span>' +
                                     '<span><b>无</b></span>' +
                                     '<span><b>无</b></span>' +
@@ -154,7 +184,7 @@
                                 $('.content').html(html);
                             }
                         }
-                    }, {}, 'get', '', '', 'html/account.html')
+                    }, {}, 'post', '', '', 'html/payment_detail.html')
                 }
             });
         });

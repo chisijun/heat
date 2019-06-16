@@ -10,6 +10,7 @@ package org.study.heat.service;
 import org.study.heat.base.IService;
 import org.study.heat.pojo.PaymentDetail;
 import org.study.heat.vo.PaymentDetailVo;
+import org.study.heat.vo.PaymentVo;
 
 /**
  * ClassName: PaymentDetaiService 
@@ -29,5 +30,4 @@ public interface PaymentDetaiService extends IService<PaymentDetail> {
 	 * @date 2019年6月10日
 	 */
 	PaymentDetailVo queryPaymentDetailByPaymentNo(String paymentNo);
-
 }

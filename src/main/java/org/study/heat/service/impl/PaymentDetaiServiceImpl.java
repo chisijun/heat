@@ -12,6 +12,7 @@ import org.study.heat.base.BaseService;
 import org.study.heat.pojo.PaymentDetail;
 import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.vo.PaymentDetailVo;
+import org.study.heat.vo.PaymentVo;
 
 /**
  * ClassName: PaymentDetaiServiceImpl 

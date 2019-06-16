@@ -1296,11 +1296,11 @@ body {
 
 .account .search-box .detail .control p span:nth-child(1) {
     white-space: normal;
-    width: 19%;
+    width: 45%;
 }
 
 .account .search-box .detail .control p span:nth-child(2) {
-    width: 23%;
+    width: 18%;
     border-left: 1px solid #6fab31;
 }
 

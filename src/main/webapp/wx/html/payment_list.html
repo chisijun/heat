@@ -18,8 +18,10 @@
     <div class="record">
         <!--头部-->
         <div class="header">
+            <!--
             <a id="head-back" href="javascript:void (0);" class="back"><img src="../images/back_icon.png" alt="图片">&nbsp;返回</a>
-            支付记录
+            -->
+            缴费单
         </div>
         <div class="control">
             <div class="top">
@@ -30,11 +32,6 @@
                 </p>
             </div>
             <div class="content">
-                <p>
-                    <span>2019061611104147</span>
-                    <span>1900</span>
-                    <span>待支付</span>
-                </p>
             </div>
             </div>
         </div>
@@ -73,17 +70,26 @@
                 getData();
                 //记账本
                 function getData() {
-                    WFang("Record/recordShowById", function(arr) {
+                    WFang("payment/queryListWithPage", function(arr) {
                         if (arr.status == false) {
                             layer.msg(arr.message);
                         } else {
-                            var html = '';
+                            var html = '',
+                                isPay = '';
                             if (arr.data != '') {
-                                for (var i = 0; i < arr.data.length; i++) {
-                                    html += '<p>' +
-                                        '<span>' + arr.data[i].payType + '</span>' +
-                                        '<span><b>¥</b>' + arr.data[i].amount + '</span>' +
-                                        '<span>' + arr.data[i].payDate + '</span>' +
+                                for (var i = 0; i < arr.data.list.length; i++) {
+                                    switch(arr.data.list[i].isPay) {
+                                        case 0 :
+                                            isPay = '待支付';
+                                            break;
+                                        case 1 :
+                                            isPay = '已支付';
+                                            break;
+                                    }
+                                    html += '<p class="a-payment-detail" data-paymentNo = "' + arr.data.list[i].paymentNo + '">' +
+                                        '<span>' + arr.data.list[i].paymentNo + '</span>' +
+                                        '<span>' + arr.data.list[i].actfee + '</span>' +
+                                        '<span>' + isPay + '</span>' +
                                         '</p>';
                                 }
                                 $('.content').html(html);
@@ -96,8 +102,15 @@
                                 $('.content').html(html);
                             }
                         }
-                    }, {}, 'get', '', '', 'html/record.html')
+                    }, {}, 'post', '', '', 'html/payment_list.html')
                 }
+
+                /***********************编辑弹框*****************************/
+                $('body').on('click', '.a-payment-detail', function() {
+
+                    var paymentNo = $(this).attr('data-paymentNo');
+                    window.location.href = 'payment_detail.html?paymentNo=' + paymentNo;
+                });
             });
         });
     </script>

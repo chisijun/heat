@@ -14,6 +14,7 @@ import org.study.heat.pojo.Payment;
 
 import com.github.pagehelper.PageInfo;
 import org.study.heat.pojo.User;
+import org.study.heat.vo.PaymentVo;
 
 /**
  * ClassName: PaymentService 
@@ -55,5 +56,6 @@ public interface PaymentService extends IService<Payment> {
 	 * @date 2019年6月13日
 	 */
 	PageInfo queryTicketListWithPage(TicketQueryDto ticketQueryDto);
-	
+
+	PaymentVo queryPaymentDetailByNo(String paymentNo);
 }

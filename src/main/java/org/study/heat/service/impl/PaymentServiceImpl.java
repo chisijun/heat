@@ -146,4 +146,15 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 		return new PageInfo<>(ticketList);
 	}
 
+	@Override
+	public PaymentVo queryPaymentDetailByNo(String paymentNo) {
+
+		PaymentQueryDto paymentQueryDto = new PaymentQueryDto();
+		paymentQueryDto.setPaymentNo(paymentNo);
+		PageHelper.startPage(1, 1);
+		List<PaymentVo> paymentVoList = paymentDao.queryPaymentListWithPage(paymentQueryDto);
+
+		return paymentVoList.get(0);
+	}
+
 }

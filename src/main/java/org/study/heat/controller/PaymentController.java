@@ -46,6 +46,7 @@ import org.study.heat.utils.alipay.AlipayTrade;
 import org.study.heat.vo.PaymentDetailVo;
 
 import com.github.pagehelper.PageInfo;
+import org.study.heat.vo.PaymentVo;
 
 
 /**
@@ -104,6 +105,15 @@ public class PaymentController {
 		List<PaymentDetail> paymentDetailList = paymentDetaiService.select(paymentDetail);
 		
 		return new JsonResult(true, "操作成功", paymentDetailList);
+	}
+
+	@Authorization
+	@RequestMapping(value = "/queryPaymentDetailByNo/{paymentNo}", method = RequestMethod.POST)
+	public JsonResult queryPaymentDetailByNo(@PathVariable String paymentNo) {
+
+		PaymentVo paymentVo = paymentService.queryPaymentDetailByNo(paymentNo);
+
+		return new JsonResult(true, "操作成功", paymentVo);
 	}
 	
 	/**
