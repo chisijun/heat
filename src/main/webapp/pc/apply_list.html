@@ -24,13 +24,13 @@
 </head>
 
 <body style="background:#65A6EA;width:1254px;" class="ifram">
-    <div class="wrapper-container user_list">
+    <div class="wrapper-container apply_list">
         <!--搜索框-->
         <div class="search-box">
             
             <input class="isPhone" type="text" placeholder="请输入用户名称" />
             <button class="searchBtn">搜索</button>
-            <button class="addBtn">新建</button>
+            <!--<button class="addBtn">新建</button>-->
         </div>
         <!--table数据-->
         <div class="table-box">
@@ -85,13 +85,23 @@
          </div>
     </div>
 
+    <input type="hidden" id="applyId" value="">
+
     <!--确认删除-->
-    <div class="delete_mask">
-        <input type="hidden" id="d_userId" value="">
+    <div class="delete_mask" id="start">
         <div class="mask_contain">
-            <div class="mask_top">删除用户<span class="close3">&times;</span></div>
-            <div class="delete_title">是否删除选中用户？</div>
-            <div class="delete_btn"><button class="delete_comfire" id="del_user">确认</button><button class="delete_cansle">取消</button></div>
+            <div class="mask_top">同意复热<span class="close7">&times;</span></div>
+            <div class="delete_title">是否同意复热选中房子？</div>
+            <div class="delete_btn"><button class="delete_comfire" id="start_comfire">确认</button><button class="delete_cansle" id="start_cansle">取消</button></div>
+        </div>
+    </div>
+
+    <!--确认删除-->
+    <div class="delete_mask" id="stop">
+        <div class="mask_contain">
+            <div class="mask_top">同意停热<span class="close8">&times;</span></div>
+            <div class="delete_title">是否同意停热选中房子？</div>
+            <div class="delete_btn"><button class="delete_comfire" id="stop_comfire">确认</button><button class="delete_cansle" id="stop_cansle">取消</button></div>
         </div>
     </div>
 
@@ -149,7 +159,7 @@
                     "pageSize": pageSize,
                     "userName": name
                 };
-                WFang("payment/queryListWithPage", function(arr) {
+                WFang("apply/queryListWithPage", function(arr) {
                     // console.log(arr);
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -180,46 +190,66 @@
                             nStatus = '',
                             lock = '',
                             color = ''
-                            roomType = '';
+                            roomType = '',
+                            applyType = '',
+                            stat = '',
+                            approval = '';
                         if (arr.data.list == '' || arr.data.list == null) {
                             layer.msg('暂无数据!');
                         } else {
                             html1 = 
                                 '<span>姓名</span>' +
-                                '<span>账单号</span>' +
-                                '<span>年度</span>' +
-                                '<span>总额</span>' +
-                                '<span>房子数量</span>' +
-                                '<span>房子面积(㎡)</span>' +
+                                '<span>房子地址</span>' +
+                                '<span>类型</span>' +
+                                '<span>状态</span>' +
+                                '<span>时间</span>' +
                                 '<span>操作</span>';
                             $('.table-head').html(html1);
                             
                             for (var i = 0; i < arr.data.list.length; i++) {
 
-                                var acreage = 0;
-                                var roomNumber = arr.data.list[i].roomList.length;
-                                for (var j = 0; j < arr.data.list[i].roomList.length; j++) {
-                                    acreage = accAdd(acreage, arr.data.list[i].roomList[j].acreage);
+                                switch (arr.data.list[i].applyType) {
+                                    case 0 :
+                                       applyType = "申请停热";
+                                       break;
+                                    case 1 :
+                                        applyType = "强制停热";
+                                        break;
+                                    case 2 :
+                                        applyType = "申请复热"; 
+                                        break;    
+                                }
+
+                                approval = '<a class="a-delete" data-applyType="-1" data-applyId="-1" href="javascript:void (0);">无需操作</a>'
+
+                                switch (arr.data.list[i].stat) {
+                                    case 0 :
+                                       stat = "申请停热";
+                                       approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].applyType + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意停热</a>' 
+                                       break;
+                                    case 1 :
+                                        stat = "同意停热";
+                                        break;
+                                    case 2 :
+                                        stat = "强制停热"; 
+                                        break;  
+                                    case 3 :
+                                        stat = "申请复热";
+                                        approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].applyType + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意复热</a>'
+                                        break;
+                                    case 4 :
+                                        stat = "同意复热";  
+                                        break; 
                                 }
 
                                 html += 
                                     '<div class="div-box">' +
-                                    '<span>' + arr.data.list[i].loginName + '</span>' +
                                     '<span>' + arr.data.list[i].userName + '</span>' +
-                                    '<span>' + arr.data.list[i].mobileNo + '</span>' +
-                                    '<span>' + arr.data.list[i].email + '</span>' +
-                                    '<span>' + roomNumber + '</span>' +
-                                    '<span>' + acreage + '</span>' +
-                                    '<span>' +
-                                    '<a class="a-edit" data-email = "' 
-                                        + arr.data.list[i].email + '" data-mobileNo = "' 
-                                        + arr.data.list[i].mobileNo + '" data-loginName = "' 
-                                        + arr.data.list[i].loginName + '" data-userName="' 
-                                        + arr.data.list[i].userName + '" data-userId="' 
-                                        + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
-                                    '<a class="a-modifyPwd" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">修改密码</a>' +
-                                    '<a class="a-room" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">房屋详情</a>' +
-                                    '<a class="a-delete" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
+                                    '<span>' + arr.data.list[i].roomName + '</span>' +
+                                    '<span>' + applyType + '</span>' +
+                                    '<span>' + stat + '</span>' +
+                                    '<span>' + arr.data.list[i].createdTime + '</span>' +
+                                    '<span>' + approval +
                                     '</span>' +
                                     '</div>';
                             }
@@ -312,6 +342,64 @@
                 $("#modify_pwd_mask").hide();
             });
 
+            $('body').on("click",".close7",function(){
+                $("#start").hide();
+            });
+
+            $('body').on("click","#start_cansle",function(){
+                $("#start").hide();
+            });
+
+            $('body').on("click","#start_comfire",function(){
+                var apply = $("#applyId").val();
+
+                var data = {
+                    "id": apply
+                };
+                WFang("apply/approval", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $("#start").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
+ 
+            });
+
+            $('body').on("click",".close8",function(){
+                $("#stop").hide();
+            });
+
+            $('body').on("click","#stop_cansle",function(){
+                $("#stop").hide();
+            });
+
+            $('body').on("click","#stop_comfire",function(){
+                var apply = $("#applyId").val();
+
+                var data = {
+                    "id": apply
+                };
+                WFang("apply/approval", function(arr) {
+                    var pageNo = $('.layui-input').val();
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        layer.msg(arr.message);
+                        setTimeout(function() {
+                            $("#stop").hide();
+                            getData(pageNo, name);
+                        }, 1800);
+                    }
+                }, data, 'postForm')
+ 
+            });
+
             /***********************修改密码实现*****************************/
             $("body").on("click","#modify_pwd_comfire",function() {
                 var userId = $("#m_p_userId").val();
@@ -384,9 +472,26 @@
 
             /***********************删除弹框*****************************/
             $('body').on('click', '.a-delete', function() {
-                var userId = $(this).attr('data-userId');
-                $("#d_userId").val(userId);
-                $(".delete_mask").show();
+
+                var applyType = $(this).attr('data-applyType');
+                var applyId = $(this).attr('data-applyId');
+
+                if (applyType == -1) {
+                    layer.msg("无需操作");
+                    return ;
+                }
+
+                $('#applyId').val(applyId);
+
+                if (applyType == 0) {
+
+                    $("#start").show(); 
+                }
+
+                if (applyType == 3) {
+                   $("#stop").show(); 
+                }
+
             });
 
             /***********************关闭删除弹框*****************************/

@@ -58,6 +58,17 @@
                     <span class="span-right workTime" id="heatType">--</span>
                 </div>
             </div>
+
+            <!--我要还款-->
+            <div>
+                <a style="display: none;" id="stop" href="javascript:void (0);">申请停热</a>
+            </div>
+
+            <!--我要还款-->
+            <div>
+                <a style="display: none;" id="start" href="javascript:void (0);">申请复热</a>
+            </div>
+
             <!--监控数据-->
             <!--
             <div class="control">
@@ -139,6 +150,7 @@
     <script>
         $(document).ready(function() {
             layui.use('layer', function() {
+
                 //握手
                 var socket = null;
                 // 判断浏览器是否支持Websocketpp
@@ -214,6 +226,67 @@
                     closeWebSocket();
                 })
                 */
+               
+               // 申请复热
+               $('body').on('click', '#start', function() {
+                   
+                    WFang("apply/start", function(arr) {
+                    var roomType = "";
+                    var houseType = "";
+                    var acreage = "";
+                    var heatType = "";
+                    if (arr.status == false) {
+                        
+                        } else {
+
+                            switch(arr.data.roomType) {
+                                case 1 :
+                                    roomType = '居民';
+                                    break;
+                                case 2 :
+                                    roomType = '商业';
+                                    break;
+                                case 3 :
+                                    roomType = '办公';
+                                    break;
+                                case 4 :
+                                    roomType = '餐饮';
+                                    break;
+                            }
+
+                            switch (obj.heatType) {
+                                case 0 :
+                                    heatType = '不供热';
+                                    break;
+                                case 1 :
+                                    heatType = '供热';
+                                    break;
+                                case 2 :
+                                    heatType = '报停';
+                                    break;
+                                case 3 :
+                                    heatType = '强停';
+                                    break;
+                                case 4 :
+                                    heatType = '复热';
+                                    break;
+                            }
+                            
+                            houseType = arr.data.houseType;
+                            acreage = arr.data.acreage + " ㎡";
+                        }
+
+                    }, {
+                        userId: userId,
+                        roomId: g_roomId,
+                        roomName: g_roomName
+                    }, 'postForm');
+                });
+
+               // 申请停热
+               $('body').on('click', '#stop', function() {
+                    
+                });
 
                 //跳转电机监控状态
                 $('body').on('click', '#motor', function() {
@@ -227,6 +300,8 @@
 
                 var pageNum = '1',
                     pageSize = '1000',
+                    g_roomId = '',
+                    g_roomName = '',
                     userId = ApiConf.userId;
 
                 load_room();
@@ -266,18 +341,28 @@
                                 switch (obj.heatType) {
                                     case 0 :
                                         heatType = '不供热';
+                                        $("#stop").hide();
+                                        $("#start").show();
                                         break;
                                     case 1 :
                                         heatType = '供热';
+                                        $("#stop").show();
+                                        $("#start").hide();
                                         break;
                                     case 2 :
                                         heatType = '报停';
+                                        $("#stop").hide();
+                                        $("#start").show();
                                         break;
                                     case 3 :
                                         heatType = '强停';
+                                        $("#stop").hide();
+                                        $("#start").show();
                                         break;
                                     case 4 :
                                         heatType = '复热';
+                                        $("#stop").show();
+                                        $("#start").hide();
                                         break;
                                 }
 
@@ -287,6 +372,9 @@
                                 $('#acreage').html(acreage);
                                 $('#roomType').html(roomType);
                                 $('#houseType').html(houseType);
+
+                                g_roomId = obj.id;
+                                g_roomName = roomLocation;
 
                                 for (var i = 0; i < arr.data.list.length; i++) {
                                     //arrSn.push(arr.data.list[i].sn);
@@ -436,6 +524,9 @@
                 $('body').on('click', '.liSn', function() {
                     var roomId = $(this).attr('data-roomId');
                     $('.sn').html($(this).html());
+
+                    g_roomId = roomId;
+                    g_roomName = $(this).html();
 
                     WFang("room/queryById/" + roomId, function(arr) {
                     var roomType = "";

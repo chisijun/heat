@@ -45,7 +45,7 @@ public class ApplyController {
 	public JsonResult applyStop(@CurrentUser User login, Apply apply) {
 		
 		apply.setApplyType(Constant.APPLY_TYPE_STOP);
-		apply.setStat(Constant.APPLY_TYPE_STOP);
+		apply.setStat(Constant.APPLY_STAT_STOP);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);
@@ -62,7 +62,7 @@ public class ApplyController {
 	public JsonResult applyStart(@CurrentUser User login, Apply apply) {
 		
 		apply.setApplyType(Constant.APPLY_TYPE_START);
-		apply.setStat(Constant.APPLY_TYPE_START);
+		apply.setStat(Constant.APPLY_STAT_START);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);
@@ -79,7 +79,7 @@ public class ApplyController {
 	public JsonResult StrongStop(@CurrentUser User login, Apply apply) {
 		
 		apply.setApplyType(Constant.APPLY_TYPE_STRONG);
-		apply.setStat(Constant.APPLY_TYPE_STRONG);
+		apply.setStat(Constant.APPLY_STAT_STRONG);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);

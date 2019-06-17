@@ -1649,3 +1649,31 @@ body {
 .apply_list .control .content p:nth-child(2n) {
     background-color: #EAEAEA;
 }
+
+.management .search-box #stop {
+    width: 5rem;
+    height: 0.8rem;
+    background-color: red;
+    border-radius: 0.2rem;
+    color: white;
+    font-size: 0.46rem;
+    text-align: center;
+    display: block;
+    line-height: 0.8rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+}
+
+.management .search-box #start {
+    width: 5rem;
+    height: 0.8rem;
+    background-color: #6fab31;
+    border-radius: 0.2rem;
+    color: white;
+    font-size: 0.46rem;
+    text-align: center;
+    display: block;
+    line-height: 0.8rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+}

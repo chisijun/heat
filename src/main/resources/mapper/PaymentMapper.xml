@@ -97,7 +97,7 @@
   			and payment.is_pay = #{isPay}
   		</if>
   	order by
-  		payment.created_time
+  		payment.created_time desc
   </select>
   
 </mapper>

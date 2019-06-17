@@ -63,6 +63,9 @@
     <script>
         $(document).ready(function() {
             layui.use('layer', function() {
+
+                var userId = window.sessionStorage.getItem("userId");
+
                 //头部返回上一页按键
                 $('body').on('click', '#head-back', function() {
                     window.location.href = 'pay.html';
@@ -102,7 +105,11 @@
                                 $('.content').html(html);
                             }
                         }
-                    }, {}, 'post', '', '', 'html/payment_list.html')
+                    }, {
+                        "pageNum":1,
+                        "pageSize":100,
+                        "userId":userId                        
+                    }, 'post', '', '', 'html/payment_list.html')
                 }
 
                 /***********************编辑弹框*****************************/
