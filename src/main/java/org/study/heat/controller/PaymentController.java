@@ -41,11 +41,19 @@ import org.study.heat.pojo.User;
 import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
 import org.study.heat.service.TokenManager;
+import org.study.heat.utils.TimeUtils;
 import org.study.heat.utils.alipay.AliPayConfig;
 import org.study.heat.utils.alipay.AlipayTrade;
+import org.study.heat.utils.alipay.MyAlipayConfig;
 import org.study.heat.vo.PaymentDetailVo;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeWapPayModel;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.github.pagehelper.PageInfo;
+
 import org.study.heat.vo.PaymentVo;
 
 
@@ -116,6 +124,87 @@ public class PaymentController {
 		return new JsonResult(true, "操作成功", paymentVo);
 	}
 	
+	@RequestMapping(value = "/aliPay")
+	public void aliPay(HttpServletResponse response, HttpServletRequest request, OnlinePayDto onlinePayDto) 
+			throws IOException {
+		
+		// 超时时间 可空
+	    String timeout_express="60m";
+	    // 销售产品码 必填
+	    String product_code="QUICK_WAP_PAY";
+	    /**********************/
+	    // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签     
+	    //调用RSA签名方式
+	    AlipayClient client = new DefaultAlipayClient(MyAlipayConfig.URL, MyAlipayConfig.APPID, MyAlipayConfig.RSA_PRIVATE_KEY, MyAlipayConfig.FORMAT, MyAlipayConfig.CHARSET, MyAlipayConfig.ALIPAY_PUBLIC_KEY,MyAlipayConfig.SIGNTYPE);
+	    AlipayTradeWapPayRequest alipay_request=new AlipayTradeWapPayRequest();
+	    
+	    // 封装请求支付信息
+	    AlipayTradeWapPayModel model=new AlipayTradeWapPayModel();
+	    //model.setOutTradeNo(TimeUtils.getPaymentNo());
+	    model.setOutTradeNo(onlinePayDto.getPaymentNo());
+	    model.setSubject("供暖费");
+	    //model.setTotalAmount("0.01");
+	    model.setTotalAmount(onlinePayDto.getTotalAmount().toString());
+	    model.setBody(onlinePayDto.getBody());
+	    model.setTimeoutExpress(timeout_express);
+	    model.setProductCode(product_code);
+	    alipay_request.setBizModel(model);
+	    // 设置异步通知地址
+	    alipay_request.setNotifyUrl(MyAlipayConfig.notify_url);
+	    // 设置同步地址
+	    alipay_request.setReturnUrl(MyAlipayConfig.return_url);   
+	    
+	    // form表单生产
+	    String form = "";
+		try {
+			// 调用SDK生成表单
+			form = client.pageExecute(alipay_request).getBody();
+			System.out.println(form);
+			response.setContentType("text/html;charset=" + MyAlipayConfig.CHARSET); 
+		    response.getWriter().write(form);//直接将完整的表单html输出到页面 
+		    response.getWriter().flush(); 
+		    response.getWriter().close();
+		} catch (AlipayApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RequestMapping(value = "/testPay")
+	public void testPay(HttpServletResponse response, HttpServletRequest request) throws IOException {
+		
+		/* 返回上传结果 */
+        response.setCharacterEncoding("UTF-8");
+        /* 解决文件上传跨域问题 */
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.setContentType("text/html;charset=" + AliPayConfig.CHARSET);
+		
+		AlipayTrade alipayTrade = new AlipayTrade();
+		Map<String,String> paraMap = new HashMap<String,String>();
+		paraMap.put("out_trade_no", "1121211221");	// 订单号
+		paraMap.put("total_amount", "0.01");	// 充值金额
+        paraMap.put("subject","供暖费款项");		// 名称
+        /**
+         *  所有支付接口开始计时都是订单创建开始计时，不同接口对于timeout_express计时方式是不同的。 
+			 *  取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 
+			 *  该参数数值不接受小数点， 如 1.5h，可转换为 90m。 
+			 *  如果不设置该参数默认15天订单关闭 
+         */
+        paraMap.put("timeout_express", "15m");	// 过期时间
+//        if (StringUtils.isNotBlank(onlinePayDto.getRemark())) {
+//        	paraMap.put("body", onlinePayDto.getRemark());	// 备注
+//        } else {
+//        	paraMap.put("body", "暂无付款说明");
+//        }
+        paraMap.put("product_code", "QUICK_WAP_PAY");	// 支付方式
+        String form = alipayTrade.TradeWapPayRequest(paraMap);
+        
+        response.getWriter().write(form); //直接将完整的表单html输出到页面
+        response.getWriter().flush();
+        response.getWriter().close();
+	}
+	
 	/**
 	 * 在线支付
 	 */
@@ -174,11 +263,11 @@ public class PaymentController {
   				 *  如果不设置该参数默认15天订单关闭 
                  */
                 paraMap.put("timeout_express", "15m");	// 过期时间
-                if (StringUtils.isNotBlank(onlinePayDto.getRemark())) {
-                	paraMap.put("body", onlinePayDto.getRemark());	// 备注
-                } else {
-                	paraMap.put("body", "暂无付款说明");
-                }
+//                if (StringUtils.isNotBlank(onlinePayDto.getRemark())) {
+//                	paraMap.put("body", onlinePayDto.getRemark());	// 备注
+//                } else {
+//                	paraMap.put("body", "暂无付款说明");
+//                }
                 paraMap.put("product_code", "QUICK_WAP_PAY");	// 支付方式
                 form = alipayTrade.TradeWapPayRequest(paraMap);
         	}

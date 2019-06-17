@@ -129,7 +129,7 @@
 
                 //我要还款
                 $('body').on('click', '#myPay', function() {
-                    window.location.href = 'pay.html';
+                    window.location.href = 'pay.html?paymentNo=' + paymentNo;
                 });
 
                 getData();

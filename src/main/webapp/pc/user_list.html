@@ -108,7 +108,8 @@
             // 房屋详情
             $('body').on('click', '.a-room', function() {
                 var userId = $(this).attr('data-userId');
-                window.location.href = 'user_room.html?userId=' + userId;
+                var userName = $(this).attr('data-userName');
+                window.location.href = 'user_room.html?userName=' + userName + "&userId=" + userId;
             });
             //服务印记跳转
             $('body').on('click', '.a-mark', function() {
@@ -218,7 +219,8 @@
                                         + arr.data.list[i].userName + '" data-userId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">编辑</a>' +
                                     '<a class="a-modifyPwd" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">修改密码</a>' +
-                                    '<a class="a-room" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">房屋详情</a>' +
+                                    '<a class="a-room" data-userName="' + arr.data.list[i].userName
+                                        + '" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">房屋详情</a>' +
                                     '<a class="a-delete" data-userId="' + arr.data.list[i].id + '" href="javascript:void (0);">删除</a>' +
                                     '</span>' +
                                     '</div>';

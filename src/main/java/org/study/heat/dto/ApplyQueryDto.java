@@ -20,6 +20,8 @@ import org.study.heat.base.BaseQuery;
 @Data
 public class ApplyQueryDto extends BaseQuery {
 
+	private Long userId;
 	
+	private String userName;
 	
 }

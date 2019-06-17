@@ -88,12 +88,29 @@
 
     <!-- 重置密码 -->
     <div class="modify_mask" id="modify_pwd_mask">
-        <input type="hidden" id="m_p_userId" value="">
+        <input type="hidden" id="paymentNo" value="">
+        <input type="hidden" id="purchaser" value="">
         <div class="mask_contain" style="height:260px;">
-            <div class="mask_top">重置密码<span class="close6">&times;</span></div>
+            <div class="mask_top">票据入库<span class="close6">&times;</span></div>
             <div class="modify_box">
-                <div><span>密码：</span><input id="password" type="password" placeholder="请输入登录名"></div><br>
-                <div><span>重复密码：</span><input id="confirmPwd" type="password" placeholder="请输入姓名"></div><br>
+                <div><span>发票代码：</span><input id="ticketCode" type="text" placeholder="请输入发票代码"></div><br>
+                <div><span>发票号码：</span><input id="ticketNo" type="text" placeholder="请输入发票号码"></div><br>
+                <div><span>发票日期：</span><input id="ticketDate" type="text" placeholder="请输入发票日期"></div><br>
+                <div><span>发票金额：</span><input id="fee" type="text" readonly="readonly"></div><br>
+                <div>
+                    <span>发票税率：</span>
+                    <select id="add_rateSlt" style="width:172px;">
+                        <option value="-1">请选择待发票税率</option>
+                        <option value="16">16%</option>
+                        <option value="13">13%</option>
+                        <option value="6">6%</option>
+                        <option value="3">3%</option>
+                    </select>
+                </div><br>
+                <div><span>销售方：</span><input id="seller" type="text" value="武汉市洪山供热管理有限公司"></div><br>
+                <div><span>识别号：</span><input id="sTaxpayerCode" type="text" value="9133011058027447X2"></div><br>
+                <div><span>地址&电话：</span><input id="sAddressPhone" type="text" value="杭州市余杭区文一西路969号5幢1楼110室 0571-85022088"></div><br>
+                <div><span>银行&账户：</span><input id="sBankAccount" type="text" value="招商杭州高新支行 571906814810700"></div><br>
                 <div class="delete_btn"><button class="modify_comfire" id="modify_pwd_comfire" style="margin-top:18px;">确认</button><button class="modify_cansle" id="modify_pwd_cansle">取消</button></div>
             </div>
          </div>
@@ -319,7 +336,7 @@
                                     '<span>' + isPay + '</span>' +
                                     '<span>' +
                                     '<a class="a-edit" data-paymentNo="' + arr.data.list[i].paymentNo + '" href="javascript:void (0);">详情</a>' +
-                                    '<a class="a-modifyPwd" data-paymentNo = "' 
+                                    '<a class="a-modifyPwd" data-fee = "' + fee + '" data-paymentNo = "' 
                                         + arr.data.list[i].paymentNo + '" data-userName="' 
                                         + arr.data.list[i].userName + '" data-isPay="' 
                                         + arr.data.list[i].isPay +  '" data-fee="' + fee +  '" href="javascript:void (0);">票据入库</a>' +
@@ -409,8 +426,14 @@
                     return ;
                 }   
 
+                var paymentNo = $(this).attr('data-paymentNo');
+                var fee = $(this).attr('data-fee');
+                var userName = $(this).attr('data-userName');
+
+                $("#paymentNo").val(paymentNo);
+                $("#fee").val(fee);
+                $("#purchaser").val(userName);
                 
-                //alert(111);
                 $("#modify_pwd_mask").show();
             });
 
@@ -428,13 +451,29 @@
             /***********************修改密码实现*****************************/
             $("body").on("click","#modify_pwd_comfire",function() {
                 
-                var userId = $("#m_p_userId").val();
-                var password = $("#password").val();
-                var confirmPwd = $("#confirmPwd").val();
+                var paymentNo = $("#paymentNo").val();
+                var fee = $("#fee").val();
+                var purchaser = $("#purchaser").val();
+                var ticketNo = $("#paymentNo").val();
+                var ticketDate = $("#paymentNo").val();
+                var ticketCode = $("#paymentNo").val();
+                var taxRate = $('#add_rateSlt').find("option:selected").val();
+                var seller = $("#seller").val(); 
+                var sTaxpayerCode = $("#sTaxpayerCode").val();
+                var sAddressPhone = $("#sAddressPhone").val();
+                var sBankAccount = $("#sBankAccount").val();
                 var data = {
-                    "id": userId,
-                    "password": password,
-                    "confirmPwd": confirmPwd
+                    "paymentNo": paymentNo,
+                    "fee": fee,
+                    "purchaser": purchaser,
+                    "ticketNo": ticketNo,
+                    "ticketDate": ticketDate,
+                    "ticketCode": ticketCode,
+                    "taxRate": taxRate,
+                    "seller": seller,
+                    "sTaxpayerCode": sTaxpayerCode,
+                    "sAddressPhone": sAddressPhone,
+                    "sBankAccount": sBankAccount
                 };
                 WFang("ticket/save", function(arr) {
                     var pageNo = $('.layui-input').val();

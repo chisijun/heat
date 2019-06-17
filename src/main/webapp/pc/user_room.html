@@ -121,6 +121,7 @@
     <!--确认强停-->
     <div class="delete_mask" id="qiangting_mask">
         <input type="hidden" id="qt_roomId" value="">
+        <input type="hidden" id="qt_roomName" value="">
         <div class="mask_contain">
             <div class="mask_top">房子强停<span class="close8">&times;</span></div>
             <div class="delete_title">是否强停选中的房子？</div>
@@ -147,6 +148,7 @@
                 }
             }
             var userId=params.userId;
+            var userName = params.userName;
 
             var layer = layui.layer;
             var laypage = layui.laypage;
@@ -353,7 +355,8 @@
                                     '<span>' +
                                     '<a class="a-edit" data-roomId="' 
                                         + arr.data.list[i].id + '" href="javascript:void (0);">迁出</a>' +
-                                    '<a class="a-modifyPwd" data-roomId="' + arr.data.list[i].id + '" href="javascript:void (0);">强停</a>' +
+                                    '<a class="a-modifyPwd" data-roomName="' + roomLocation
+                                         + '" data-roomId="' + arr.data.list[i].id + '" href="javascript:void (0);">强停</a>' +
                                     '</span>' +
                                     '</div>';
                             }
@@ -372,9 +375,7 @@
 
             /***********************修改密码实现*****************************/
             $("body").on("click","#qianchu_comfire",function() {
-                var roomId =  $('#qc_roomId').val();
-                alert(roomId);
-                return ;
+                var roomId = $('#qc_roomId').val();
                 var data = {
                     "userId": userId,
                     "roomId": roomId
@@ -386,7 +387,7 @@
                     } else {
                         layer.msg(arr.message);
                         setTimeout(function() {
-                            $("#qiangchu_mask").hide();
+                            $("#qianchu_mask").hide();
                             getData(pageNo, name);
                         }, 1800);
                     }
@@ -417,20 +418,20 @@
             /***********************修改密码实现*****************************/
             $("body").on("click","#qiangting_comfire",function() {
                 var roomId =  $('#qt_roomId').val();
-                alert(roomId);
-                return ;
+                var roomName = $('#qt_roomName').val();
                 var data = {
                     "userId": userId,
-                    "roomId": roomId
+                    "roomId": roomId,
+                    "roomName":roomName
                 };
-                WFang("user/checkOut", function(arr) {
+                WFang("apply/strong", function(arr) {
                     var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);
                     } else {
                         layer.msg(arr.message);
                         setTimeout(function() {
-                            $("#qiangchu_mask").hide();
+                            $("#qiangting_mask").hide();
                             getData(pageNo, name);
                         }, 1800);
                     }
@@ -462,7 +463,7 @@
                 // $("#m_mobileNo").val(mobileNo);
                 // $("#m_email").val(email);
                 var roomId = $(this).attr('data-roomId');
-                $("#qc_roomId").val(userId);
+                $("#qc_roomId").val(roomId);
 
                 $("#qianchu_mask").show();
             });
@@ -499,7 +500,10 @@
             /***********************修改密码弹框*****************************/
             $('body').on("click",".a-modifyPwd",function(){
                 var roomId = $(this).attr('data-roomId');
-                $("#qt_roomId").val(userId);
+                var roomName = $(this).attr('data-roomName');
+
+                $("#qt_roomId").val(roomId);
+                $("#qt_roomName").val(roomName);
 
                 $("#qiangting_mask").show();
             });

@@ -140,22 +140,25 @@
                         if ($('.zfb').attr('data-ind') == "0") {
                             payType = '2';
                             var url = ApiConf.server +
-                                "payment/onlinePay?token=" + ApiConf.token +
+                                "payment/aliPay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
-                                "&body=" + body;
+                                "&body=" + body +
+                                "&paymentNo=" + paymentNo;
                             _AP.pay(ApiConf.server +
-                                "payment/onlinePay?token=" + ApiConf.token +
+                                "payment/aliPay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
-                                "&body=" + body);
+                                "&body=" + body +
+                                "&paymentNo=" + paymentNo);
                         } else if ($('.yl').attr('data-ind') == "0") {
                             payType = '1';
                             window.location.href = ApiConf.server +
-                                "OnlinePayment/onlinePay?token=" + ApiConf.token +
+                                "payment/aliPay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
-                                "&body=" + body;
+                                "&body=" + body +
+                                "&paymentNo=" + paymentNo;
                         }
                     }
                 });

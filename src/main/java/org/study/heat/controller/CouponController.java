@@ -19,6 +19,7 @@ import org.study.heat.dto.CouponQueryDto;
 import org.study.heat.dto.SiteQueryDto;
 import org.study.heat.pojo.Coupon;
 import org.study.heat.service.CouponService;
+import org.study.heat.utils.TimeUtils;
 
 import com.github.pagehelper.PageInfo;
 
@@ -62,6 +63,17 @@ public class CouponController {
 	@Authorization
 	@PostMapping("/queryListWithPage")
 	public JsonResult queryCouponListWithPage(CouponQueryDto couponQueryDto) {
+		
+		PageInfo pageInfo = couponService.queryCouponListWithPage(couponQueryDto);
+		
+		return new JsonResult(true, "操作成功", pageInfo);
+	}
+	
+	@Authorization
+	@PostMapping("/queryUsableListWithPage")
+	public JsonResult queryUsableCouponListWithPage(CouponQueryDto couponQueryDto) {
+		
+		couponQueryDto.setCurrentTime(TimeUtils.getNowTime());
 		
 		PageInfo pageInfo = couponService.queryCouponListWithPage(couponQueryDto);
 		

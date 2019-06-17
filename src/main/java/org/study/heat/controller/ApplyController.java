@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.heat.annotation.Authorization;
 import org.study.heat.annotation.CurrentUser;
+import org.study.heat.base.Constant;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.ApplyQueryDto;
+import org.study.heat.enums.ApplyTypeEnum;
 import org.study.heat.pojo.Apply;
 import org.study.heat.pojo.User;
 import org.study.heat.service.ApplyService;
@@ -42,6 +44,8 @@ public class ApplyController {
 	@PostMapping("/stop")
 	public JsonResult applyStop(@CurrentUser User login, Apply apply) {
 		
+		apply.setApplyType(Constant.APPLY_TYPE_STOP);
+		apply.setStat(Constant.APPLY_TYPE_STOP);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);
@@ -57,6 +61,8 @@ public class ApplyController {
 	@PostMapping("/start")
 	public JsonResult applyStart(@CurrentUser User login, Apply apply) {
 		
+		apply.setApplyType(Constant.APPLY_TYPE_START);
+		apply.setStat(Constant.APPLY_TYPE_START);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);
@@ -72,6 +78,8 @@ public class ApplyController {
 	@PostMapping("/strong")
 	public JsonResult StrongStop(@CurrentUser User login, Apply apply) {
 		
+		apply.setApplyType(Constant.APPLY_TYPE_STRONG);
+		apply.setStat(Constant.APPLY_TYPE_STRONG);
 		Integer result = applyService.saveApply(apply, login);
 		if (result < 1) {
 			return new JsonResult(false, "操作失败", result);

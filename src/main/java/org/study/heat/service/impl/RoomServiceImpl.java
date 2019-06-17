@@ -139,6 +139,7 @@ public class RoomServiceImpl extends BaseService<Room> implements RoomService {
 	@Override
 	public Integer checkOut(Room room) {
 		// TODO Auto-generated method stub
+		room.setHeatType(0);
 		room.setUserId(null);
 		
 		return roomDao.updateByPrimaryKey(room);

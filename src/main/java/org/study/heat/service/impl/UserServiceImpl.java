@@ -220,6 +220,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 		
 		room = new Room();
 		room.setId(userRoomDto.getRoomId());
+		room.setHeatType(userRoomDto.getHeatType());
 		room.setUserId(userRoomDto.getUserId());
 		room.setUpdateInfo(login);
 		

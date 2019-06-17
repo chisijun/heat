@@ -1569,3 +1569,83 @@ body {
 .record .control .content p:nth-child(2n) {
     background-color: #EAEAEA;
 }
+
+
+/**************apply_list.html**************/
+
+.apply_list .control {
+    margin-top: 0.2rem;
+    box-shadow: 0 1px 9.9px 0.1px rgba(55, 55, 55, 0.5);
+    margin-bottom: 0.2rem;
+}
+
+.apply_list .control .top {
+    font-size: 0.3rem;
+    font-weight: bold;
+    color: white;
+    background-color: #6fab31;
+}
+
+.apply_list .control p {
+    height: 0.6rem;
+    width: 100%;
+}
+
+.apply_list .control p span {
+    display: inline-block;
+    width: 32%;
+    line-height: 0.6rem;
+    text-align: center;
+}
+
+.apply_list .control p span:nth-child(1) {
+    width: 45%;
+}
+
+.apply_list .control p span:nth-child(2) {
+    width: 25%;
+}
+
+.apply_list .control p span:nth-child(3) {
+    width: 25%;
+}
+
+.apply_list .control .content {
+    font-size: 0.28rem;
+}
+
+.apply_list .control .content p {
+    height: 0.8rem;
+}
+
+.apply_list .control .content p span {
+    line-height: 0.8rem;
+}
+
+.apply_list .control .content p span:nth-child(2) {
+    border-left: 1px solid #DCDCDC;
+}
+
+.apply_list .control .content p span:nth-child(3) {
+    border-left: 1px solid #DCDCDC;
+}
+
+.apply_list .control .content p span:nth-child(1) {
+    width: 45%;
+}
+
+.apply_list .control .content p span:nth-child(2) {
+    width: 25%;
+}
+
+.apply_list .control .content p span:nth-child(3) {
+    width: 25%;
+}
+
+.apply_list .control .content p:nth-child(2n-1) {
+    background-color: white;
+}
+
+.apply_list .control .content p:nth-child(2n) {
+    background-color: #EAEAEA;
+}

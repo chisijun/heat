@@ -81,7 +81,7 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 		Random random = new Random();
 		DecimalFormat df = new DecimalFormat("00");
 		String paymentNo = new SimpleDateFormat("yyyyMMddHHmmss")
-				.format(new Date()) + df.format(random.nextInt(100));;
+				.format(new Date()) + df.format(random.nextInt(100));
 
 		// 根据用户Id查询所有房子信息
 		List<RoomVo> roomVoList = roomService.queryUserRoomListByUserId(payment.getUserId());
@@ -103,7 +103,9 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 				//paymentDetail.setUpdateInfo(get);
 				fee = r.getPrice().multiply(new BigDecimal(r.getAcreage())).setScale(2);
 				paymentDetail.setFee(fee);
+				System.out.println("fee = " + fee);
 				feeTotal = feeTotal.add(fee);
+				System.out.println("feeTotal = " + feeTotal);
 				paymentDetail.setUpdateInfo(user);
 				
 				paymentDetailList.add(paymentDetail);
@@ -113,7 +115,7 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 		paymentDetaiService.batchSave(paymentDetailList);
 		
 		payment.setPaymentNo(paymentNo);
-		payment.setFee(feeTotal);
+		payment.setActfee(feeTotal);
 		//payment.setU
 		
 		return paymentDao.insertSelective(payment);

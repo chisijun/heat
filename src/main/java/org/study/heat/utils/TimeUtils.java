@@ -8,10 +8,12 @@
 package org.study.heat.utils;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * ClassName: TimeUtils 
@@ -108,6 +110,16 @@ public class TimeUtils {
 	 */
 	public static Date dateTimeStringToDate(String dateTime) throws ParseException{  
 	    return timeFormat.parse(dateTime);  
+	}
+	
+	public static String getPaymentNo() {
+		
+		Random random = new Random();
+		DecimalFormat df = new DecimalFormat("00");
+		String paymentNo = new SimpleDateFormat("yyyyMMddHHmmss")
+				.format(new Date()) + df.format(random.nextInt(100));
+		
+		return paymentNo;
 	}
 	
 }
