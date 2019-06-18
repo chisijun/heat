@@ -100,4 +100,15 @@
   		payment.created_time desc
   </select>
   
+  <select id="queryPaymentTotal" resultType="org.study.heat.vo.PaymentTotal">
+  	SELECT
+		COUNT(user_id) AS userCount,
+		SUM(actFee) AS feeCount,
+		is_pay AS isPay
+	FROM
+		t_payment
+	GROUP BY
+		is_pay
+  </select>
+  
 </mapper>

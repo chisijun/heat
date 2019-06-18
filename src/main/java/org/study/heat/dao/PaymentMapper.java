@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.pojo.Payment;
+import org.study.heat.vo.PaymentTotal;
 import org.study.heat.vo.PaymentVo;
 
 import tk.mybatis.mapper.common.Mapper;
@@ -20,4 +21,14 @@ public interface PaymentMapper extends Mapper<Payment> {
 	 * @date 2019年6月13日
 	 */
 	List<PaymentVo> queryPaymentListWithPage(PaymentQueryDto paymentQueryDto);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<PaymentTotal>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月18日
+	 */
+	List<PaymentTotal> queryPaymentTotal();
 }

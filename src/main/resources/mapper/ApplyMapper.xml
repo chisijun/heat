@@ -37,4 +37,13 @@
     order by
       created_time desc
   </select>
+  
+  <select id="queryApplyTotal" resultType="org.study.heat.vo.ApplyTotal">
+  	SELECT
+		apply_type AS applyType,
+		COUNT(user_id) AS count
+	FROM t_apply 
+	GROUP BY apply_type
+  </select>
+  
 </mapper>

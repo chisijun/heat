@@ -7,13 +7,17 @@
  */
 package org.study.heat.service;
 
+import java.util.List;
+
 import org.study.heat.base.IService;
 import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.pojo.Payment;
 
 import com.github.pagehelper.PageInfo;
+
 import org.study.heat.pojo.User;
+import org.study.heat.vo.PaymentTotal;
 import org.study.heat.vo.PaymentVo;
 
 /**
@@ -58,4 +62,14 @@ public interface PaymentService extends IService<Payment> {
 	PageInfo queryTicketListWithPage(TicketQueryDto ticketQueryDto);
 
 	PaymentVo queryPaymentDetailByNo(String paymentNo);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<PaymentTotal>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月18日
+	 */
+	List<PaymentTotal> queryPaymentTotal();
 }

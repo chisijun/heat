@@ -7,10 +7,13 @@
  */
 package org.study.heat.service;
 
+import java.util.List;
+
 import org.study.heat.base.IService;
 import org.study.heat.dto.ApplyQueryDto;
 import org.study.heat.pojo.Apply;
 import org.study.heat.pojo.User;
+import org.study.heat.vo.ApplyTotal;
 
 import com.github.pagehelper.PageInfo;
 
@@ -56,5 +59,15 @@ public interface ApplyService extends IService<Apply> {
 	 * @date 2019年6月10日
 	 */
 	PageInfo queryApplyListWithPage(ApplyQueryDto applyQueryDto);
+
+	/**
+	 * @Description: TODO
+	 * @param @return   
+	 * @return List<ApplyTotal>  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月18日
+	 */
+	List<ApplyTotal> queryApplyTotal();
 
 }

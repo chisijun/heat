@@ -28,6 +28,7 @@ import org.study.heat.pojo.Site;
 import org.study.heat.pojo.User;
 import org.study.heat.service.RoomService;
 import org.study.heat.service.RoomTypeService;
+import org.study.heat.vo.RoomTotal;
 import org.study.heat.vo.RoomVo;
 
 import tk.mybatis.mapper.entity.Example;
@@ -153,5 +154,14 @@ public class RoomController {
 		Integer result = roomTypeService.update(roomType);
 		
 		return new JsonResult(true, "操作成功", result);
+	}
+	
+	@Authorization
+	@PostMapping("/queryTotal")
+	public JsonResult queryRoomTotal() {
+		
+		List<RoomTotal> roomTotalList = roomService.queryRoomTotal();
+		
+		return new JsonResult(true, "操作成功", roomTotalList);
 	}
 }

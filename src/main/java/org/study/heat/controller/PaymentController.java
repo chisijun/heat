@@ -46,6 +46,7 @@ import org.study.heat.utils.alipay.AliPayConfig;
 import org.study.heat.utils.alipay.AlipayTrade;
 import org.study.heat.utils.alipay.MyAlipayConfig;
 import org.study.heat.vo.PaymentDetailVo;
+import org.study.heat.vo.PaymentTotal;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -370,5 +371,14 @@ public class PaymentController {
 		
 		System.out.println("unionPayNotify params = " + params.toString());
 		
+	}
+	
+	@Authorization
+	@RequestMapping(value = "/queryTotal", method = RequestMethod.POST)
+	public JsonResult queryPaymentTotal() {
+		
+		List<PaymentTotal> paymentTotalList = paymentService.queryPaymentTotal();
+		
+		return new JsonResult(true, "操作成功", paymentTotalList);
 	}
 }

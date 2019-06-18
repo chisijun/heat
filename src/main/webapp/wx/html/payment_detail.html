@@ -40,20 +40,21 @@
                     <span class="span-left">总额:</span>
                     <span class="span-right actfee">--</span>
                 </div>
-                <!--
-                <div class="information-box line-bottom">
+                <div id="g_discount" class="information-box line-bottom">
                     <span class="span-left">折扣:</span>
                     <span class="span-right discount"></span>
                 </div>
+                <!--
                 <div class="information-box line-bottom">
                     <span class="span-left">支付方式:</span>
                     <span class="span-right repayNum"></span>
                 </div>
-                <div class="information-box line-bottom">
-                    <span class="span-left">支付金额:</span>
-                    <span class="span-right rate"></span>
-                </div>
                 -->
+                <div id="g_fee" class="information-box line-bottom">
+                    <span class="span-left">支付金额:</span>
+                    <span class="span-right fee"></span>
+                </div>
+
             </div>
             <!--账单详情-->
             <div class="detail">
@@ -78,8 +79,38 @@
                 </div>
             </div>
             <!--我要还款-->
+            <div id="g_coupon_yes" style="display: none;" class="detail">
+                <p style="font-size: 0.35rem;">可使用优惠券:</p>
+                <div class="control">
+                    <div class="top_coupon">
+                        <p>
+                            <span>开始时间</span>
+                            <span>结束时间</span>
+                            <span>优惠比例</span>
+                            <span>是否选中</span>
+                        </p>
+                    </div>
+                    <div class="content_coupon">
+                        <p>
+                            <span>2019-06-18</span>
+                            <span>2019-12-18</span>
+                            <span>20%</span>
+                            <span><input type="radio" name="radio" value="1"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="g_coupon_no" style="text-align: center; margin-right: 20px; font-size: 0.35rem; display: none;">
+                <p style="font-size: 0.35rem;">暂无可使用优惠券</p>
+            </div>
+            
+            <div id="g_pay" style="text-align: right; margin-right: 20px; font-size: 0.35rem; display: none; margin-top:20px;">
+                <span>支付金额:</span>
+                <span>￥</span><span style="color: red;" id="fee">10000</span>
+            </div>
             <div>
-                <a style="display: none" id="myPay" href="javascript:void (0);">我要支付</a>
+                <a style="display: none;" id="myPay" href="javascript:void (0);">我要支付</a>
             </div>
         </div>
         <!--底部-->
@@ -145,11 +176,18 @@
                             $('.paymentYear').html(arr.data.paymentYear);
                             $('.acreage').html(arr.data.acreage + '&nbsp;㎡');
                             $('.actfee').html('&nbsp;￥' + arr.data.actfee);
+                            $('.discount').html(arr.data.discount + '&nbsp;%');
+                            $('.fee').html('&nbsp;￥' + arr.data.fee);
                             
                             // 设置显示我要支付
                             if (arr.data.isPay == 0) {
                                 // 显示 我要支付
                                 $("#myPay").show();
+                                 $("#g_discount").hide();
+                                 $("#g_fee").hide();
+                                 $("#g_coupon_yes").show();
+                                 //$("#g_coupon_no").show();
+                                 $("#g_pay").show();
                                 window.sessionStorage.setItem("actfee", arr.data.actfee);
                             }
 
@@ -185,6 +223,24 @@
                             }
                         }
                     }, {}, 'post', '', '', 'html/payment_detail.html')
+                }
+
+                load_coupon();
+
+                function load_coupon() {
+
+                    WFang("coupon/queryUsableListWithPage", function(arr) {
+                        if (arr.status == false) {
+                            layer.msg(arr.message);
+                        } else {
+                            console.log(arr);
+                            
+                        }
+                    }, {
+                        "pageNum": 1,
+                        "pageSize": 100
+                    }, 'postForm', '', '', 'html/payment_detail.html')
+
                 }
             });
         });

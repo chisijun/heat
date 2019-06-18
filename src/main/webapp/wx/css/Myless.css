@@ -1280,6 +1280,13 @@ body {
     background-color: #6fab31;
 }
 
+.account .search-box .detail .control .top_coupon {
+    font-size: 0.24rem;
+    font-weight: bold;
+    color: white;
+    background-color: #6fab31;
+}
+
 .account .search-box .detail .control p {
     padding-left: 0;
     height: 0.6rem;
@@ -1361,6 +1368,103 @@ body {
 }
 
 .account .search-box .detail .control .content .total span:nth-child(3) {
+    width: 17%;
+    padding-left: 4px;
+    border-right: 1px solid #DCDCDC;
+}
+
+.account .search-box .detail .control .top_coupon p span {
+    display: inline-block;
+    line-height: 0.6rem;
+    text-align: center;
+    float: left;
+}
+
+.account .search-box .detail .control .top_coupon p span:nth-child(1) {
+    white-space: normal;
+    width: 28%;
+}
+
+.account .search-box .detail .control .top_coupon p span:nth-child(2) {
+    width: 28%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .top_coupon p span:nth-child(3) {
+    width: 22%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .top_coupon p span:nth-child(4) {
+    width: 20%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .content_coupon p span:nth-child(1) {
+    white-space: normal;
+    width: 28%;
+}
+
+.account .search-box .detail .control .content_coupon p span:nth-child(2) {
+    width: 28%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .content_coupon p span:nth-child(3) {
+    width: 22%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .content_coupon p span:nth-child(4) {
+    width: 20%;
+    border-left: 1px solid #6fab31;
+}
+
+.account .search-box .detail .control .content_coupon {
+    font-size: 0.24rem;
+}
+
+.account .search-box .detail .control .content_coupon {
+    font-size: 0.24rem;
+}
+
+.account .search-box .detail .control .content_coupon p {
+    height: 0.8rem;
+}
+
+.account .search-box .detail .control .content_coupon p span {
+    line-height: 0.8rem;
+    border-left: 1px solid #DCDCDC;
+}
+
+.account .search-box .detail .control .content_coupon p span b {
+    display: inline-block;
+    font-weight: normal;
+    line-height: 0.24rem;
+}
+
+.account .search-box .detail .control .content_coupon p span:nth-child(1) {
+    border-left: none;
+}
+
+.account .search-box .detail .control .content_coupon p:nth-child(2n-1) {
+    background-color: white;
+}
+
+.account .search-box .detail .control .content_coupon p:nth-child(2n) {
+    background-color: #EAEAEA;
+}
+
+.account .search-box .detail .control .content_coupon .total span:nth-child(1) {
+    width: 42%;
+    padding-left: 1px;
+}
+
+.account .search-box .detail .control .content_coupon .total span:nth-child(2) {
+    width: 18%;
+}
+
+.account .search-box .detail .control .content_coupon .total span:nth-child(3) {
     width: 17%;
     padding-left: 4px;
     border-right: 1px solid #DCDCDC;

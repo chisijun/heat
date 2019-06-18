@@ -90,7 +90,7 @@
     <div class="modify_mask" id="modify_pwd_mask">
         <input type="hidden" id="paymentNo" value="">
         <input type="hidden" id="purchaser" value="">
-        <div class="mask_contain" style="height:260px;">
+        <div class="mask_contain" style="height:580px;">
             <div class="mask_top">票据入库<span class="close6">&times;</span></div>
             <div class="modify_box">
                 <div><span>发票代码：</span><input id="ticketCode" type="text" placeholder="请输入发票代码"></div><br>
@@ -454,9 +454,9 @@
                 var paymentNo = $("#paymentNo").val();
                 var fee = $("#fee").val();
                 var purchaser = $("#purchaser").val();
-                var ticketNo = $("#paymentNo").val();
-                var ticketDate = $("#paymentNo").val();
-                var ticketCode = $("#paymentNo").val();
+                var ticketNo = $("#ticketNo").val();
+                var ticketDate = $("#ticketDate").val();
+                var ticketCode = $("#ticketCode").val();
                 var taxRate = $('#add_rateSlt').find("option:selected").val();
                 var seller = $("#seller").val(); 
                 var sTaxpayerCode = $("#sTaxpayerCode").val();
@@ -476,6 +476,7 @@
                     "sBankAccount": sBankAccount
                 };
                 WFang("ticket/save", function(arr) {
+
                     var pageNo = $('.layui-input').val();
                     if (arr.status == false) {
                         layer.msg(arr.message);
@@ -483,7 +484,8 @@
                         layer.msg(arr.message);
                         setTimeout(function() {
                             $("#modify_pwd_mask").hide();
-                            getData(pageNo, name);
+                            
+                            //getData(pageNo, name);
                         }, 1800);
                     }
                 }, data, 'postForm')

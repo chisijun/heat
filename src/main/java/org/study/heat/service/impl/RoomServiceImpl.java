@@ -27,6 +27,7 @@ import org.study.heat.pojo.User;
 import org.study.heat.pojo.UserRoom;
 import org.study.heat.service.RoomService;
 import org.study.heat.utils.PublicUtil;
+import org.study.heat.vo.RoomTotal;
 import org.study.heat.vo.RoomVo;
 
 import com.github.pagehelper.PageHelper;
@@ -168,6 +169,16 @@ public class RoomServiceImpl extends BaseService<Room> implements RoomService {
 		List<RoomVo> roomVoList = roomDao.queryRoomListWithPage(roomQueryDto);
 		
 		return roomVoList.get(0);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.RoomService#queryRoomTotal()
+	 */
+	@Override
+	public List<RoomTotal> queryRoomTotal() {
+		// TODO Auto-generated method stub
+		
+		return roomDao.queryRoomTotal();
 	}
 
 	

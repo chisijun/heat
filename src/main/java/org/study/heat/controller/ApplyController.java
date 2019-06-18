@@ -7,6 +7,8 @@
  */
 package org.study.heat.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import org.study.heat.enums.ApplyTypeEnum;
 import org.study.heat.pojo.Apply;
 import org.study.heat.pojo.User;
 import org.study.heat.service.ApplyService;
+import org.study.heat.vo.ApplyTotal;
 
 import com.github.pagehelper.PageInfo;
 
@@ -115,4 +118,12 @@ public class ApplyController {
 		return new JsonResult(true, "操作成功", pageInfo);
 	}
 	
+	@Authorization
+	@PostMapping("/queryTotal")
+	public JsonResult queryApplyTotal() {
+		
+		List<ApplyTotal> applyTotalList = applyService.queryApplyTotal();
+		
+		return new JsonResult(true, "操作成功", applyTotalList);
+	}
 }

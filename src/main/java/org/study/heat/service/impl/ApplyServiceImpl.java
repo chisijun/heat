@@ -25,6 +25,7 @@ import org.study.heat.pojo.Room;
 import org.study.heat.pojo.User;
 import org.study.heat.service.ApplyService;
 import org.study.heat.utils.PublicUtil;
+import org.study.heat.vo.ApplyTotal;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -129,6 +130,16 @@ public class ApplyServiceImpl extends BaseService<Apply> implements ApplyService
 		List<Apply> applyList = applyDao.queryApplyListWithPage(applyQueryDto);
 		
 		return new PageInfo<>(applyList);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.ApplyService#queryApplyTotal()
+	 */
+	@Override
+	public List<ApplyTotal> queryApplyTotal() {
+		// TODO Auto-generated method stub
+		
+		return applyDao.queryApplyTotal();
 	}
 
 }

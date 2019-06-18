@@ -33,6 +33,7 @@ import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
 import org.study.heat.service.RoomService;
 import org.study.heat.utils.PublicUtil;
+import org.study.heat.vo.PaymentTotal;
 import org.study.heat.vo.PaymentVo;
 
 import com.github.pagehelper.PageHelper;
@@ -157,6 +158,15 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 		List<PaymentVo> paymentVoList = paymentDao.queryPaymentListWithPage(paymentQueryDto);
 
 		return paymentVoList.get(0);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.PaymentService#queryPaymentTotal()
+	 */
+	@Override
+	public List<PaymentTotal> queryPaymentTotal() {
+		// TODO Auto-generated method stub
+		return paymentDao.queryPaymentTotal();
 	}
 
 }

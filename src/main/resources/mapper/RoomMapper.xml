@@ -110,4 +110,16 @@
       room.user_id is null
   </select>
   
+  <select id="queryRoomTotal" resultType="org.study.heat.vo.RoomTotal">
+  	SELECT
+		type.room_type_name as typeName,
+		SUM(acreage) as acreageTotal
+	FROM
+		t_room room
+	LEFT JOIN t_room_type type ON room.room_type = type.id
+	WHERE room.heat_type in (1, 4)
+	GROUP BY
+		room_type 
+  </select>
+  
 </mapper>

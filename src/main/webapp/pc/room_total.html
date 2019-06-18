@@ -23,83 +23,19 @@
     </style>
 </head>
 
-<body style="background:#65A6EA;width:1254px;" class="ifram">
-    <div class="wrapper-container user_list">
-        <!--搜索框-->
-        <div class="search-box">
-            
-            <input class="isPhone" type="text" placeholder="请输入用户名称" />
-            <button class="searchBtn">搜索</button>
-            <button class="addBtn">新建</button>
-        </div>
-        <!--table数据-->
-        <div class="table-box">
-            <div class="table-head">
-            </div>
-            <div class="table-body">
-            </div>
-        </div>
-        <!--分页-->
-        <div id="page" style="text-align:center;margin-top:30px;width:100%;"></div>
-    </div>
+<body style="background:#ffffff;width:1254px;" class="ifram">
 
-    <!--新增-->
-    <div class="add_mask" id="add_mask">
-        <div class="mask_contain" style="height: 360px;">
-            <div class="mask_top">新增用户<span class="close1">&times;</span></div>
-            <div class="form" style="padding-bottom:0;">
-                <div><span>登录名：</span><input id="loginName" type="text" placeholder="请输入登录名"></div><br>
-                <div><span>姓名：</span><input id="userName" type="text" placeholder="请输入姓名"></div><br>
-                <div><span>手机号：</span><input id="mobileNo" type="text" placeholder="请输入手机号"></div><br>
-                <div><span>邮箱：</span><input id="email" type="text" placeholder="请输入邮箱"></div><br>
-            </div>
-            <div class="mask_btn"><button class="comfire" id="add_site">确认</button><button class="cansle">取消</button></div>
-        </div>
-    </div>
-
-    <!-- 编辑 -->
-    <div class="modify_mask" id="modify_mask">
-        <input type="hidden" id="m_userId" value="">
-        <div class="mask_contain" style="height:360px;">
-            <div class="mask_top">修改用户<span class="close5">&times;</span></div>
-            <div class="modify_box">
-                <div><span>登录名：</span><input id="m_loginName" type="text" placeholder="请输入登录名"></div><br>
-                <div><span>姓名：</span><input id="m_userName" type="text" placeholder="请输入姓名"></div><br>
-                <div><span>手机号：</span><input id="m_mobileNo" type="text" placeholder="请输入手机号"></div><br>
-                <div><span>邮箱：</span><input id="m_email" type="text" placeholder="请输入邮箱"></div><br>
-                <div class="delete_btn"><button class="modify_comfire" id="modify_comfire" style="margin-top:18px;">确认</button><button class="modify_cansle" id="modify_cansle">取消</button></div>
-            </div>
-         </div>
-    </div>
-
-    <!-- 重置密码 -->
-    <div class="modify_mask" id="modify_pwd_mask">
-        <input type="hidden" id="m_p_userId" value="">
-        <div class="mask_contain" style="height:260px;">
-            <div class="mask_top">重置密码<span class="close6">&times;</span></div>
-            <div class="modify_box">
-                <div><span>密码：</span><input id="password" type="password" placeholder="请输入登录名"></div><br>
-                <div><span>重复密码：</span><input id="confirmPwd" type="password" placeholder="请输入姓名"></div><br>
-                <div class="delete_btn"><button class="modify_comfire" id="modify_pwd_comfire" style="margin-top:18px;">确认</button><button class="modify_cansle" id="modify_pwd_cansle">取消</button></div>
-            </div>
-         </div>
-    </div>
-
-    <!--确认删除-->
-    <div class="delete_mask">
-        <input type="hidden" id="d_userId" value="">
-        <div class="mask_contain">
-            <div class="mask_top">删除用户<span class="close3">&times;</span></div>
-            <div class="delete_title">是否删除选中用户？</div>
-            <div class="delete_btn"><button class="delete_comfire" id="del_user">确认</button><button class="delete_cansle">取消</button></div>
-        </div>
+    <div id="room_total" class="wrapper-container room_total">
+        
     </div>
 
     <script src="lib/jquery/1.9.1/jquery.min.js"></script>
     <!----<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>-------->
     <script type="text/javascript" src="lib/layui/layui.js"></script>
+    <script type="text/javascript" src="lib/echarts/3.4.0/echarts.common.min.js"></script>
     <script type="text/javascript" src="js/WFang.js"></script>
     <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+    <!-- <script type="text/javascript" src="static/echarts.all.js"></script> -->
     <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
     <script>
         layui.use(['layer', 'laypage'], function() {
@@ -118,7 +54,85 @@
 
             //页面渲染 
             var name = '';
-            getData(1, name);
+            // getData(1, name);
+            // 
+            load_room_total();
+
+            function load_room_total() {
+
+                WFang("room/queryTotal", function(arr) {
+                    if (arr.status == false) {
+                        layer.msg(arr.message);
+                    } else {
+                        
+                        var myChart = echarts.init(document.getElementById('room_total'));
+
+                        // 指定图表的配置项和数据
+                        option = {
+                            title : {
+                                text: '供热数据统计',
+                                //subtext: '数据来源管理端',
+                                x:'center'
+                            },
+                            tooltip : {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: []
+                                // data: [
+                                //     { value: 335, name: '熟食' },
+                                //     { value: 310, name: '水产' },
+                                //     { value: 234, name: '蔬菜' },
+                                //     { value: 135, name: '肉品' },
+                                //     { value: 1548, name: '面包' }
+                                // ]
+                            },
+                            series : [
+                                {
+                                    name: '供热面积',
+                                    type: 'pie',
+                                    radius : '55%',
+                                    center: ['50%', '60%'],
+                                    data: [],
+                                    // data: [
+                                    //     { value: 335, name: '熟食' },
+                                    //     { value: 310, name: '水产' },
+                                    //     { value: 234, name: '蔬菜' },
+                                    //     { value: 135, name: '肉品' },
+                                    //     { value: 1548, name: '面包' }
+                                    // ],
+                                    itemStyle: {
+                                        emphasis: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+
+                        //初始化option.xAxis[0]中的data
+                        for(var i=0;i<arr.data.length;i++){
+                          option.legend.data.push(arr.data[i].typeName);
+                        }
+                        //初始化option.series[0]中的data
+                        for(var i=0;i<arr.data.length;i++){
+                            /*option.series[0].data['value'].push(result[i].integral_val);
+                                option.series[0].data['name'].push(result[i].name);*/
+                            option.series[0].data.push({'name':arr.data[i].typeName,'value':arr.data[i].acreageTotal});
+                        }
+                        //myecharts.hideLoading();    //隐藏加载动画
+                        //myecharts.setOption(option);
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                    }
+                }, {}, 'postForm')
+
+            }
 
             function accAdd(arg1,arg2){  
                 var r1,r2,m;  

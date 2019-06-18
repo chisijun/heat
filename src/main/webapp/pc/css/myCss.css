@@ -94,6 +94,33 @@ html,body{
 	overflow: scroll;
 }
 
+#room_total {
+	background-color: #ffffff;
+	margin-top: 50px;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    margin-left: 100px;
+}
+
+#apply_total {
+	background-color: #ffffff;
+	margin-top: 50px;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    margin-left: 100px;
+}
+
+#payment_total {
+	background-color: #ffffff;
+	margin-top: 50px;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    margin-left: 100px;
+}
+
 .login-wrapper{
 	width:100%;
 	background:url('../images/loding_img.png') no-repeat;
