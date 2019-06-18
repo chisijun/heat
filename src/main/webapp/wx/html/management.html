@@ -238,44 +238,7 @@
                     if (arr.status == false) {
                         
                         } else {
-
-                            switch(arr.data.roomType) {
-                                case 1 :
-                                    roomType = '居民';
-                                    break;
-                                case 2 :
-                                    roomType = '商业';
-                                    break;
-                                case 3 :
-                                    roomType = '办公';
-                                    break;
-                                case 4 :
-                                    roomType = '餐饮';
-                                    break;
-                            }
-
-                            switch (obj.heatType) {
-                                case 0 :
-                                    heatType = '不供热';
-                                    break;
-                                case 1 :
-                                    heatType = '供热';
-                                    break;
-                                case 2 :
-                                    heatType = '报停';
-                                    break;
-                                case 3 :
-                                    heatType = '强停';
-                                    break;
-                                case 4 :
-                                    heatType = '复热';
-                                    break;
-                            }
-                            
-                            houseType = arr.data.houseType;
-                            acreage = arr.data.acreage + " ㎡";
                         }
-
                     }, {
                         userId: userId,
                         roomId: g_roomId,
@@ -285,7 +248,22 @@
 
                // 申请停热
                $('body').on('click', '#stop', function() {
-                    
+                   WFang("apply/stop", function(arr) {
+                       var roomType = "";
+                       var houseType = "";
+                       var acreage = "";
+                       var heatType = "";
+                       if (arr.status == false) {
+
+                       } else {
+
+                       }
+
+                   }, {
+                       userId: userId,
+                       roomId: g_roomId,
+                       roomName: g_roomName
+                   }, 'postForm');
                 });
 
                 //跳转电机监控状态

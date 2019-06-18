@@ -69,12 +69,6 @@
                         </p>
                     </div>
                     <div class="content">
-                        <p>
-                            <span>清江山水35栋1单元901</span>
-                            <span>95</span>
-                            <span>20</span>
-                            <span>1900</span>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -206,12 +200,8 @@
                                     //totalAccount += parseInt(arr.data.stages[i].account);
                                     //totalRepayAccount += parseInt(arr.data.stages[i].repayAccount);
                                 }
-                                html += '<p class="total">' +
-                                    '<span>合计</span>' +
-                                    '<span>' + totalAccount + '</span>' +
-                                    '<span>' + totalRepayAccount + '</span>' +
-                                    '</p>';
-                                //$('.content').html(html);
+
+                                $('.content').html(html);
                             } else {
                                 html = '<p>' +
                                     '<span><b>无</b></span>' +

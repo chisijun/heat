@@ -62,7 +62,7 @@
 	    <result column="room_type" property="roomType" jdbcType="DECIMAL" />
 	    <result column="price" property="price" jdbcType="DECIMAL" />
 	    <result column="acreage" property="acreage" jdbcType="REAL" />
-	    <result column="fee" property="fee" jdbcType="DECIMAL" />
+	    <result column="detailFee" property="fee" jdbcType="DECIMAL" />
     </collection>
   </resultMap>
   
@@ -75,7 +75,7 @@
   		payment_detail.room_type,
   		payment_detail.price,
   		payment_detail.acreage,
-  		payment_detail.fee
+  		payment_detail.fee as detailFee
   	from t_payment payment
   	left join t_payment_detail payment_detail on payment.payment_no = payment_detail.payment_no
   	left join t_user user on payment.user_id = user.id
