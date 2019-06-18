@@ -169,4 +169,13 @@ public class PaymentServiceImpl extends BaseService<Payment> implements PaymentS
 		return paymentDao.queryPaymentTotal();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.study.heat.service.PaymentService#updateById(org.study.heat.pojo.Payment)
+	 */
+	@Override
+	public int updateById(Payment payment) {
+		// TODO Auto-generated method stub
+		return paymentDao.updateByPrimaryKey(payment);
+	}
+
 }

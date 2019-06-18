@@ -41,6 +41,11 @@ public class OnlinePayDto {
 	private BigDecimal totalAmount;
 	
 	/**
+	 * 优惠劵Id
+	 */
+	private Long couponId;
+	
+	/**
 	 * 备注
 	 */
 	private String body;

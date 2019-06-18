@@ -35,12 +35,15 @@ import org.study.heat.dto.OnlinePayDto;
 import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
 import org.study.heat.entity.TokenModel;
+import org.study.heat.pojo.Coupon;
 import org.study.heat.pojo.Payment;
 import org.study.heat.pojo.PaymentDetail;
 import org.study.heat.pojo.User;
+import org.study.heat.service.CouponService;
 import org.study.heat.service.PaymentDetaiService;
 import org.study.heat.service.PaymentService;
 import org.study.heat.service.TokenManager;
+import org.study.heat.utils.PublicUtil;
 import org.study.heat.utils.TimeUtils;
 import org.study.heat.utils.alipay.AliPayConfig;
 import org.study.heat.utils.alipay.AlipayTrade;
@@ -68,6 +71,9 @@ import org.study.heat.vo.PaymentVo;
 @RequestMapping("/payment")
 public class PaymentController {
 
+	@Resource
+	private CouponService couponService;
+	
 	@Resource
 	private TokenManager tokenManager;
 	
@@ -128,6 +134,21 @@ public class PaymentController {
 	@RequestMapping(value = "/aliPay")
 	public void aliPay(HttpServletResponse response, HttpServletRequest request, OnlinePayDto onlinePayDto) 
 			throws IOException {
+		
+		// 查询缴费单是否存在
+		Payment payment = paymentService.selectByKey(onlinePayDto.getPaymentNo());
+		if (PublicUtil.isNotEmpty(onlinePayDto.getCouponId())) {
+			Coupon coupon = couponService.selectByKey(onlinePayDto.getCouponId());
+			payment.setCouponId(onlinePayDto.getCouponId());
+			payment.setDiscount(coupon.getDiscount());
+			
+		} else {
+			payment.setCouponId(null);
+			payment.setDiscount(0);
+		}
+		
+		payment.setFee(onlinePayDto.getTotalAmount());
+		paymentService.updateById(payment);
 		
 		// 超时时间 可空
 	    String timeout_express="60m";

@@ -72,4 +72,14 @@ public interface PaymentService extends IService<Payment> {
 	 * @date 2019年6月18日
 	 */
 	List<PaymentTotal> queryPaymentTotal();
+
+	/**
+	 * @Description: TODO
+	 * @param @param payment   
+	 * @return void  
+	 * @throws
+	 * @author chisj chisj@foxmail.com
+	 * @date 2019年6月18日
+	 */
+	int updateById(Payment payment);
 }

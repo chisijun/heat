@@ -48,7 +48,7 @@ public class Payment {
     /**
      * 折扣比例
      */
-    private Float discount;
+    private Integer discount;
 
     /**
      * 实际费用

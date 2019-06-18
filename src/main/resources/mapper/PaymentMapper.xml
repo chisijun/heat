@@ -10,7 +10,7 @@
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="acreage" property="acreage" jdbcType="REAL" />
     <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
-    <result column="discount" property="discount" jdbcType="REAL" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
     <result column="actFee" property="actfee" jdbcType="DECIMAL" />
     <result column="redFee" property="redfee" jdbcType="DECIMAL" />
     <result column="fee" property="fee" jdbcType="DECIMAL" />
@@ -37,7 +37,7 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="acreage" property="acreage" jdbcType="REAL" />
     <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
-    <result column="discount" property="discount" jdbcType="REAL" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
     <result column="actFee" property="actfee" jdbcType="DECIMAL" />
     <result column="redFee" property="redfee" jdbcType="DECIMAL" />
     <result column="fee" property="fee" jdbcType="DECIMAL" />
