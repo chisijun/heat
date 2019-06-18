@@ -38,6 +38,7 @@
                     <span class="span-right acreage">--</span>
                 </div>
                 <div class="information-box line-bottom">
+                    <input type="hidden" id="actfee">
                     <span class="span-left">总额:</span>
                     <span class="span-right actfee">--</span>
                 </div>
@@ -168,17 +169,36 @@
                     alert(checkValue);
                 });
 
-                form.on('radio(filter)', function(data){
-                  console.log(data.elem); //得到radio原始DOM对象
-                  console.log(data.value); //被点击的radio的value值
-                }); 
+                // form.on('radio(filter)', function(data){
+                //   console.log(data.elem); //得到radio原始DOM对象
+                //   console.log(data.value); //被点击的radio的value值
+                // }); 
 
                 //我要还款
                 $('body').on('click', '#myPay', function() {
                     var couponId = $("input[name=coupon]:checked").val();
-                    alert(couponId);
-                    return ;
+                    var fee = $("#fee").html();
+                    window.sessionStorage.setItem("fee", fee);
+                    if (couponId != null) {
+                        window.sessionStorage.setItem("couponId", couponId);
+                    } else {
+                        window.sessionStorage.setItem("couponId", -1);
+                    }
                     window.location.href = 'pay.html?paymentNo=' + paymentNo;
+                });
+
+                $('body').on('click', '.coupon', function() {
+                    //var couponId = $("input[name=coupon]:checked").val();
+                    var discount = $(this).attr('data-discount');
+                    var fee = $("#actfee").val();
+                    if ($(this).attr("checked")) {
+                        $(this).attr("checked",false);
+                    } else {
+                        $(this).attr("checked",true);
+                        fee = parseInt(fee) - parseInt((fee * discount) / 100);
+                    }
+
+                    $("#fee").html(fee);
                 });
 
                 getData();
@@ -197,6 +217,7 @@
                             $('.discount').html(arr.data.discount + '&nbsp;%');
                             $('.fee').html('&nbsp;￥' + arr.data.fee);
                             $('#fee').html(arr.data.actfee);
+                            $('#actfee').val(arr.data.actfee);
                             
                             // 设置显示我要支付
                             if (arr.data.isPay == 0) {
@@ -207,7 +228,7 @@
                                  $("#g_coupon_yes").show();
                                  //$("#g_coupon_no").show();
                                  $("#g_pay").show();
-                                window.sessionStorage.setItem("actfee", arr.data.actfee);
+                                
                             }
 
                             var html = '',
@@ -242,6 +263,10 @@
 
                 load_coupon();
 
+                function test() {
+                    alert(111);
+                }
+
                 function load_coupon() {
 
                     WFang("coupon/queryUsableListWithPage", function(arr) {
@@ -255,7 +280,8 @@
                                     '<span>' + arr.data.list[i].periodStart.substring(0, 10) + '</span>' + 
                                     '<span>' + arr.data.list[i].periodEnd.substring(0, 10) + '</span>' + 
                                     '<span>' + arr.data.list[i].discount + '%</span>' + 
-                                    '<span><input type="radio" name="coupon" data-discount="' + arr.data.list[i].discount + '" value="' + arr.data.list[i].id + '"></span>'
+                                    '<span><input class="coupon" type="radio" name="coupon" data-discount="' 
+                                        + arr.data.list[i].discount + '" value="' + arr.data.list[i].id + '"></span>'
                                     '</p>'
                             }
                             $('.content_coupon').html(html);
@@ -266,6 +292,8 @@
                     }, 'postForm', '', '', 'html/payment_detail.html')
 
                 }
+
+                
             });
         });
     </script>

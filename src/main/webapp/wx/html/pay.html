@@ -96,8 +96,10 @@
                 }
                 var paymentNo = params.paymentNo;
 
-                var actfee = window.sessionStorage.getItem("actfee");
-                $('.money').val(actfee);
+                var fee = window.sessionStorage.getItem("fee");
+                var couponId = window.sessionStorage.getItem("couponId");
+
+                $('.money').val(fee);
 
                 var payType = '', //付款方式，1 银联；2 支付宝
                     totalAmount = '',
@@ -144,13 +146,15 @@
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
                                 "&body=" + body +
-                                "&paymentNo=" + paymentNo;
+                                "&paymentNo=" + paymentNo +
+                                "&couponId=" + couponId;
                             _AP.pay(ApiConf.server +
                                 "payment/aliPay?token=" + ApiConf.token +
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
                                 "&body=" + body +
-                                "&paymentNo=" + paymentNo);
+                                "&paymentNo=" + paymentNo) + 
+                                "&couponId=" + couponId;
                         } else if ($('.yl').attr('data-ind') == "0") {
                             payType = '1';
                             window.location.href = ApiConf.server +
@@ -158,7 +162,8 @@
                                 "&payType=" + payType +
                                 "&totalAmount=" + totalAmount +
                                 "&body=" + body +
-                                "&paymentNo=" + paymentNo;
+                                "&paymentNo=" + paymentNo + 
+                                "&couponId=" + couponId;
                         }
                     }
                 });

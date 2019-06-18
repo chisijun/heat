@@ -137,16 +137,19 @@ public class PaymentController {
 		
 		// 查询缴费单是否存在
 		Payment payment = paymentService.selectByKey(onlinePayDto.getPaymentNo());
-		if (PublicUtil.isNotEmpty(onlinePayDto.getCouponId())) {
+        System.out.println("onlinePayDto = " + onlinePayDto.toString());
+		if (PublicUtil.isNotEmpty(onlinePayDto.getCouponId())
+                && !onlinePayDto.getCouponId().equals(-1l)) {
 			Coupon coupon = couponService.selectByKey(onlinePayDto.getCouponId());
 			payment.setCouponId(onlinePayDto.getCouponId());
 			payment.setDiscount(coupon.getDiscount());
-			
+            System.out.println("coupon not null");
 		} else {
 			payment.setCouponId(null);
 			payment.setDiscount(0);
+            System.out.println("coupon is null");
 		}
-		
+
 		payment.setFee(onlinePayDto.getTotalAmount());
 		paymentService.updateById(payment);
 		
