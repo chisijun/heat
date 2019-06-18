@@ -290,22 +290,22 @@ public class PaymentController {
 	 * 阿里在线支付成功处理
 	 */
 	@RequestMapping(value = "/aliPayNotify")
-	public void aliPayNotify(HttpServletResponse response, HttpServletRequest request) {
+	public void aliPayNotify(HttpServletResponse response, HttpServletRequest request, String paymentNo) {
 		
-		Map<String,String> params = new HashMap<String,String>();
-		Map requestParams = request.getParameterMap();
-		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-			String name = (String) iter.next();
-			String[] values = (String[]) requestParams.get(name);
-			String valueStr = "";
-			for (int i = 0; i < values.length; i++) {
-				valueStr = (i == values.length - 1) ? valueStr + values[i]
-						: valueStr + values[i] + ",";
-			}
-			//乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-			//valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
-			params.put(name, valueStr);
-		}
+//		Map<String,String> params = new HashMap<String,String>();
+//		Map requestParams = request.getParameterMap();
+//		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+//			String name = (String) iter.next();
+//			String[] values = (String[]) requestParams.get(name);
+//			String valueStr = "";
+//			for (int i = 0; i < values.length; i++) {
+//				valueStr = (i == values.length - 1) ? valueStr + values[i]
+//						: valueStr + values[i] + ",";
+//			}
+//			//乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+//			//valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
+//			params.put(name, valueStr);
+//		}
 		
 //		PayOrder payOrder = payOrderService.getPayOrder(params.get("out_trade_no"));
 //		if (payOrder != null) {
@@ -322,15 +322,17 @@ public class PaymentController {
 //			recordService.addRecord(record);
 //		}
 
-		String paymentNo = params.get("out_trade_no");
+		//String paymentNo = params.get("out_trade_no");
 		// 更新支付状态
 		Payment payment = new Payment();
 		payment.setPaymentNo(paymentNo);
 		payment.setIsPay(1);
+		payment.setPayType(1);
+		payment.setPayTime(new Date());
 
 		paymentService.update(payment);
 		
-		System.out.println("aliPayNotify params = " + params.toString());
+		//System.out.println("aliPayNotify params = " + params.toString());
 	}
 	
 	/**

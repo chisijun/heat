@@ -225,7 +225,7 @@
                                 switch (arr.data.list[i].stat) {
                                     case 0 :
                                        stat = "申请停热";
-                                       approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].applyType + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意停热</a>' 
+                                       approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].stat + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意停热</a>'
                                        break;
                                     case 1 :
                                         stat = "同意停热";
@@ -235,7 +235,7 @@
                                         break;  
                                     case 3 :
                                         stat = "申请复热";
-                                        approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].applyType + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意复热</a>'
+                                        approval = '<a class="a-delete" data-applyType="' + arr.data.list[i].stat + '" data-applyId="' + arr.data.list[i].id + '" href="javascript:void (0);">同意复热</a>'
                                         break;
                                     case 4 :
                                         stat = "同意复热";  
@@ -475,7 +475,7 @@
 
                 var applyType = $(this).attr('data-applyType');
                 var applyId = $(this).attr('data-applyId');
-
+                //alert(applyType);
                 if (applyType == -1) {
                     layer.msg("无需操作");
                     return ;
