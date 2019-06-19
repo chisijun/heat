@@ -60,6 +60,8 @@
       area.area_name as areaName,
       building.building_name as buildingName,
       building.building_no as buildingName,
+      building.unit_size as unitSize,
+      building.floor_size as floorSize,
       room_typ.price as price,
       room_typ.room_type_name as roomTypeName
     FROM

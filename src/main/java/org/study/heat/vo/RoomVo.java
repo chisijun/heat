@@ -108,5 +108,14 @@ public class RoomVo extends BaseVo {
      * 楼栋名称
      */
     private String buildingName;
-    
+
+    /**
+     * 单元
+     */
+    private Integer unitSize;
+
+    /**
+     * 楼层
+     */
+    private Integer floorSize;
 }
