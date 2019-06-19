@@ -7,6 +7,8 @@
  */
 package org.study.heat.controller;
 
+import java.text.DecimalFormat;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.heat.annotation.Authorization;
 import org.study.heat.annotation.CurrentUser;
+import org.study.heat.base.Constant;
 import org.study.heat.common.JsonResult;
 import org.study.heat.dto.PaymentQueryDto;
 import org.study.heat.dto.TicketQueryDto;
@@ -90,4 +93,19 @@ public class TicketController {
 		return new JsonResult(true, "操作成功", pageInfo);
 	}
 
+	@Authorization
+	@RequestMapping(value = "/getTicketNo", method = RequestMethod.POST)
+	public JsonResult getTicketNo() {
+		
+		Ticket ticket = new Ticket();
+		ticket.setVersion(0);
+		int count = ticketService.selectCount(ticket);
+		
+		DecimalFormat df=new DecimalFormat("000000");
+		String str2 = df.format(count + 1);
+		String ticketNo = "021" + str2;
+		
+		return new JsonResult(true, "操作成功", ticketNo);
+	}
+	
 }

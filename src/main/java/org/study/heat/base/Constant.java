@@ -30,4 +30,6 @@ public class Constant {
 	public static final int APPLY_STAT_START = 3;
 	
 	public static final int APPLY_STAT_START_OK = 4;
+	
+	public static final long TICKET_NO = 021000001l; 
 }
